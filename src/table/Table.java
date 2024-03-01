@@ -14,6 +14,14 @@ public class Table {
         table = generateTable(boxes);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     Box[] generateBoxes(int n) {
         Box[] tmp = new Box[n];
         for (int i = 0; i < tmp.length; i++) {
