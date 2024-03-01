@@ -50,7 +50,6 @@ public class Table {
             table[i][x - 1] = boxes[(x - 1) * 3 + i];
         }
 
-
         for (int i = 0; i < y; i++) {
             for (int j = 0; j < x; j++) {
                 if (table[i][j] == null) {
@@ -66,29 +65,30 @@ public class Table {
     void showTable() {
         for (int i = 0; i < x; i++) {
             if (i == 0 || i == 1 || i == x - 1) {
-                System.out.println("-".repeat(Box.boxWidth * x));
+                System.out.print("-".repeat(Box.boxWidth * x));
 
             } else {
                 System.out.print("-".repeat(Box.boxWidth));
                 System.out.print(" ".repeat(Box.boxWidth * (x - 2)));
                 System.out.print("-".repeat(Box.boxWidth));
-
             }
             System.out.println();
 
-            for (int d = 0; d < y; d++) {
-                for (int col = 0; col < x; col++) {
-                    if (table[d][col] == null)
+            for (int d = 0; d < Box.height; d++) {
+                for (int col = 0; col < table[d].length; col++) {
+                    if (table[i][col] == null) {
                         System.out.print(" ".repeat(Box.boxWidth));
-                    else {
+                    }
+                    if (table[i][col] != null) {
                         System.out.print("|");
-                        System.out.print(table[d][col].boxDetails[d]);
+                        System.out.print(table[i][col].boxDetails[d] + " ".repeat(Box.boxWidth - table[i][col].boxDetails[d].length() - 2));
                         System.out.print("|");
                     }
+
                 }
                 System.out.println();
             }
         }
-        System.out.println("-".repeat(Box.boxWidth*x));
+        System.out.println("-".repeat(Box.boxWidth * x));
     }
 }

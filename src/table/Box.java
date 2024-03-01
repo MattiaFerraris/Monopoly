@@ -8,7 +8,7 @@ public class Box {
     int money;
     int index;
     final static int boxWidth = 24;
-    final static int height = 7;
+    final static int height = 5;
 
     String[] boxDetails;
 
@@ -18,7 +18,7 @@ public class Box {
         this.type = type;
         this.money = money;
         this.index = index;
-        this.boxDetails = new String[]{this.type.toString(), Integer.toString(this.money), "", "", ""};
+        this.boxDetails = new String[]{this.type.toString(), getMoneyString(type, money), "", "", ""};
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
@@ -29,6 +29,19 @@ public class Box {
         }
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
+    }
+
+    static String getMoneyString(Types type, int money) {
+        Types[] arrTypes = Types.values();
+
+        if (type.toString().equalsIgnoreCase(arrTypes[0].toString())) {
+            return "Pay: " + Integer.toString(money);
+        }
+        if (type.toString().equalsIgnoreCase(arrTypes[1].toString())) {
+            return "Get: " + Integer.toString(money);
+        }
+        return "";
+
     }
 
     static Types picType(int index) {
