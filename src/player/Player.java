@@ -1,4 +1,5 @@
 package player;
+import gameLogic.Dice;
 
 public class Player {
     private String name;
