@@ -6,10 +6,10 @@ import gameLogic.Dice;
 public class Player {
     private String name;
     private String symbol;
-    private Position position;
+    private int position;
     private int balance = 2000;
 
-    public Player(String name, String symbol, Position position) {
+    public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
@@ -24,7 +24,7 @@ public class Player {
         if(symbol.length() == 1)
             this.symbol = symbol;
     }
-    public void setPosition(Position position) {
+    public void setPosition(int position) {
         this.position = position;
     }
     public void setBalance(int balance) {
@@ -38,16 +38,11 @@ public class Player {
     public String getSymbol() {
         return symbol;
     }
-    public Position getPosition() {
+    public int getPosition() {
         return position;
     }
     public int getBalance() {
         return balance;
-    }
-
-    //AGGIORNAMENTO POSIZIONE
-    public void move(Dice dice){
-        position.updatePosition(dice.roll());
     }
 
     //VISUALIZZO GIOCATORE

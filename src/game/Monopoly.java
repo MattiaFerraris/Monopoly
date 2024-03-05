@@ -37,7 +37,36 @@ public class Monopoly {
         table.showTable();
     }
 
-    public void movePlayer(Player player) {
+
+/*    public void movePlayer(Player player) {
+        int diceNumber = dice.roll();
+        for (int i = 0; i < table.boxesNumber; i++) {
+            for (int j = 0; j < NUMBER_OF_PLAYERS; j++) {
+
+                if (table.boxes[i].playersInTheBox[j] == player) {
+                    if (i + diceNumber > table.boxesNumber) {
+                        player.setPosition(player.getPosition() - table.boxesNumber);
+                    } else
+                        player.setPosition(i + diceNumber);
+                }
+
+            }
+        }
+
+    }*/
+
+    public void movePlayer(Player player){
+        int diceNumber = dice.roll();
+        int tmp = player.getPosition();
+        table.boxes[tmp].removePlayerFromTheBox(player); //rimuove giocatore dal box
+
+        if (tmp + diceNumber > table.boxesNumber) {
+            player.setPosition(player.getPosition() - table.boxesNumber);
+        } else
+            player.setPosition(tmp + diceNumber);
+
+        table.boxes[player.getPosition()].addPlayerToTheBox(player); //aggiunge giocatore al box
+
     }
 
     public void showBalance(Player player) {

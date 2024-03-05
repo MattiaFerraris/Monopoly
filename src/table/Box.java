@@ -1,5 +1,6 @@
 package table;
 
+import game.Monopoly;
 import player.Player;
 
 import java.util.Random;
@@ -12,7 +13,7 @@ public class Box {
     final static int boxWidth = 24;
     final static int height = 5;
     String[] boxDetails;
-    Player[] playersInTheBox;
+    public Player[] playersInTheBox;
 
     //Player[] playersInTheBox;   //aggiunta
 
@@ -20,7 +21,7 @@ public class Box {
         this.type = type;
         this.money = money;
         this.index = index;
-        this.playersInTheBox = new Player[2]; //this.players = new Player[Game.numberOfPlayers];
+        this.playersInTheBox = new Player[Monopoly.NUMBER_OF_PLAYERS];
         this.boxDetails = makeDetailsString(type, money, playersInTheBox);
 
         //creo un'array di stringhe contenente i dettagli
@@ -63,6 +64,26 @@ public class Box {
     String[] makeDetailsString(Types type, int money, Player[] players) {
         return new String[]{getTypeString(type), getMoneyString(type, money), "", "", playersToString()};
     }
+
+
+    public void removePlayerFromTheBox(Player player) {
+        for (int i = 0; i < playersInTheBox.length; i++) {
+            if(playersInTheBox[i] == player) {
+                playersInTheBox[i] = null;
+                break;
+            }
+        }
+    }
+
+    public void addPlayerToTheBox(Player player) {
+        for (int i = 0; i < playersInTheBox.length; i++) {
+            if(playersInTheBox[i] == null) {
+                playersInTheBox[i] = player;
+                break;
+            }
+        }
+    }
+
     String playersToString() {
         String tmp = "";
         for (Player inTheBox : playersInTheBox) {
