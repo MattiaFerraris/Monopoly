@@ -3,16 +3,17 @@ import gameLogic.Dice;
 
 import gameLogic.Dice;
 
+import java.util.Objects;
+
 public class Player {
     private String name;
     private String symbol;
     private Position position;
     private int balance = 2000;
 
-    public Player(String name, String symbol, Position position) {
+    public Player(String name, String symbol) {
         setName(name);
         setSymbol(symbol);
-        setPosition(position);
     }
 
     //SETTER
@@ -53,5 +54,9 @@ public class Player {
     //VISUALIZZO GIOCATORE
     public void show(){
         System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + position.getPositionNumber() + ", Bilancio: " + balance);
+    }
+
+    public boolean isEquals(Player player){
+        return this.name.equals(player.getName()) && this.symbol.equals(player.getSymbol());
     }
 }
