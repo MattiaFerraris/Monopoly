@@ -9,10 +9,9 @@ public class Player {
     private Position position;
     private int balance = 2000;
 
-    public Player(String name, String symbol, Position position) {
+    public Player(String name, String symbol) {
         setName(name);
         setSymbol(symbol);
-        setPosition(position);
     }
 
     //SETTER
@@ -51,7 +50,7 @@ public class Player {
     }
 
     //VISUALIZZO GIOCATORE
-    public void show(){
-        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + position.getPositionNumber() + ", Bilancio: " + balance);
+    public String ToString(){
+       return "Nome: " + name + ", Simbolo: " + symbol;
     }
 }

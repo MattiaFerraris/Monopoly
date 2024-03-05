@@ -43,4 +43,9 @@ public class Monopoly {
     public void showBalance(Player player) {
 
     }
+
+    public boolean isGameOver(){
+        return true;
+    }
+
 }
