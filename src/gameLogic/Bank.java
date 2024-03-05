@@ -5,7 +5,7 @@ public class Bank {
     private int bankMoney;
 
     public Bank(int bankMoney) {
-        this.bankMoney = 1000000;
+        this.bankMoney = bankMoney;
     }
 
     public void addMoney(int amount){

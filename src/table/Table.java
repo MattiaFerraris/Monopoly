@@ -6,7 +6,7 @@ public class Table {
     Box[] boxes;
     Box[][] table;
 
-    Table(int x, int y) {
+    public Table(int x, int y) {
         this.x = x;
         this.y = y;
         int boxesNumber = (2 * x + (y - 2) * 2); //16 (x=5, y=5)
@@ -64,7 +64,7 @@ public class Table {
 
 
 
-    void showTable() {
+    public void showTable() {
         updateBoxes();
         for (int i = 0; i < x; i++) {
 
