@@ -24,7 +24,7 @@ public class Player {
         if(symbol.length() == 1)
             this.symbol = symbol;
     }
-    public void setPosition(int position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
     public void setBalance(int balance) {
