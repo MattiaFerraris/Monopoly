@@ -52,8 +52,8 @@ public class Player {
     }
 
     //VISUALIZZO GIOCATORE
-    public void show(){
-        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + position.getPositionNumber() + ", Bilancio: " + balance);
+    public String ToString(){
+       return "Nome: " + name + ", Simbolo: " + symbol;
     }
 
     public boolean isEquals(Player player){

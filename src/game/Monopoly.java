@@ -58,4 +58,9 @@ public class Monopoly {
         }
         return false;
     }
+
+    public boolean isGameOver(){
+        return true;
+    }
+
 }
