@@ -1,6 +1,7 @@
 package table;
 
 import player.Player;
+
 import java.util.Random;
 
 
@@ -19,8 +20,8 @@ public class Box {
         this.type = type;
         this.money = money;
         this.index = index;
-        this.players = checkForPlayers;
-        this.boxDetails = makeDetailsString(type, money);
+        this.playersInTheBox = new Player[2]; //this.players = new Player[Game.numberOfPlayers];
+        this.boxDetails = makeDetailsString(type, money, playersInTheBox);
 
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
@@ -59,14 +60,17 @@ public class Box {
         return Types.TOLL;
     }
 
-    Player[] checkForPlayers(){
-        if()
+    String[] makeDetailsString(Types type, int money, Player[] players) {
+        return new String[]{getTypeString(type), getMoneyString(type, money), "", "", playersToString()};
     }
-
-    String[] makeDetailsString(Types type, int money){
-        String[] details = new String[]{getTypeString(type), getMoneyString(type, money), "", "", ""};
-        return details;
-
+    String playersToString() {
+        String tmp = "";
+        for (Player inTheBox : playersInTheBox) {
+            if (inTheBox != null) {
+                tmp += inTheBox.getSymbol() + " ";
+            }
+        }
+        return tmp;
     }
 
 }

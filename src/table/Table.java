@@ -98,6 +98,6 @@ public class Table {
 
     void updateBoxes(){
         for (Box box : boxes)
-            box.boxDetails = box.makeDetailsString(box.type, box.money);
+            box.boxDetails = box.makeDetailsString(box.type, box.money, box.playersInTheBox);
     }
 }
