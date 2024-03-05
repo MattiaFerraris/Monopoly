@@ -50,7 +50,7 @@ public class Table {
             table[i][x - 1] = boxes[(x - 1) * 3 + i];
         }
 
-        for (int i = 0; i < y; i++) {
+        /*for (int i = 0; i < y; i++) {
             for (int j = 0; j < x; j++) {
                 if (table[i][j] == null) {
                     System.out.print("n ");
@@ -58,12 +58,16 @@ public class Table {
                     System.out.print(table[i][j].index + " ");
             }
             System.out.println();
-        }
+        }*/
         return table;
     }
 
+
+
     void showTable() {
+        updateBoxes();
         for (int i = 0; i < x; i++) {
+
             if (i == 0 || i == 1 || i == x - 1) {
                 System.out.print("-".repeat(Box.boxWidth * x));
 
@@ -90,5 +94,10 @@ public class Table {
             }
         }
         System.out.println("-".repeat(Box.boxWidth * x));
+    }
+
+    void updateBoxes(){
+        for (Box box : boxes)
+            box.boxDetails = box.makeDetailsString(box.type, box.money);
     }
 }
