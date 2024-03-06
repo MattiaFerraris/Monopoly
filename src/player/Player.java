@@ -3,17 +3,16 @@ import gameLogic.Dice;
 
 import gameLogic.Dice;
 
-import java.util.Objects;
-
 public class Player {
     private String name;
     private String symbol;
-    private Position position;
+    private int position;
     private int balance = 2000;
 
-    public Player(String name, String symbol) {
+    public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
+        setPosition(position);
     }
 
     //SETTER
@@ -25,7 +24,7 @@ public class Player {
         if(symbol.length() == 1)
             this.symbol = symbol;
     }
-    public void setPosition(Position position) {
+    public void setPosition(int position) {
         this.position = position;
     }
     public void setBalance(int balance) {
@@ -39,24 +38,22 @@ public class Player {
     public String getSymbol() {
         return symbol;
     }
-    public Position getPosition() {
+    public int getPosition() {
         return position;
     }
     public int getBalance() {
         return balance;
     }
 
-    //AGGIORNAMENTO POSIZIONE
-    public void move(Dice dice){
-        position.updatePosition(dice.roll());
+    public boolean isEquals(Player player2){
+        if(this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()))
+            return true;
+
+        return false;
     }
 
     //VISUALIZZO GIOCATORE
-    public String ToString(){
-       return "Nome: " + name + ", Simbolo: " + symbol;
-    }
-
-    public boolean isEquals(Player player){
-        return this.name.equals(player.getName()) && this.symbol.equals(player.getSymbol());
+    public void show(Player player){
+        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Bilancio: " + balance);
     }
 }

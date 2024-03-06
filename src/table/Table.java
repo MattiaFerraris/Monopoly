@@ -3,13 +3,14 @@ package table;
 public class Table {
     int x;
     int y;
-    Box[] boxes;
+    final public int boxesNumber;
+    public Box[] boxes;
     Box[][] table;
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        int boxesNumber = (2 * x + (y - 2) * 2); //16 (x=5, y=5)
+        this.boxesNumber = (2 * x + (y - 2) * 2); //16 (x=5, y=5)
         boxes = generateBoxes(boxesNumber);
         table = generateTable(boxes);
     }
