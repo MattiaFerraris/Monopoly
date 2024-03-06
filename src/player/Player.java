@@ -24,7 +24,7 @@ public class Player {
         if(symbol.length() == 1)
             this.symbol = symbol;
     }
-    public void setPosition(Position position) {
+    public void setPosition(int position) {
         this.position = position;
     }
     public void setBalance(int balance) {
@@ -45,8 +45,15 @@ public class Player {
         return balance;
     }
 
+    public boolean isEquals(Player player2){
+        if(this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()))
+            return true;
+
+        return false;
+    }
+
     //VISUALIZZO GIOCATORE
-    public void show(){
-        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + position.getPositionNumber() + ", Bilancio: " + balance);
+    public void show(Player player){
+        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Bilancio: " + balance);
     }
 }

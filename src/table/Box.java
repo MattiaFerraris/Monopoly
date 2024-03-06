@@ -1,5 +1,6 @@
 package table;
 
+import game.Game;
 import game.Monopoly;
 import player.Player;
 
@@ -21,7 +22,7 @@ public class Box {
         this.type = type;
         this.money = money;
         this.index = index;
-        this.playersInTheBox = new Player[Monopoly.NUMBER_OF_PLAYERS];
+        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
         this.boxDetails = makeDetailsString(type, money, playersInTheBox);
 
         //creo un'array di stringhe contenente i dettagli
@@ -38,7 +39,6 @@ public class Box {
 
     static String getTypeString(Types type) {
         return type.toString();
-
     }
 
     static String getMoneyString(Types type, int money) {
@@ -92,6 +92,10 @@ public class Box {
             }
         }
         return tmp;
+    }
+
+    public int getMoney(){
+        return money;
     }
 
 }
