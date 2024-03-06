@@ -45,15 +45,18 @@ public class Monopoly {
         table.showTable();
     }
 
-    public void movePlayer(Player player) {        //DA SISTEMARE
+    public void movePlayer(Player player) {
         int diceNumber = dice.roll();
         System.out.print("DICE SAID: " + diceNumber + "\n");
         int temPosition = player.getPosition();
         table.boxes[temPosition].removePlayerFromTheBox(player); //rimuove giocatore dal box
 
-        if (temPosition + diceNumber >= table.boxesNumber) {
-            player.setPosition(table.boxesNumber - player.getPosition());
-        } else
+        if (temPosition + diceNumber > table.boxesNumber) {        //provare a unire questo if con else if sotto
+            player.setPosition((temPosition + diceNumber) - table.boxesNumber);
+        }
+        else if(temPosition + diceNumber == table.boxesNumber){
+            player.setPosition(0);
+        }else
             player.setPosition(temPosition + diceNumber);
 
         table.boxes[player.getPosition()].addPlayerToTheBox(player); //aggiunge giocatore al box
@@ -62,10 +65,10 @@ public class Monopoly {
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
         if (oldPosition > newPosition)
-            player.setBalance(player.getBalance()+newBox.getMoney());
+            player.setBalance(player.getBalance() + newBox.getMoney());
         else
-            player.setBalance(player.getBalance()-newBox.getMoney());
-        if(isGameOver()){
+            player.setBalance(player.getBalance() - newBox.getMoney());
+        if (isGameOver()) {
 
         }
 

@@ -44,11 +44,11 @@ public class Box {
     static String getMoneyString(Types type, int money) {
         Types[] arrTypes = Types.values();
 
-        if (type.toString().equalsIgnoreCase("start")) { //se è un pedaggio
-            return "Pay: " + Integer.toString(money);
-        }
-        if (type.toString().equalsIgnoreCase("toll")) { //se è lo start
+        if (type.toString().equalsIgnoreCase("start")) { //se è lo start
             return "Get: " + Integer.toString(money);
+        }
+        if (type.toString().equalsIgnoreCase("toll")) { //se è un pedaggio
+            return "Pay: " + Integer.toString(money);
         }
         return "";
 
