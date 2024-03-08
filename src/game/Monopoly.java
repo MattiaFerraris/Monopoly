@@ -25,18 +25,27 @@ public class Monopoly {
 
     public Player[] generatePlayers(ScannerUtilities scannerUtilities) {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        for (int i = 0; i < Game.NUMBER_OF_PLAYERS; ) {
-            String name = scannerUtilities.readString("Enter player name: ");
-            String symbol = scannerUtilities.readString("Enter player symbol: ");
-            players[i] = new Player(name, symbol, 0); //crea un giocatore con posizione 0 di default
+        String name = scannerUtilities.readString("Enter player name: ");
+        String symbol = scannerUtilities.readString("Enter player symbol: ");
+        players[0] = new Player(name, symbol, 0); //crea un giocatore con posizione 0 di default
+        table.boxes[0].addPlayerToTheBox(players[0]);
+        for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
+            boolean isEquals = false;
+            name = scannerUtilities.readString("Enter player name: ");
+            symbol = scannerUtilities.readString("Enter player symbol: ");
+            Player player = new Player(name, symbol, 0);
             for (int j = 0; j < i; j++) {
-                if (players[i].isEquals(players[j])) {
+                if (player.isEquals(players[j])) {
                     System.out.println("Player already exists. Enter a different name or symbol.");
+                    isEquals = true;
                     break;
                 }
             }
-            table.boxes[0].addPlayerToTheBox(players[i]);
-            i++;
+            if (!isEquals) {
+                players[i] = player;
+                table.boxes[0].addPlayerToTheBox(players[i]);
+                i++;
+            }
         }
         return players;
     }
