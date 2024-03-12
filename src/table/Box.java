@@ -100,5 +100,8 @@ public class Box {
     public int getMoney(){
         return money;
     }
+    public int getIndex(){
+        return index;
+    }
 
 }
