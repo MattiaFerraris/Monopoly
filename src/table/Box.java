@@ -1,9 +1,7 @@
 package table;
 
 import game.Game;
-import game.Monopoly;
 import player.Player;
-
 import java.util.Random;
 
 
