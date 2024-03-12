@@ -1,7 +1,4 @@
 package player;
-import gameLogic.Dice;
-
-import gameLogic.Dice;
 
 public class Player {
     private String name;
@@ -46,10 +43,7 @@ public class Player {
     }
 
     public boolean isEquals(Player player2){
-        if(this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()))
-            return true;
-
-        return false;
+        return this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol());
     }
 
     //VISUALIZZO GIOCATORE

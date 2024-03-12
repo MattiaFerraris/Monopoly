@@ -55,7 +55,7 @@ public class Box {
     }
 
     static Types picType(int index) {
-        if (index == 0) {
+        if (index != 0) {
             return Types.START;
         }
         return Types.TOLL;

@@ -13,6 +13,7 @@ public class Monopoly {
     public static final int DICE_FACES = 4;
     public static final int WIDTH = 5;
     public static final int HEIGHT = 5;
+    public static final int START_POSITION = 0;
     Table table;
     Bank bank;
     Dice dice;
@@ -25,17 +26,23 @@ public class Monopoly {
 
     public Player[] generatePlayers(ScannerUtilities scannerUtilities) {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        for (int i = 0; i < Game.NUMBER_OF_PLAYERS; ) {
+
+        for (int i = 0; i < Game.NUMBER_OF_PLAYERS;) {
+            System.out.println("--------");
+
             String name = scannerUtilities.readString("Enter player name: ");
             String symbol = scannerUtilities.readString("Enter player symbol: ");
-            players[i] = new Player(name, symbol, 0); //crea un giocatore con posizione 0 di default
+            players[i] = new Player(name, symbol, START_POSITION); //crea un giocatore con posizione 0 di default
+
             for (int j = 0; j < i; j++) {
                 if (players[i].isEquals(players[j])) {
                     System.out.println("Player already exists. Enter a different name or symbol.");
+                    i--;
                     break;
                 }
             }
-            table.boxes[0].addPlayerToTheBox(players[i]);
+
+            table.boxes[START_POSITION].addPlayerToTheBox(players[i]);
             i++;
         }
         return players;
@@ -65,13 +72,7 @@ public class Monopoly {
             player.setBalance(player.getBalance()+newBox.getMoney());
         else
             player.setBalance(player.getBalance()-newBox.getMoney());
-        if(isGameOver()){
-
-        }
-
-
     }
-
 
     public void showBalance(Player player) {
         System.out.println("Player " + player.getName() + " has " + player.getBalance() + " money.");
@@ -85,10 +86,6 @@ public class Monopoly {
             }
         }
         return false;
-    }
-
-    public boolean isGameOver() {
-        return true;
     }
 
 }
