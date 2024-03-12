@@ -1,8 +1,8 @@
 package table;
 
 public class Table {
-    int x;
-    int y;
+    private int x;
+    private int y;
     final public int boxesNumber;
     public Box[] boxes;
     Box[][] table;
@@ -99,6 +99,6 @@ public class Table {
 
     void updateBoxes(){
         for (Box box : boxes)
-            box.boxDetails = box.makeDetailsString(box.type, box.money, box.playersInTheBox);
+            box.boxDetails = box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox);
     }
 }

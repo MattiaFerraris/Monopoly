@@ -32,6 +32,7 @@ public class Monopoly {
             for (int j = 0; j < i; j++) {
                 if (players[i].isEquals(players[j])) {
                     System.out.println("Player already exists. Enter a different name or symbol.");
+
                     break;
                 }
             }
@@ -77,7 +78,7 @@ public class Monopoly {
 
 
     public void showBalance(Player player) {
-        System.out.println("Player " + player.getName() + " has " + player.getBalance() + " money.");
+        System.out.println("\nPlayer " + player.getName() + " has " + player.getBalance() + " money.");
     }
 
     public boolean isGameOver(Player[] players) {

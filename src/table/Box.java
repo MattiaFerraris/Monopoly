@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class Box {
     Types type;
-    int money;
-    int index;
+    private int money;
+    private int index;
     final static int boxWidth = 24;
     final static int height = 5;
     String[] boxDetails;
@@ -96,6 +96,9 @@ public class Box {
 
     public int getMoney(){
         return money;
+    }
+    public int getIndex(){
+        return index;
     }
 
 }
