@@ -6,6 +6,7 @@ import utility.ScannerUtilities;
 public class Game {
     public static final int NUMBER_OF_PLAYERS = 2;
 
+
     public static void main(String[] args) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
         Monopoly monopoly = new Monopoly();
@@ -18,12 +19,13 @@ public class Game {
         System.out.println("Inserisci i dati dei Giocatori \n(Nome e Simbolo)");
         players = monopoly.generatePlayers(scannerUtilities);
 
+        monopoly.showTable();
+
         while (!monopoly.isGameOver(players)) {
             //System.out.print("\033[H\033[2J");
-            monopoly.showTable();
 
-            System.out.println("Turno di " + players[turn].getName());
-            choice = scannerUtilities.readInt("1 Controllo bilancio \n2 Lancia dado  \n:");
+            System.out.println("\n" + players[turn].getName() + "'s TURN");
+            choice = scannerUtilities.readInt("1 Check Balance \n2 Throw DICE \n:");
 
             switch (choice) {
                 case 1:
@@ -33,6 +35,7 @@ public class Game {
                 case 2:
                     monopoly.movePlayer(players[turn]);
                     turn = nextTurn(turn);
+                    monopoly.showTable();
                     break;
 
                 default:
