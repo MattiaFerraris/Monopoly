@@ -1,11 +1,14 @@
 package table;
 
 public class Table {
-    int x;
-    int y;
+    private int x;
+    private int y;
+
+    //FORSE CONVIENE METTERE PRIVATE
     final public int boxesNumber;
+    //FORSE CONVIENE METTERE PRIVATE
     public Box[] boxes;
-    Box[][] table;
+    private Box[][] table;
 
     public Table(int x, int y) {
         this.x = x;
@@ -51,6 +54,7 @@ public class Table {
             table[i][x - 1] = boxes[(x - 1) * 3 + i];
         }
 
+        //DA RIVEDERE O TOGLIERE
         /*for (int i = 0; i < y; i++) {
             for (int j = 0; j < x; j++) {
                 if (table[i][j] == null) {
@@ -99,6 +103,6 @@ public class Table {
 
     void updateBoxes(){
         for (Box box : boxes)
-            box.boxDetails = box.makeDetailsString(box.type, box.money, box.playersInTheBox);
+            box.boxDetails = box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox);
     }
 }

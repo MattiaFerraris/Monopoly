@@ -19,7 +19,6 @@ public class Game {
         players = monopoly.generatePlayers(scannerUtilities);
 
         while (!monopoly.isGameOver(players)) {
-            //System.out.print("\033[H\033[2J");
             monopoly.showTable();
 
             System.out.println("Turno di " + players[turn].getName());

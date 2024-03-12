@@ -13,9 +13,9 @@ public class Monopoly {
     public static final int DICE_FACES = 4;
     public static final int WIDTH = 5;
     public static final int HEIGHT = 5;
-    Table table;
-    Bank bank;
-    Dice dice;
+    private Table table;
+    private Bank bank;
+    private Dice dice;
 
     public Monopoly() {
         this.table = new Table(WIDTH, HEIGHT);
@@ -23,6 +23,7 @@ public class Monopoly {
         this.dice = new Dice(DICE_FACES);
     }
 
+    //Da rivedere, forse conviene toglierlo da Monopoly e metterlo in Game, passare a Monopoly solo i giocatori
     public Player[] generatePlayers(ScannerUtilities scannerUtilities) {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
         String name = scannerUtilities.readString("Enter player name: ");
@@ -72,11 +73,13 @@ public class Monopoly {
         updateBalance(temPosition, player.getPosition(), table.boxes[player.getPosition()], player);
     }
 
+    //USARE LA CLASSE BANK
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
         if (oldPosition > newPosition)
             player.setBalance(player.getBalance() + newBox.getMoney());
         else
             player.setBalance(player.getBalance() - newBox.getMoney());
+        //Da rivedere o togliere
         if (isGameOver()) {
 
         }
@@ -99,6 +102,7 @@ public class Monopoly {
         return false;
     }
 
+    //Da rivedere o togliere
     public boolean isGameOver() {
         return true;
     }

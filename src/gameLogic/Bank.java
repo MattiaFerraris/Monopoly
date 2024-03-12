@@ -9,11 +9,16 @@ public class Bank {
     }
 
     public void addMoney(int amount){
-        this.bankMoney += amount;
+        if(amount >= 0)
+            this.bankMoney += amount;
     }
 
+    //CONTROLLARE SE GIUSTO RITORNARE 0 QUANDO NON SI PUO' PRELEVARE
     public int giveMoney(int amount){
-        this.bankMoney -= amount;
-        return amount;
+        if(amount >= 0 && amount <= this.bankMoney){
+            this.bankMoney -= amount;
+            return amount;
+        } else
+            return 0;
     }
 }

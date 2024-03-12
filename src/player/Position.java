@@ -1,3 +1,4 @@
+//CLASSE NON USATE, DA TOGLIERE
 package player;
 
 import table.Table;

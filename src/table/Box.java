@@ -9,10 +9,12 @@ import java.util.Random;
 
 public class Box {
     Types type;
-    int money;
-    int index;
+    private int money;
+    private int index;
     final static int boxWidth = 24;
     final static int height = 5;
+
+    //FORSE METTERE PRIVATE
     String[] boxDetails;
     public Player[] playersInTheBox;
 
@@ -29,6 +31,7 @@ public class Box {
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
 
+    //FORSE SPOSTARE QUESTO IN UN COSTRUTTORE APPOSITO
     static int generateMoneyValue(int min, int max, int index) {
         if (index == 0) {
             return 100;
