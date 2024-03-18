@@ -23,18 +23,25 @@ public class Monopoly {
         this.dice = new Dice(DICE_FACES);
     }
 
-    //Da rivedere, forse conviene toglierlo da Monopoly e metterlo in Game, passare a Monopoly solo i giocatori
     public Player[] generatePlayers(ScannerUtilities scannerUtilities) {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        String name = scannerUtilities.readString("Enter player name: ");
-        String symbol = scannerUtilities.readString("Enter player symbol: ");
-        players[0] = new Player(name, symbol, 0); //crea un giocatore con posizione 0 di default
-        table.boxes[0].addPlayerToTheBox(players[0]);
+        String name = "";
+        while (name.isEmpty())
+            name = scannerUtilities.readString("Enter player name: ").trim();
+        String symbol = "";
+        while (symbol.isEmpty())
+            symbol = scannerUtilities.readString("Enter player symbol: ").trim();
+        players[0] = new Player(name, symbol.substring(0,1), 0); //crea un giocatore con posizione 0 di default
+        table.getBox(0).addPlayerToTheBox(players[0]);
         for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
             boolean isEquals = false;
-            name = scannerUtilities.readString("Enter player name: ");
-            symbol = scannerUtilities.readString("Enter player symbol: ");
-            Player player = new Player(name, symbol, 0);
+            name = "";
+            while (name.isEmpty())
+                name = scannerUtilities.readString("Enter player name: ").trim();
+            symbol = "";
+            while (symbol.isEmpty())
+                symbol = scannerUtilities.readString("Enter player symbol: ").trim();
+            Player player = new Player(name, symbol.substring(0,1), 0);
             for (int j = 0; j < i; j++) {
                 if (player.isEquals(players[j])) {
                     System.out.println("Player already exists. Enter a different name or symbol.");
@@ -44,7 +51,7 @@ public class Monopoly {
             }
             if (!isEquals) {
                 players[i] = player;
-                table.boxes[0].addPlayerToTheBox(players[i]);
+                table.getBox(0).addPlayerToTheBox(players[i]);
                 i++;
             }
         }
@@ -59,7 +66,7 @@ public class Monopoly {
         int diceNumber = dice.roll();
         System.out.print("DICE SAID: " + diceNumber + "\n");
         int temPosition = player.getPosition();
-        table.boxes[temPosition].removePlayerFromTheBox(player); //rimuove giocatore dal box
+        table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
         if (temPosition + diceNumber > table.boxesNumber) {        //provare a unire questo if con else if sotto
             player.setPosition((temPosition + diceNumber) - table.boxesNumber);
@@ -69,22 +76,21 @@ public class Monopoly {
         }else
             player.setPosition(temPosition + diceNumber);
 
-        table.boxes[player.getPosition()].addPlayerToTheBox(player); //aggiunge giocatore al box
-        updateBalance(temPosition, player.getPosition(), table.boxes[player.getPosition()], player);
+        table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
+        updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }
 
-    //USARE LA CLASSE BANK
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
-        if (oldPosition > newPosition)
-            player.setBalance(player.getBalance() + newBox.getMoney());
-        else
-            player.setBalance(player.getBalance() - newBox.getMoney());
-        //Da rivedere o togliere
-        if (isGameOver()) {
-
+        if(newBox.getIndex()==0){
+            bank.giveMoney(100, player);
+            return;
         }
-
-
+        if (oldPosition > newPosition){
+            bank.addMoney(newBox.getMoney(), player);
+            bank.giveMoney(100 ,player);
+        }
+        else
+            bank.addMoney(newBox.getMoney(), player);
     }
 
 
@@ -101,10 +107,4 @@ public class Monopoly {
         }
         return false;
     }
-
-    //Da rivedere o togliere
-    public boolean isGameOver() {
-        return true;
-    }
-
 }

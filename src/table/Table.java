@@ -3,11 +3,8 @@ package table;
 public class Table {
     private int x;
     private int y;
-
-    //FORSE CONVIENE METTERE PRIVATE
     final public int boxesNumber;
-    //FORSE CONVIENE METTERE PRIVATE
-    public Box[] boxes;
+    private Box[] boxes;
     private Box[][] table;
 
     public Table(int x, int y) {
@@ -26,6 +23,9 @@ public class Table {
         return y;
     }
 
+    public Box getBox(int index){
+        return boxes[index];
+    }
     Box[] generateBoxes(int n) {
         Box[] tmp = new Box[n];
         for (int i = 0; i < tmp.length; i++) {
@@ -53,17 +53,6 @@ public class Table {
         for (int i = 0; i < y - 1; i++) {       //popola la colonna di destra (tranne l'ultimo elemento)
             table[i][x - 1] = boxes[(x - 1) * 3 + i];
         }
-
-        //DA RIVEDERE O TOGLIERE
-        /*for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                if (table[i][j] == null) {
-                    System.out.print("n ");
-                } else
-                    System.out.print(table[i][j].index + " ");
-            }
-            System.out.println();
-        }*/
         return table;
     }
 
@@ -90,7 +79,7 @@ public class Table {
                     }
                     if (table[i][col] != null) {
                         System.out.print("|");
-                        System.out.print(table[i][col].boxDetails[d] + " ".repeat(Box.boxWidth - table[i][col].boxDetails[d].length() - 2));
+                        System.out.print(table[i][col].getBoxDetails()[d] + " ".repeat(Box.boxWidth - table[i][col].getBoxDetails()[d].length() - 2));
                         System.out.print("|");
                     }
 
@@ -103,6 +92,6 @@ public class Table {
 
     void updateBoxes(){
         for (Box box : boxes)
-            box.boxDetails = box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox);
+            box.setBoxDetails(box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox));
     }
 }

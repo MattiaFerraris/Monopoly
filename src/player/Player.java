@@ -14,8 +14,6 @@ public class Player {
     }
 
     //SETTER
-
-    //METTERE NOME E SIMBOLO DI DEFAULT O FARE FACTORY METHOD PER CONTROLLARE
     public void setName(String name) {
         if(!name.isBlank() && name.length() < 7)
             this.name = name;
@@ -24,7 +22,6 @@ public class Player {
         if(symbol.length() == 1)
             this.symbol = symbol;
     }
-    //METTERE CONTROLLO PER POSIZIONE E BALANCE
     public void setPosition(int position) {
         this.position = position;
     }
@@ -47,16 +44,11 @@ public class Player {
     }
 
     public boolean isEquals(Player player2){
-        if(this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()))
-            return true;
-
-        return false;
+        return (this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()));
     }
 
     //VISUALIZZO GIOCATORE
-
-    //NON HA UTILIZZO, FORSE DA TOGLIERE
-    public void show(Player player){
-        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Bilancio: " + balance);
+    public String toString(Player player){
+        return "Name: " + name + ", Symbol: " + symbol + ", Position: " + player.getPosition() + ", Balance: " + balance;
     }
 }

@@ -12,11 +12,8 @@ public class Box {
     final static int boxWidth = 24;
     final static int height = 5;
 
-    //FORSE METTERE PRIVATE
-    String[] boxDetails;
+    private String[] boxDetails;
     public Player[] playersInTheBox;
-
-    //Player[] playersInTheBox;   //aggiunta
 
     Box(Types type, int money, int index) {
         this.type = type;
@@ -29,7 +26,6 @@ public class Box {
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
 
-    //FORSE SPOSTARE QUESTO IN UN COSTRUTTORE APPOSITO
     static int generateMoneyValue(int min, int max, int index) {
         if (index == 0) {
             return 100;
@@ -102,4 +98,11 @@ public class Box {
         return index;
     }
 
+    public String[] getBoxDetails(){
+        return boxDetails;
+    }
+
+    public void setBoxDetails(String[] boxDetails) {
+        this.boxDetails = boxDetails;
+    }
 }

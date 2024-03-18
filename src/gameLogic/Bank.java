@@ -1,5 +1,7 @@
 package gameLogic;
 
+import player.Player;
+
 public class Bank {
 
     private int bankMoney;
@@ -8,17 +10,17 @@ public class Bank {
         this.bankMoney = bankMoney;
     }
 
-    public void addMoney(int amount){
-        if(amount >= 0)
+    public void addMoney(int amount, Player player){
+        if(amount >= 0){
             this.bankMoney += amount;
+            player.setBalance(player.getBalance()-amount);
+        }
     }
 
-    //CONTROLLARE SE GIUSTO RITORNARE 0 QUANDO NON SI PUO' PRELEVARE
-    public int giveMoney(int amount){
+    public void giveMoney(int amount, Player player){
         if(amount >= 0 && amount <= this.bankMoney){
             this.bankMoney -= amount;
-            return amount;
-        } else
-            return 0;
+            player.setBalance(player.getBalance()+amount);
+        }
     }
 }
