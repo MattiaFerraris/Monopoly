@@ -9,7 +9,6 @@ import utility.ScannerUtilities;
 
 public class Monopoly {
 
-    //FORSE CONVIENE NON METTERLE COSTANTI MA PRESE NEL COSTRUTTORE
     public static final int BANK_MONEY = 1000000;
     public static final int DICE_FACES = 4;
     public static final int WIDTH = 5;
