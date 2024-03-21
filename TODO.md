@@ -1,0 +1,9 @@
+- [ ] Aggiornamento box
+  - [ ] Ereditarietà classe Box
+  - [ ] Aggiunta parcheggio
+  - [ ] Aggiunta proprietà
+  - [ ] Aggiunta tassa (probabile interfaccia)
+- [ ] Aumento numero giocatori a 4 + relativi test
+- [ ] Uso 2 dadi da 6 facce + relativi test
+- [ ] Aumento dimensioni table a 9x9 + relativi test
+- [ ] Conversione generale a toString
