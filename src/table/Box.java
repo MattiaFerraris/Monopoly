@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public abstract class Box {
-    private final Colors color;
+public class Box {
+    private Colors color; //tolto il private da Colors così posos fare costruttore senza per caselle speciali
     private final int money;
     private String name;
     final static int boxWidth = 24;
@@ -18,7 +18,7 @@ public abstract class Box {
     private static final int maxMoney = 150;
     protected Player[] playersInTheBox;
 
-    Box(Colors color, int money, String name) {
+    public Box(Colors color, int money, String name) {
         this.color = color;
         this.money = money;
         this.name = name;
@@ -27,8 +27,16 @@ public abstract class Box {
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
+    public Box(int money, String name) {
+        this.money = money;
+        this.name = name;
+        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
 
-    Box(Colors color, String name){
+        //creo un'array di stringhe contenente i dettagli
+        //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
+    }
+
+    public Box(Colors color, String name){
         this(color, generateMoneyValue(minMoney, maxMoney) ,name);
     }
 
@@ -53,6 +61,13 @@ public abstract class Box {
                 break;
             }
         }
+    }
+
+    public static int getMinMoney(){
+        return minMoney;
+    }
+    public static int getMaxMoney(){
+        return maxMoney;
     }
 
     public int getMoney() {

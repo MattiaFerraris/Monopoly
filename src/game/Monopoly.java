@@ -81,10 +81,10 @@ public class Monopoly {
     }
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
-        if(newBox.getIndex()==0){
+        /*if(newBox.getIndex()==0){
             bank.giveMoney(100, player);
             return;
-        }
+        }*/
         if (oldPosition > newPosition){
             bank.addMoney(newBox.getMoney(), player);
             bank.giveMoney(100 ,player);
