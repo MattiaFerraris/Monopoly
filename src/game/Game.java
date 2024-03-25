@@ -14,17 +14,17 @@ public class Game {
         int choice;
         int turn = 0;
 
-        System.out.println("\n\n---WELCOME TO MONOPOLY!---\n");
+        System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
 
-        System.out.println("Insert player's name and symbol\n");
+        System.out.println("Inserire il nome e il simbolo\n");
         players = monopoly.generatePlayers(scannerUtilities);
 
         monopoly.showTable();
 
         while (!monopoly.isGameOver(players)) {
 
-            System.out.println("\n" + players[turn].getName() + "'s TURN");
-            choice = scannerUtilities.readInt("1 Check Balance \n2 Throw DICE \n:");
+            System.out.println("\nTurno di" + players[turn].getName());
+            choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
 
             switch (choice) {
                 case 1:
@@ -38,7 +38,7 @@ public class Game {
                     break;
 
                 default:
-                    System.out.println("Choice not valid");
+                    System.out.println("Scelta non valida");
                     break;
 
             }
