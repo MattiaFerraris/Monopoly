@@ -7,6 +7,6 @@ public class LuxuryTax extends Box{
 
     @Override
     public String toString() {
-        return super.toString() + "Paga " + money  + ",".repeat(4) + "," + "\033[30m";
+        return super.toString() + "Paga " + super.getMoney()  + ",".repeat(4) + "," + super.getColor();
     }
 }
