@@ -14,15 +14,14 @@ public class Game {
         int choice;
         int turn = 0;
 
-        System.out.println("\n\n---BENVENUTI AL GIOCO DEL MONOPOLY---\n");
+        System.out.println("\n\n---WELCOME TO MONOPOLY!---\n");
 
-        System.out.println("Inserisci i dati dei Giocatori \n(Nome e Simbolo)");
+        System.out.println("Insert player's name and symbol\n");
         players = monopoly.generatePlayers(scannerUtilities);
 
         monopoly.showTable();
 
         while (!monopoly.isGameOver(players)) {
-            //System.out.print("\033[H\033[2J");
 
             System.out.println("\n" + players[turn].getName() + "'s TURN");
             choice = scannerUtilities.readInt("1 Check Balance \n2 Throw DICE \n:");
@@ -39,11 +38,10 @@ public class Game {
                     break;
 
                 default:
-                    System.out.println("Scelta non valida");
+                    System.out.println("Choice not valid");
                     break;
 
             }
-
         }
     }
 

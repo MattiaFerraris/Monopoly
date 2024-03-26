@@ -1,5 +1,6 @@
 package player;
 
+
 public class Player {
     private String name;
     private String symbol;
@@ -43,11 +44,11 @@ public class Player {
     }
 
     public boolean isEquals(Player player2){
-        return this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol());
+        return (this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()));
     }
 
     //VISUALIZZO GIOCATORE
-    public void show(Player player){
-        System.out.println("Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Bilancio: " + balance);
+    public String toString(Player player){
+        return "Name: " + name + ", Symbol: " + symbol + ", Position: " + player.getPosition() + ", Balance: " + balance;
     }
 }

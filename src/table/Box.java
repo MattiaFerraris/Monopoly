@@ -1,9 +1,7 @@
 package table;
 
 import game.Game;
-import game.Monopoly;
 import player.Player;
-
 import java.util.Random;
 
 
@@ -13,10 +11,9 @@ public class Box {
     private int index;
     final static int boxWidth = 24;
     final static int height = 5;
-    String[] boxDetails;
-    public Player[] playersInTheBox;
 
-    //Player[] playersInTheBox;   //aggiunta
+    private String[] boxDetails;
+    public Player[] playersInTheBox;
 
     Box(Types type, int money, int index) {
         this.type = type;
@@ -101,4 +98,11 @@ public class Box {
         return index;
     }
 
+    public String[] getBoxDetails(){
+        return boxDetails;
+    }
+
+    public void setBoxDetails(String[] boxDetails) {
+        this.boxDetails = boxDetails;
+    }
 }

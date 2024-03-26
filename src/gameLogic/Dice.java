@@ -4,9 +4,13 @@ import java.util.Random;
 
 public class Dice {
     private final int faces;
+    public static final int DEFAULT_FACES = 4;
 
     public Dice(int faces) {
-        this.faces = faces;
+        if(faces <= 0)
+            this.faces = DEFAULT_FACES;
+        else
+            this.faces = faces;
     }
 
     public int roll(){
