@@ -27,24 +27,24 @@ public class Monopoly {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
         String name = "";
         while (name.isEmpty())
-            name = scannerUtilities.readString("Enter player name: ").trim();
+            name = scannerUtilities.readString("Inserisci il nome: ").trim();
         String symbol = "";
         while (symbol.isEmpty())
-            symbol = scannerUtilities.readString("Enter player symbol: ").trim();
+            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
         players[0] = new Player(name, symbol.substring(0,1), 0); //crea un giocatore con posizione 0 di default
         table.getBox(0).addPlayerToTheBox(players[0]);
         for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
             boolean isEquals = false;
             name = "";
             while (name.isEmpty())
-                name = scannerUtilities.readString("Enter player name: ").trim();
+                name = scannerUtilities.readString("Inserisci il nome: ").trim();
             symbol = "";
             while (symbol.isEmpty())
-                symbol = scannerUtilities.readString("Enter player symbol: ").trim();
+                symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
             Player player = new Player(name, symbol.substring(0,1), 0);
             for (int j = 0; j < i; j++) {
                 if (player.isEquals(players[j])) {
-                    System.out.println("Player already exists. Enter a different name or symbol.");
+                    System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");
                     isEquals = true;
                     break;
                 }
@@ -64,7 +64,7 @@ public class Monopoly {
 
     public void movePlayer(Player player) {
         int diceNumber = dice.roll();
-        System.out.print("DICE SAID: " + diceNumber + "\n");
+        System.out.print("Numero uscito dal dado: " + diceNumber + "\n");
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
@@ -95,7 +95,7 @@ public class Monopoly {
 
 
     public void showBalance(Player player) {
-        System.out.println("\nPlayer " + player.getName() + " has " + player.getBalance() + " money.");
+        System.out.println(player.getName() + " ha " + player.getBalance() + " soldi.");
     }
 
     public boolean isGameOver(Player[] players) {

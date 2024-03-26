@@ -29,7 +29,7 @@ public class Table {
     Box[] generateBoxes(int n) {
         Box[] tmp = new Box[n];
         for (int i = 0; i < tmp.length; i++) {
-            tmp[i] = new Box(Box.picType(i), Box.generateMoneyValue(50, 150, i), i);
+            tmp[i] = new Start();
         }
         return tmp;
     }
@@ -78,8 +78,9 @@ public class Table {
                         System.out.print(" ".repeat(Box.boxWidth));
                     }
                     if (table[i][col] != null) {
+                        String[] boxDetails = table[i][col].toString().split(",");
                         System.out.print("|");
-                        System.out.print(table[i][col].getBoxDetails()[d] + " ".repeat(Box.boxWidth - table[i][col].getBoxDetails()[d].length() - 2));
+                        System.out.print(boxDetails[d] + " ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
                         System.out.print("|");
                     }
 
@@ -90,8 +91,10 @@ public class Table {
         System.out.println("-".repeat(Box.boxWidth * x));
     }
 
+    /*
     void updateBoxes(){
         for (Box box : boxes)
             box.setBoxDetails(box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox));
     }
+     */
 }

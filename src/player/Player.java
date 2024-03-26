@@ -49,6 +49,6 @@ public class Player {
 
     //VISUALIZZO GIOCATORE
     public String toString(Player player){
-        return "Name: " + name + ", Symbol: " + symbol + ", Position: " + player.getPosition() + ", Balance: " + balance;
+        return "Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Soldi: " + balance;
     }
 }
