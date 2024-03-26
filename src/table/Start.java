@@ -6,6 +6,6 @@ public class Start extends Box{
     }
     @Override
     public String toString() {
-        return super.toString() + "Ritira " + super.getMoney() + ",".repeat(3) + "," + super.getColor();
+        return super.toString() + "Ritira " + money + ",".repeat(3) + "," + "\033[30m";
     }
 }
