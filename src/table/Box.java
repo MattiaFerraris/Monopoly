@@ -8,9 +8,9 @@ import java.util.Random;
 
 
 public abstract class Box {
-    private final Colors color;
-    private final int money;
-    private String name;
+    protected Colors color;
+    protected int money;
+    protected String name;
     final static int boxWidth = 24;
     final static int height = 5;
 
@@ -57,10 +57,6 @@ public abstract class Box {
 
     public int getMoney() {
         return money;
-    }
-
-    public Colors getColor() {
-        return color;
     }
 
     @Override
