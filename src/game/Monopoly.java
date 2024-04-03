@@ -10,9 +10,9 @@ import utility.ScannerUtilities;
 public class Monopoly {
 
     public static final int BANK_MONEY = 1000000;
-    public static final int DICE_FACES = 4;
-    public static final int WIDTH = 5;
-    public static final int HEIGHT = 5;
+    public static final int DICE_FACES = 6;
+    public static final int WIDTH = 9;
+    public static final int HEIGHT = 9;
     private Table table;
     private Bank bank;
     private Dice dice;
@@ -21,41 +21,6 @@ public class Monopoly {
         this.table = new Table(WIDTH, HEIGHT);
         this.bank = new Bank(BANK_MONEY);
         this.dice = new Dice(DICE_FACES);
-    }
-
-    public Player[] generatePlayers(ScannerUtilities scannerUtilities) {
-        Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        String name = "";
-        while (name.isEmpty())
-            name = scannerUtilities.readString("Inserisci il nome: ").trim();
-        String symbol = "";
-        while (symbol.isEmpty())
-            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
-        players[0] = new Player(name, symbol.substring(0,1), 0); //crea un giocatore con posizione 0 di default
-        table.getBox(0).addPlayerToTheBox(players[0]);
-        for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
-            boolean isEquals = false;
-            name = "";
-            while (name.isEmpty())
-                name = scannerUtilities.readString("Inserisci il nome: ").trim();
-            symbol = "";
-            while (symbol.isEmpty())
-                symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
-            Player player = new Player(name, symbol.substring(0,1), 0);
-            for (int j = 0; j < i; j++) {
-                if (player.isEquals(players[j])) {
-                    System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");
-                    isEquals = true;
-                    break;
-                }
-            }
-            if (!isEquals) {
-                players[i] = player;
-                table.getBox(0).addPlayerToTheBox(players[i]);
-                i++;
-            }
-        }
-        return players;
     }
 
     public void showTable() {
@@ -106,5 +71,9 @@ public class Monopoly {
             }
         }
         return false;
+    }
+
+    public void addPlayerToBox(Player player){
+        table.getBox(0).addPlayerToTheBox(player);
     }
 }

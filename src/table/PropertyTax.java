@@ -8,8 +8,7 @@ public class PropertyTax extends Box {
     }
     @Override
     public String toString() {
-        //return super.toString() + "Paga " + super.getMoney() + " del patrim." + ",".repeat(4) + "," + super.getColor();
-        return super.toString() + "Paga " + tax + " del partrim." + ",".repeat(4) + "," + super.getColor();
+        return super.toString() + "Paga " + tax + " del partrim." + "," + super.getPlayersDetails() + "," + ",".repeat(3) + "," + super.getColor();
      }
 
     public int getMoney(int money) {

@@ -78,6 +78,16 @@ public class Box {
         return color;
     }
 
+    public String getPlayersDetails() {
+        StringBuilder playersDetails = new StringBuilder();
+        for (Player player : playersInTheBox) {
+            if (player != null)
+                playersDetails.append(player.getSymbol()).append(" ");
+        }
+        String details = playersDetails.toString();
+        return !details.isEmpty() ? details.substring(0, details.length() - 1) : "";
+    }
+
     @Override
     public String toString() {
         return name + ",";

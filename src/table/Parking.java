@@ -6,6 +6,6 @@ public class Parking extends Box{
     }
     @Override
     public String toString() {
-        return super.toString()  + ",".repeat(4) + "," + super.getColor();
+        return super.toString() + "," + super.getPlayersDetails() + "," + ",".repeat(3) + "," + super.getColor();
     }
 }

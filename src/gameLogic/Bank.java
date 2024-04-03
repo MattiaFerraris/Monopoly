@@ -3,7 +3,6 @@ package gameLogic;
 import player.Player;
 
 public class Bank {
-
     private int bankMoney;
 
     public Bank(int bankMoney) {
