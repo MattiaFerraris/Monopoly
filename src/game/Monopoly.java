@@ -24,7 +24,7 @@ public class Monopoly {
     }
 
     public void showTable() {
-        table.showTable();
+        System.out.println(table);
     }
 
     public void movePlayer(Player player) {
