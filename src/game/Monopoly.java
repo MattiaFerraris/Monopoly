@@ -7,6 +7,8 @@ import table.Box;
 import table.Table;
 import utility.ScannerUtilities;
 
+import java.util.Arrays;
+
 public class Monopoly {
 
     public static final int BANK_MONEY = 1000000;
@@ -56,14 +58,24 @@ public class Monopoly {
 
     public boolean isGameOver(Player[] players) {
         int cntPlayers= players.length;
+
         for (int i=0;i< players.length;i++) {
 
             if (players[i].getBalance() <= 0) {
                 cntPlayers-=1;
                 players[i] = null;
 
-                if(cntPlayers == 1)
+                for (int j = 0; j < players.length-1; j++) {
+                    if(players[i] == null)
+                        players[i] = players[i+1];
+                }
+
+                Arrays.copyOf(players, players.length-1);
+
+                if(cntPlayers == 1) {
+                    System.out.println("Il player: " + players[0] + " ha vinto!!");
                     return true;
+                }
             }
         }
         return false;
