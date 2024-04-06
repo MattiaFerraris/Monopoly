@@ -70,7 +70,7 @@ public class Monopoly {
                         players[i] = players[i+1];
                 }
 
-                Arrays.copyOf(players, players.length-1);
+                players = Arrays.copyOf(players, players.length-1);
 
                 if(cntPlayers == 1) {
                     System.out.println("Il player: " + players[0] + " ha vinto!!");
