@@ -55,10 +55,15 @@ public class Monopoly {
     }
 
     public boolean isGameOver(Player[] players) {
-        for (Player player : players) {
-            if (player.getBalance() <= 0) {
-                System.out.println(player.getName().toUpperCase() + " HA PERSO!");
-                return true;
+        int cntPlayers= players.length;
+        for (int i=0;i< players.length;i++) {
+
+            if (players[i].getBalance() <= 0) {
+                cntPlayers-=1;
+                players[i] = null;
+
+                if(cntPlayers == 1)
+                    return true;
             }
         }
         return false;
