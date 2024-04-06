@@ -62,14 +62,7 @@ abstract public class Box {
             }
         }
     }
-
-    public static int getMinMoney(){
-        return minMoney;
-    }
-    public static int getMaxMoney(){
-        return maxMoney;
-    }
-
+    
     public int getMoney() {
         return money;
     }

@@ -6,7 +6,6 @@ public class Table {
     private int x;
     private int y;
     final public int boxesNumber;
-    private Box[] colouredBoxes;
     private Box[] boxes;
     private Box[][] table;
 
@@ -14,8 +13,7 @@ public class Table {
         this.x = x;
         this.y = y;
         this.boxesNumber = (2 * x + (y - 2) * 2); //32 (x=9, y=9)
-        colouredBoxes = assignBoxes();
-        boxes = generateBoxes(boxesNumber, colouredBoxes);
+        boxes = generateBoxes(boxesNumber, assignBoxes());
         table = generateTable(boxes);
     }
 
@@ -107,6 +105,7 @@ public class Table {
                 cnt++;
             }
         }*/
+
         int cnt = 0;
         for (int i = 0; i < n; i++) {
 
@@ -124,6 +123,7 @@ public class Table {
 
         do {
             newBox = boxes[ran.nextInt(boxes.length)];
+
         } while (isBoxInTable(newBox, boxesInTable));
 
         return newBox;
