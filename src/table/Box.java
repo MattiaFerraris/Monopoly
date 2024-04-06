@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public class Box {
+abstract public class Box {
     private Colors color; //tolto il private da Colors così posos fare costruttore senza per caselle speciali
     private final int money;
     private String name;
