@@ -35,7 +35,6 @@ public class Monopoly {
 
         int newPosition = temPosition + diceNumber;
         player.setPosition(newPosition >= table.boxesNumber ? newPosition - table.boxesNumber : newPosition);
-
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }

@@ -37,7 +37,7 @@ abstract public class Box {
     }
 
     public Box(Colors color, String name){
-        this(color, generateMoneyValue(minMoney, maxMoney) ,name);
+        this(color, -generateMoneyValue(minMoney, maxMoney) ,name);
     }
 
     private static int generateMoneyValue(int min, int max) {
