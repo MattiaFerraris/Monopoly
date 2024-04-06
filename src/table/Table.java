@@ -71,7 +71,7 @@ public class Table {
 
         //DA AGGIUNGERE VERI
         tmp = add(tmp, new LuxuryTax(200));
-        tmp = add(tmp, new PropertyTax(0.10));
+        tmp = add(tmp, new WealthTax(0.10));
         return tmp;
     }
 
