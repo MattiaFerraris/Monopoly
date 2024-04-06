@@ -16,7 +16,7 @@ abstract public class Box {
 
     private static final int minMoney = 50;
     private static final int maxMoney = 150;
-    protected Player[] playersInTheBox;
+    private Player[] playersInTheBox;
 
     public Box(Colors color, int money, String name) {
         this.color = color;
@@ -37,10 +37,10 @@ abstract public class Box {
     }
 
     public Box(Colors color, String name){
-        this(color, generateMoneyValue(minMoney, maxMoney) ,name);
+        this(color, -generateMoneyValue(minMoney, maxMoney) ,name);
     }
 
-    static int generateMoneyValue(int min, int max) {
+    private static int generateMoneyValue(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
@@ -62,7 +62,6 @@ abstract public class Box {
             }
         }
     }
-    
     public int getMoney() {
         return money;
     }

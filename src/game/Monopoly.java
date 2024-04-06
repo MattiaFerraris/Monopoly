@@ -24,7 +24,7 @@ public class Monopoly {
     }
 
     public void showTable() {
-        table.showTable();
+        System.out.println(table);
     }
 
     public void movePlayer(Player player) {
@@ -33,31 +33,22 @@ public class Monopoly {
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
-        if (temPosition + diceNumber > table.boxesNumber) {        //provare a unire questo if con else if sotto
-            player.setPosition((temPosition + diceNumber) - table.boxesNumber);
-        }
-        else if(temPosition + diceNumber == table.boxesNumber){
-            player.setPosition(0);
-        }else
-            player.setPosition(temPosition + diceNumber);
-
+        int newPosition = temPosition + diceNumber;
+        player.setPosition(newPosition >= table.boxesNumber ? newPosition - table.boxesNumber : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
-        /*if(newBox.getIndex()==0){
+        if (newPosition == 0)
             bank.giveMoney(100, player);
-            return;
-        }*/
-        if (oldPosition > newPosition){
+        else if (oldPosition > newPosition){
             bank.addMoney(newBox.getMoney(), player);
             bank.giveMoney(100 ,player);
         }
         else
             bank.addMoney(newBox.getMoney(), player);
     }
-
 
     public void showBalance(Player player) {
         System.out.println(player.getName() + " ha " + player.getBalance() + " soldi.");

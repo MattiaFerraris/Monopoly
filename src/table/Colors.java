@@ -14,7 +14,6 @@ public enum Colors {
             case YELLOW -> "\033[33m";
             case GREEN -> "\033[32m";
             case BLUE -> "\033[34m";
-            //case BLACK -> "\033[30m";
             case BLACK -> "\033[00m";
         };
     }

@@ -1,8 +1,8 @@
 package table;
 
-public class PropertyTax extends Box {
+public class WealthTax extends Box {
     private double tax;
-    public PropertyTax(double tax) {
+    public WealthTax(double tax) {
         super(Colors.BLACK, 0, "Tassa patrimoniale");
         this.tax = tax;
     }

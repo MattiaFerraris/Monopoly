@@ -69,7 +69,7 @@ public class Table {
 
         //DA AGGIUNGERE VERI
         tmp = add(tmp, new LuxuryTax(200));
-        tmp = add(tmp, new PropertyTax(0.10));
+        tmp = add(tmp, new WealthTax(0.10));
         return tmp;
     }
 
@@ -158,49 +158,43 @@ public class Table {
         return table;
     }
 
-
-    public void showTable() {
-        //updateBoxes();
+    @Override
+    public String toString() {
+        String stringTable = "";
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                System.out.print("-".repeat(Box.boxWidth * x));
+                stringTable += "-".repeat(Box.boxWidth * x);
 
             } else {
-                System.out.print("-".repeat(Box.boxWidth));
-                System.out.print(" ".repeat(Box.boxWidth * (x - 2)));
-                System.out.print("-".repeat(Box.boxWidth));
+                stringTable += "-".repeat(Box.boxWidth);
+                stringTable += " ".repeat(Box.boxWidth * (x - 2));
+                stringTable += "-".repeat(Box.boxWidth);
             }
-            System.out.println();
+            stringTable += "\n";
 
             for (int d = 0; d < Box.height; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        System.out.print(" ".repeat(Box.boxWidth));
+                        stringTable += " ".repeat(Box.boxWidth);
                     }
                     if (table[i][col] != null) {
                         if(d == 0)
-                            System.out.print(table[i][col].getColor().toString());
+                            stringTable += table[i][col].getColor().toString();
 
                         String[] boxDetails = table[i][col].toString().split(",");
 
-                        System.out.print("|");
-                        System.out.print(boxDetails[d] + " ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
-                        System.out.print("|");
-                        System.out.print("\u001B[0m");
+                        stringTable += "|";
+                        stringTable += boxDetails[d] + " ".repeat(Box.boxWidth - boxDetails[d].length() - 2);
+                        stringTable += "|";
+                        stringTable += "\u001B[0m";
                     }
                 }
-                System.out.println();
+                stringTable += "\n";
             }
         }
-        System.out.println("-".repeat(Box.boxWidth * x));
+        stringTable += "-".repeat(Box.boxWidth * x);
+        return stringTable;
     }
-
-    /*
-    void updateBoxes(){
-        for (Box box : boxes)
-            box.setBoxDetails(box.makeDetailsString(box.type, box.getMoney(), box.playersInTheBox));
-    }
-     */
 }

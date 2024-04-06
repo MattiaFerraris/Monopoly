@@ -22,4 +22,11 @@ public class Bank {
             player.setBalance(player.getBalance()+amount);
         }
     }
+
+    public void updateBalance(int amount, Player player){
+        if (amount<0)
+            addMoney(amount,player);
+        else
+            giveMoney(amount,player);
+    }
 }
