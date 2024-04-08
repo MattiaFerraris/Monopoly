@@ -4,7 +4,7 @@ package player;
 import java.util.Objects;
 
 public class Player {
-    private static final int INITIAL_BALANCE = 2000;
+    private static final int INITIAL_BALANCE = 300;
     private String name;
     private String symbol;
     private int position;

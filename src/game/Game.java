@@ -24,12 +24,17 @@ public class Game {
 
         while (!monopoly.isGameOver(players)) {
 
-            for (int j = 0; j < players.length-1; j++) {
-                if(players[j] == null)
-                    players[j] = players[j+1];
+            for (int i = 0; i < players.length; i++) {
+                if(players[i]==null){
+                    System.out.println("Giocatore" + i + " ha perso");
+                    for (int j = i; j < players.length-1; j++) {
+                        players[j] = players[j+1];
+                    }
+                    players =  Arrays.copyOf(players, players.length-1);
+                }
             }
 
-            players = Arrays.copyOf(players, players.length-1);
+
 
             System.out.println("\nTurno di " + players[turn].getName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
@@ -41,7 +46,7 @@ public class Game {
 
                 case 2:
                     monopoly.movePlayer(players[turn]);
-                    turn = nextTurn(turn);
+                    turn = nextTurn(turn, players.length);
                     monopoly.showTable();
                     break;
 
@@ -53,9 +58,9 @@ public class Game {
         }
     }
 
-    public static int nextTurn(int turn) {
+    public static int nextTurn(int turn, int playersNumber) {
         turn++;
-        if (turn >= NUMBER_OF_PLAYERS)
+        if (turn == playersNumber)
             turn = 0;
         return turn;
     }
