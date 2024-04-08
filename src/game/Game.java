@@ -35,7 +35,7 @@ public class Game {
                 }
             }
 
-            if(playerLost>0)
+            if(playerLost>0 && turn !=0)
                 turn--;
 
             System.out.println("\nTurno di " + players[turn].getName());
