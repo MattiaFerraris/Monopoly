@@ -26,7 +26,6 @@ public class Game {
             int playerLost = 0;
             for (int i = 0; i < players.length; i++) {
                 if(players[i]==null){
-                    System.out.println("Giocatore" + i + " ha perso");
                     for (int j = i; j < players.length-1; j++) {
                         players[j] = players[j+1];
                     }

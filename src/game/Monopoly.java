@@ -71,6 +71,7 @@ public class Monopoly {
 
             if (players[i].getBalance() <= 0) {
                 cntPlayers-=1;
+                System.out.println("Giocatore " + players[i].getName() + " ha perso");
                 players[i] = null;
                 lose = i;
 
