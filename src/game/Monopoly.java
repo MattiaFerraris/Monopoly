@@ -64,7 +64,7 @@ public class Monopoly {
     }
 
     public boolean isGameOver(Player[] players) {
-
+        int lose;
         int cntPlayers= players.length;
 
         for (int i=0;i< players.length;i++) {
@@ -72,9 +72,13 @@ public class Monopoly {
             if (players[i].getBalance() <= 0) {
                 cntPlayers-=1;
                 players[i] = null;
+                lose = i;
 
                 if(cntPlayers == 1) {
-                    System.out.println("Il player: " + players[0] + " ha vinto!!");
+                    int win = 1;
+                    if(lose == 1)
+                        win = 0;
+                    System.out.println("Il player: " + players[win].getName() + " ha vinto!!");
                     return true;
                 }
             }

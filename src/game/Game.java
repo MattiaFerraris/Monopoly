@@ -31,10 +31,9 @@ public class Game {
                         players[j] = players[j+1];
                     }
                     players =  Arrays.copyOf(players, players.length-1);
+                    turn--;
                 }
             }
-
-
 
             System.out.println("\nTurno di " + players[turn].getName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
