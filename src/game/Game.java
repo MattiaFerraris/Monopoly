@@ -3,6 +3,8 @@ package game;
 import player.Player;
 import utility.ScannerUtilities;
 
+import java.util.Arrays;
+
 public class Game {
     public static final int NUMBER_OF_PLAYERS = 4;
 
@@ -21,6 +23,13 @@ public class Game {
         monopoly.showTable();
 
         while (!monopoly.isGameOver(players)) {
+
+            for (int j = 0; j < players.length-1; j++) {
+                if(players[j] == null)
+                    players[j] = players[j+1];
+            }
+
+            players = Arrays.copyOf(players, players.length-1);
 
             System.out.println("\nTurno di " + players[turn].getName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
