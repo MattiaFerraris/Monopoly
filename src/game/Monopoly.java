@@ -43,13 +43,14 @@ public class Monopoly {
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
         if (newPosition == 0)
-            bank.giveMoney(100, player);
+            bank.updateBalance(100, player);
         else if (oldPosition > newPosition){
-            bank.addMoney(newBox.getMoney(), player);
-            bank.giveMoney(100 ,player);
+            bank.updateBalance(newBox.getMoney(), player);
+            bank.updateBalance(100 ,player);
         }
         else
-            bank.addMoney(newBox.getMoney(), player);
+            bank.updateBalance(newBox.getMoney(), player);
+
     }
 
     public void showBalance(Player player) {

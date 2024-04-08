@@ -9,24 +9,25 @@ public class Bank {
         this.bankMoney = bankMoney;
     }
 
-    public void addMoney(int amount, Player player){
-        if(amount >= 0){
+    public void addMoney(int amount, Player player) {
+
+        if (amount >= 0) {
             this.bankMoney += amount;
-            player.setBalance(player.getBalance()-amount);
+            player.setBalance(player.getBalance() - amount);
         }
     }
 
-    public void giveMoney(int amount, Player player){
-        if(amount >= 0 && amount <= this.bankMoney){
+    public void giveMoney(int amount, Player player) {
+        if (amount >= 0 && amount <= this.bankMoney) {
             this.bankMoney -= amount;
-            player.setBalance(player.getBalance()+amount);
+            player.setBalance(player.getBalance() + amount);
         }
     }
 
-    public void updateBalance(int amount, Player player){
-        if (amount<0)
-            addMoney(amount,player);
+    public void updateBalance(int amount, Player player) {
+        if (amount < 0)
+            addMoney(Math.abs(amount), player);
         else
-            giveMoney(amount,player);
+            giveMoney(amount, player);
     }
 }
