@@ -17,12 +17,18 @@ public class Monopoly {
     public static final int HEIGHT = 9;
     private Table table;
     private Bank bank;
-    private Dice dice;
+    private Dice dice1;
+    private Dice dice2;
 
     public Monopoly() {
         this.table = new Table(WIDTH, HEIGHT);
         this.bank = new Bank(BANK_MONEY);
-        this.dice = new Dice(DICE_FACES);
+        this.dice1 = new Dice(DICE_FACES);
+        this.dice2 = new Dice(DICE_FACES);
+    }
+
+    private int diceRoll(){
+        return dice1.roll() + dice2.roll();
     }
 
     public void showTable() {
@@ -30,7 +36,7 @@ public class Monopoly {
     }
 
     public void movePlayer(Player player) {
-        int diceNumber = dice.roll();
+        int diceNumber = diceRoll();
         System.out.print("Numero uscito dal dado: " + diceNumber + "\n");
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box

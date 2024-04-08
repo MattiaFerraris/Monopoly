@@ -4,7 +4,7 @@ import player.Player;
 import utility.ScannerUtilities;
 
 public class Game {
-    public static final int NUMBER_OF_PLAYERS = 3;
+    public static final int NUMBER_OF_PLAYERS = 4;
 
 
     public static void main(String[] args) {
