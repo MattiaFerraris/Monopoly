@@ -27,7 +27,7 @@ public class Monopoly {
         this.dice2 = new Dice(DICE_FACES);
     }
 
-    private int diceRoll(){
+    private int diceRoll() {
         return dice1.roll() + dice2.roll();
     }
 
@@ -50,11 +50,10 @@ public class Monopoly {
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
         if (newPosition == 0)
             bank.updateBalance(100, player);
-        else if (oldPosition > newPosition){
+        else if (oldPosition > newPosition) {
             bank.updateBalance(newBox.getMoney(), player);
-            bank.updateBalance(100 ,player);
-        }
-        else
+            bank.updateBalance(100, player);
+        } else
             bank.updateBalance(newBox.getMoney(), player);
 
     }
@@ -64,22 +63,17 @@ public class Monopoly {
     }
 
     public boolean isGameOver(Player[] players) {
-        int lose;
-        int cntPlayers= players.length;
+        int cntPlayers = players.length;
 
-        for (int i=0;i< players.length;i++) {
+        for (int i = 0; i < players.length; i++) {
 
             if (players[i].getBalance() <= 0) {
-                cntPlayers-=1;
+                cntPlayers -= 1;
                 System.out.println("Giocatore " + players[i].getName() + " ha perso");
                 players[i] = null;
-                lose = i;
 
-                if(cntPlayers == 1) {
-                    int win = 1;
-                    if(lose == 1)
-                        win = 0;
-                    System.out.println("Il player: " + players[win].getName() + " ha vinto!!");
+                if (cntPlayers == 1) {
+                    System.out.println("Il player: " + players[i == 0 ? 1 : 0].getName() + " ha vinto!!");
                     return true;
                 }
             }
@@ -87,7 +81,7 @@ public class Monopoly {
         return false;
     }
 
-    public void addPlayerToBox(Player player){
+    public void addPlayerToBox(Player player) {
         table.getBox(0).addPlayerToTheBox(player);
     }
 }
