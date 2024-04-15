@@ -98,14 +98,6 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
 
-        /*int cnt = 0;
-        for (int i = 0; i < n; i++) {
-            if (tmp[i] == null && cnt < boxes.length) {
-                tmp[i] = boxes[cnt];
-                cnt++;
-            }
-        }*/
-
         int cnt = 0;
         for (int i = 0; i < n; i++) {
 
@@ -181,7 +173,7 @@ public class Table {
                     }
                     if (table[i][col] != null) {
                         if(d == 0)
-                            stringTable += table[i][col].getColor().toString();
+                            stringTable += table[i][col].getColor();
 
                         String[] boxDetails = table[i][col].toString().split(",");
 

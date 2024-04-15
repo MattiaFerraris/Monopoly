@@ -12,6 +12,6 @@ public class WealthTax extends Box {
      }
 
     public int getMoney(int money) {
-        return (int) (money * tax);
+        return  (int) (-(money * tax));
     }
 }
