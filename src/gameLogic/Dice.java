@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Dice {
     private final int faces;
-    public static final int DEFAULT_FACES = 4;
+    public static final int DEFAULT_FACES = 6;
 
     public Dice(int faces) {
         if(faces <= 0)

@@ -1,16 +1,20 @@
 package player;
 
 
+import java.util.Objects;
+
 public class Player {
+    private static final int INITIAL_BALANCE = 2000;
     private String name;
     private String symbol;
     private int position;
-    private int balance = 2000;
+    private int balance;
 
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
+        this.balance = INITIAL_BALANCE;
     }
 
     //SETTER
@@ -43,8 +47,12 @@ public class Player {
         return balance;
     }
 
-    public boolean isEquals(Player player2){
-        return (this.name.equalsIgnoreCase(player2.getName()) || this.symbol.equalsIgnoreCase(player2.getSymbol()));
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name) || Objects.equals(symbol, player.symbol);
     }
 
     //VISUALIZZO GIOCATORE
