@@ -66,6 +66,8 @@ abstract public class Box {
         return money;
     }
 
+    public abstract int getMoney(int money);
+
     public Colors getColor() {
         return color;
     }

@@ -8,4 +8,9 @@ public class Start extends Box{
     public String toString() {
         return super.toString() + "Ritira " + Math.abs(super.getMoney()) + "," + super.getPlayersDetails() + "," + ",".repeat(2) + "," + super.getColor();
     }
+
+    @Override
+    public int getMoney(int money) {
+        return super.getMoney();
+    }
 }

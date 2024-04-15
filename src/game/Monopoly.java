@@ -51,10 +51,10 @@ public class Monopoly {
         if (newPosition == 0)
             bank.updateBalance(100, player);
         else if (oldPosition > newPosition) {
-            bank.updateBalance(newBox.getMoney(), player);
+            bank.updateBalance(newBox.getMoney(player.getBalance()), player);
             bank.updateBalance(100, player);
         } else
-            bank.updateBalance(newBox.getMoney(), player);
+            bank.updateBalance(newBox.getMoney(player.getBalance()), player);
 
     }
 
