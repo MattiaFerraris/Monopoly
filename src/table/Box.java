@@ -2,10 +2,7 @@ package table;
 
 import game.Game;
 import player.Player;
-
-import java.util.Arrays;
 import java.util.Random;
-
 
 abstract public class Box {
     private Colors color;
