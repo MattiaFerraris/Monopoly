@@ -3,8 +3,10 @@ package game;
 import player.Player;
 import utility.ScannerUtilities;
 
+import java.util.Arrays;
+
 public class Game {
-    public static final int NUMBER_OF_PLAYERS = 2;
+    public static final int NUMBER_OF_PLAYERS = 4;
 
 
     public static void main(String[] args) {
@@ -17,13 +19,25 @@ public class Game {
         System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
 
         System.out.println("Inserire il nome e il simbolo\n");
-        players = monopoly.generatePlayers(scannerUtilities);
-
+        players = generatePlayers(scannerUtilities, monopoly);
         monopoly.showTable();
 
         while (!monopoly.isGameOver(players)) {
+            int playerLost = 0;
+            for (int i = 0; i < players.length; i++) {
+                if(players[i]==null){
+                    for (int j = i; j < players.length-1; j++) {
+                        players[j] = players[j+1];
+                    }
+                    players =  Arrays.copyOf(players, players.length-1);
+                    playerLost++;
+                }
+            }
 
-            System.out.println("\nTurno di" + players[turn].getName());
+            if(playerLost>0 && turn !=0)
+                turn--;
+
+            System.out.println("\nTurno di " + players[turn].getName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
 
             switch (choice) {
@@ -33,7 +47,7 @@ public class Game {
 
                 case 2:
                     monopoly.movePlayer(players[turn]);
-                    turn = nextTurn(turn);
+                    turn = nextTurn(turn, players.length);
                     monopoly.showTable();
                     break;
 
@@ -45,10 +59,43 @@ public class Game {
         }
     }
 
-    public static int nextTurn(int turn) {
+    public static int nextTurn(int turn, int playersNumber) {
         turn++;
-        if (turn >= NUMBER_OF_PLAYERS)
+        if (turn == playersNumber)
             turn = 0;
         return turn;
+    }
+
+    public static Player newPlayer(ScannerUtilities scannerUtilities) {
+        String name = "";
+        String symbol = "";
+        while (name.isEmpty())
+            name = scannerUtilities.readString("Inserisci il nome: ").trim();
+        while (symbol.isEmpty())
+            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
+        return new Player(name, symbol.substring(0, 1), 0);
+    }
+
+    public static Player[] generatePlayers(ScannerUtilities scannerUtilities, Monopoly monopoly) {
+        Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
+        players[0] = newPlayer(scannerUtilities);
+        monopoly.addPlayerToBox(players[0]);
+        for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
+            boolean isEquals = false;
+            Player player = newPlayer(scannerUtilities);
+            for (int j = 0; j < i; j++) {
+                if (player.equals(players[j])) {
+                    System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");
+                    isEquals = true;
+                    break;
+                }
+            }
+            if (!isEquals) {
+                players[i] = player;
+                monopoly.addPlayerToBox(players[i]);
+                i++;
+            }
+        }
+        return players;
     }
 }
