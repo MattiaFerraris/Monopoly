@@ -1,0 +1,7 @@
+- [ ] REFRACTOR CODICE
+- [ ] Fix aumento dimensione
+- [ ] Prigione e vai in prigione (caselle)
+- [ ] Update box con nuovi dettagli
+- [ ] Aggiunta logica acquisto propriety
+- [ ] Aggiunta logica acquisto case e alberghi
+- [ ] Modifica stampa box con nuovi dettagli
