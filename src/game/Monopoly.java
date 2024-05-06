@@ -6,13 +6,13 @@ import player.Player;
 import table.Box;
 import table.Table;
 import utility.ScannerUtilities;
-
 import java.util.Arrays;
 
 public class Monopoly {
 
     public static final int BANK_MONEY = 1000000;
     public static final int DICE_FACES = 6;
+    //con 11, 11 non parte il gioco
     public static final int WIDTH = 9;
     public static final int HEIGHT = 9;
     private Table table;
@@ -42,9 +42,22 @@ public class Monopoly {
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
         int newPosition = temPosition + diceNumber;
+
+        //VAI IN PRIGIONE
+        if(newPosition == (table.getX()-1)*3){
+            player.setPosition(table.getX()-1);
+            table.getBox(player.getPosition()).addPlayerToTheBox(player);
+            return;
+        }
+
         player.setPosition(newPosition >= table.boxesNumber ? newPosition - table.boxesNumber : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
+
+        //IN PRIGIONE
+        if(player.getPosition() == (table.getX()-1)){
+
+        }
     }
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
