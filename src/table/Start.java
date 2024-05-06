@@ -4,9 +4,13 @@ public class Start extends Box{
     public Start() {
         super(Colors.BLACK,100, "Start");
     }
+
     @Override
-    public String toString() {
-        return super.toString() + "Ritira " + Math.abs(super.getMoney()) + "," + super.getPlayersDetails() + "," + ",".repeat(2) + "," + super.getColor();
+    public String[] getBoxDetails() {
+        String[] details = super.getBoxDetails();
+        details[1] = "Ritira " + Math.abs(super.getMoney());
+        details[2] = super.getSymbolsOfPlayersInBox();
+        return details;
     }
 
     @Override

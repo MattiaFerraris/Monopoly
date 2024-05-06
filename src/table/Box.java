@@ -8,33 +8,22 @@ abstract public class Box {
     private Colors color;
     private final int money;
     private String name;
-    final static int boxWidth = 24;
-    final static int height = 5;
+    final static int BOX_WIDTH = 24;
+    final static int HEIGHT = 5;
 
-    private static final int minMoney = 50;
-    private static final int maxMoney = 150;
-    private Player[] playersInTheBox;
+    private static final int MIN_MONEY = 50;
+    private static final int MAX_MONEY = 150;
+    private Player[] playersInBox;
 
     public Box(Colors color, int money, String name) {
         this.color = color;
         this.money = money;
         this.name = name;
-        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
-
-        //creo un'array di stringhe contenente i dettagli
-        //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
-    }
-    public Box(int money, String name) {
-        this.money = money;
-        this.name = name;
-        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
-
-        //creo un'array di stringhe contenente i dettagli
-        //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
+        this.playersInBox = new Player[Game.NUMBER_OF_PLAYERS];
     }
 
     public Box(Colors color, String name){
-        this(color, -generateMoneyValue(minMoney, maxMoney) ,name);
+        this(color, -generateMoneyValue(MIN_MONEY, MAX_MONEY) ,name);
     }
 
     private static int generateMoneyValue(int min, int max) {
@@ -43,19 +32,22 @@ abstract public class Box {
     }
 
     public void removePlayerFromTheBox(Player player) {
-        for (int i = 0; i < playersInTheBox.length; i++) {
-            if(playersInTheBox[i] == player) {
-                playersInTheBox[i] = null;
-                break;
+        for (int i = 0; i < playersInBox.length; i++) {
+            if(playersInBox[i].equals(player)) {
+                for (int j = i; j < playersInBox.length-1; j++) {
+                    playersInBox[j] = playersInBox[j + 1];
+                }
+                playersInBox[playersInBox.length-1] = null;
+                return;
             }
         }
     }
 
     public void addPlayerToTheBox(Player player) {
-        for (int i = 0; i < playersInTheBox.length; i++) {
-            if(playersInTheBox[i] == null) {
-                playersInTheBox[i] = player;
-                break;
+        for (int i = 0; i < playersInBox.length; i++) {
+            if(playersInBox[i] == null) {
+                playersInBox[i] = player;
+                return;
             }
         }
     }
@@ -69,9 +61,9 @@ abstract public class Box {
         return color;
     }
 
-    public String getPlayersDetails() {
+    public String getSymbolsOfPlayersInBox() {
         StringBuilder playersDetails = new StringBuilder();
-        for (Player player : playersInTheBox) {
+        for (Player player : playersInBox) {
             if (player != null)
                 playersDetails.append(player.getSymbol()).append(" ");
         }
@@ -79,8 +71,16 @@ abstract public class Box {
         return !details.isEmpty() ? details.substring(0, details.length() - 1) : "";
     }
 
-    @Override
-    public String toString() {
-        return name + ",";
+    /**
+     * Crea un array di stringhe con i dettagli del box da visualizzare, da sovrascrivere nelle classi figlie
+     * @return array di stringhe con i dettagli del box
+     */
+    public String[] getBoxDetails(){
+        String[] details = new String[HEIGHT];
+        details[0] = name;
+        for (int i = 1; i < details.length; i++) {
+            details[i] = "";
+        }
+        return details;
     }
 }

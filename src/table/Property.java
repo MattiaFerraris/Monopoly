@@ -6,8 +6,11 @@ public class Property extends Box{
     }
 
     @Override
-    public String toString() {
-        return super.toString() + "Paga " + Math.abs(super.getMoney()) + "," + super.getPlayersDetails() + "," + ",".repeat(2) + "," + super.getColor();
+    public String[] getBoxDetails() {
+        String[] details = super.getBoxDetails();
+        details[1] = "Paga " + Math.abs(super.getMoney());
+        details[2] = super.getSymbolsOfPlayersInBox();
+        return details;
     }
 
     @Override

@@ -5,15 +5,15 @@ import java.util.Random;
 public class Table {
     private int x;
     private int y;
-    final public int boxesNumber;
+    final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        this.boxesNumber = (2 * x + (y - 2) * 2); //32 (x=9, y=9)
-        boxes = generateBoxes(boxesNumber, assignBoxes());
+        this.totalBoxesCount = (2 * x + (y - 2) * 2); //32 (x=9, y=9)
+        boxes = generateBoxes(totalBoxesCount, assignBoxes());
         table = generateTable(boxes);
     }
 
@@ -67,9 +67,9 @@ public class Table {
         tmp = add(tmp, new Property(Colors.BLACK, "Società Acqua Potabile"));
         tmp = add(tmp, new Property(Colors.BLACK, "Società Elettrica"));
 
-        //DA AGGIUNGERE VERI
-        tmp = add(tmp, new LuxuryTax(200));
-        tmp = add(tmp, new WealthTax(0.10));
+        //VARIE
+        tmp = add(tmp, new LuxuryTax());
+        tmp = add(tmp, new WealthTax());
         return tmp;
     }
 
@@ -87,19 +87,24 @@ public class Table {
         return tmp;
     }
 
-    //POPOLAZIONE ARRAY CON LE PROPRIETÀ IN POSIZIONI CASUALI
-    Box[] generateBoxes(int n, Box[] boxes) {
-        Box[] boxesInTable = new Box[n];
+    /**
+     * Genera i box da inserire nella tabella
+     * @param totalBoxes
+     * @param boxes
+     * @return
+     */
+    Box[] generateBoxes(int totalBoxes, Box[] boxes) {
+        Box[] boxesInTable = new Box[totalBoxes];
         //box assegnati di default
         boxesInTable[0] = new Start(); //START
-        boxesInTable[boxesNumber / 2] = new Parking(); //PARCHEGGIO
+        boxesInTable[totalBoxesCount / 2] = new Parking(); //PARCHEGGIO
         boxesInTable[(int) x / 2] = new Property(Colors.BLACK, "Stazione SUD");
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
 
         int cnt = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < totalBoxes; i++) {
 
             if (boxesInTable[i] == null && cnt < boxes.length)
                 boxesInTable[i] = pickNewBox(boxes, boxesInTable);
@@ -156,29 +161,29 @@ public class Table {
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                stringTable += "-".repeat(Box.boxWidth * x);
+                stringTable += "-".repeat(Box.BOX_WIDTH * x);
 
             } else {
-                stringTable += "-".repeat(Box.boxWidth);
-                stringTable += " ".repeat(Box.boxWidth * (x - 2));
-                stringTable += "-".repeat(Box.boxWidth);
+                stringTable += "-".repeat(Box.BOX_WIDTH);
+                stringTable += " ".repeat(Box.BOX_WIDTH * (x - 2));
+                stringTable += "-".repeat(Box.BOX_WIDTH);
             }
             stringTable += "\n";
 
-            for (int d = 0; d < Box.height; d++) {
+            for (int d = 0; d < Box.HEIGHT; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        stringTable += " ".repeat(Box.boxWidth);
+                        stringTable += " ".repeat(Box.BOX_WIDTH);
                     }
                     if (table[i][col] != null) {
                         if(d == 0)
                             stringTable += table[i][col].getColor();
 
-                        String[] boxDetails = table[i][col].toString().split(",");
+                        String[] boxDetails = table[i][col].getBoxDetails();
 
                         stringTable += "|";
-                        stringTable += boxDetails[d] + " ".repeat(Box.boxWidth - boxDetails[d].length() - 2);
+                        stringTable += boxDetails[d] + " ".repeat(Box.BOX_WIDTH - boxDetails[d].length() - 2);
                         stringTable += "|";
                         stringTable += "\u001B[0m";
                     }
@@ -186,7 +191,7 @@ public class Table {
                 stringTable += "\n";
             }
         }
-        stringTable += "-".repeat(Box.boxWidth * x);
+        stringTable += "-".repeat(Box.BOX_WIDTH * x);
         return stringTable;
     }
 }
