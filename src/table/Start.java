@@ -9,7 +9,6 @@ public class Start extends Box{
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
         details[1] = "Ritira " + Math.abs(super.getMoney());
-        details[2] = super.getSymbolsOfPlayersInBox();
         return details;
     }
 

@@ -22,7 +22,11 @@ public class Property extends Box{
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
         details[1] = "Paga " + Math.abs(super.getMoney());
-        details[2] = super.getSymbolsOfPlayersInBox();
+        details[2] = "Prezzo acquisto " + price;
+        details[3] = "Prezzo casa: " + Math.abs(priceHouse);
+        details[4] = "Prezzo hotel: " + Math.abs(priceHotel);
+        details[5] = "Case: " + nHouses + "| Hotel: " + nHotels;
+
         return details;
     }
 

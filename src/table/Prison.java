@@ -9,7 +9,6 @@ public class Prison extends Box {
     @Override
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
-        details[2] = super.getSymbolsOfPlayersInBox();
         return details;
     }
 
