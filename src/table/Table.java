@@ -1,10 +1,11 @@
 package table;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Table {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     final public int boxesNumber;
     private Box[] boxes;
     private Box[][] table;
@@ -12,7 +13,7 @@ public class Table {
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        this.boxesNumber = (2 * x + (y - 2) * 2); //32 (x=9, y=9)
+        this.boxesNumber = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = generateBoxes(boxesNumber, assignBoxes());
         table = generateTable(boxes);
     }
@@ -67,9 +68,22 @@ public class Table {
         tmp = add(tmp, new Property(Colors.BLACK, "Società Acqua Potabile"));
         tmp = add(tmp, new Property(Colors.BLACK, "Società Elettrica"));
 
-        //DA AGGIUNGERE VERI
         tmp = add(tmp, new LuxuryTax(200));
         tmp = add(tmp, new WealthTax(0.10));
+
+
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+
+        //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+
+
         return tmp;
     }
 
@@ -152,41 +166,41 @@ public class Table {
 
     @Override
     public String toString() {
-        String stringTable = "";
+        StringBuilder stringTable = new StringBuilder();
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                stringTable += "-".repeat(Box.boxWidth * x);
+                stringTable.append("-".repeat(Box.boxWidth * x));
 
             } else {
-                stringTable += "-".repeat(Box.boxWidth);
-                stringTable += " ".repeat(Box.boxWidth * (x - 2));
-                stringTable += "-".repeat(Box.boxWidth);
+                stringTable.append("-".repeat(Box.boxWidth));
+                stringTable.append(" ".repeat(Box.boxWidth * (x - 2)));
+                stringTable.append("-".repeat(Box.boxWidth));
             }
-            stringTable += "\n";
+            stringTable.append("\n");
 
-            for (int d = 0; d < Box.height; d++) {
+            for (int d = 0; d < Box.boxHeight; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        stringTable += " ".repeat(Box.boxWidth);
+                        stringTable.append(" ".repeat(Box.boxWidth));
                     }
                     if (table[i][col] != null) {
-                        if(d == 0)
-                            stringTable += table[i][col].getColor();
+                        if (d == 0)
+                            stringTable.append(table[i][col].getColor());
 
                         String[] boxDetails = table[i][col].toString().split(",");
+                        stringTable.append("|");
 
-                        stringTable += "|";
-                        stringTable += boxDetails[d] + " ".repeat(Box.boxWidth - boxDetails[d].length() - 2);
-                        stringTable += "|";
-                        stringTable += "\u001B[0m";
+                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
+                        stringTable.append("|");
+                        stringTable.append("\u001B[0m");
                     }
                 }
-                stringTable += "\n";
+                stringTable.append("\n");
             }
         }
-        stringTable += "-".repeat(Box.boxWidth * x);
-        return stringTable;
+        stringTable.append("-".repeat(Box.boxWidth * x));
+        return stringTable.toString();
     }
 }

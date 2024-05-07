@@ -8,8 +8,8 @@ abstract public class Box {
     private Colors color;
     private final int money;
     private String name;
-    final static int boxWidth = 24;
-    final static int height = 5;
+    final static int boxWidth = 24; //inizialmente 24
+    final static int boxHeight = 7; //inizialmente 5 (da cambiare in
 
     private static final int minMoney = 50;
     private static final int maxMoney = 150;
@@ -29,7 +29,7 @@ abstract public class Box {
         this.name = name;
         this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
 
-        //creo un'array di stringhe contenente i dettagli
+        //crea un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
 
@@ -81,6 +81,6 @@ abstract public class Box {
 
     @Override
     public String toString() {
-        return name + ",";
+        return name + "," + "Prezzo Vendita: ,Costo casa: ,Costo Albergo: ,Case: 4 | Hotel: 2 ,";
     }
 }
