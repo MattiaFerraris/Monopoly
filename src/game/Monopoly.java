@@ -39,6 +39,14 @@ public class Monopoly {
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
         int newPosition = temPosition + diceNumber;
+
+        //VAI IN PRIGIONE
+        if(newPosition == (table.getX()-1)*3){
+            player.setPosition(table.getX()-1);
+            table.getBox(player.getPosition()).addPlayerToTheBox(player);
+            return;
+        }
+
         player.setPosition(newPosition >= table.totalBoxesCount ? newPosition - table.totalBoxesCount : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
@@ -77,6 +85,8 @@ public class Monopoly {
         }
         return false;
     }
+
+
 
     public void addPlayerToBox(Player player) {
         table.getBox(0).addPlayerToTheBox(player);

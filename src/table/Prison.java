@@ -6,8 +6,11 @@ public class Prison extends Box {
         super(Colors.BLACK, 0, "Prigione");
     }
 
-    public String toString() {
-        return super.toString() + "," + super.getPlayersDetails() + "," + ",".repeat(3) + "," + super.getColor();
+    @Override
+    public String[] getBoxDetails() {
+        String[] details = super.getBoxDetails();
+        details[2] = super.getSymbolsOfPlayersInBox();
+        return details;
     }
 
     @Override

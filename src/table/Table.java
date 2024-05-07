@@ -13,8 +13,8 @@ public class Table {
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        this.boxesNumber = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
-        boxes = generateBoxes(boxesNumber, assignBoxes());
+        this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
+        boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
         table = generateTable(boxes);
     }
 
@@ -59,23 +59,23 @@ public class Table {
         boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
         boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
-        tmp = add(tmp, new LuxuryTax(200));
-        tmp = add(tmp, new WealthTax(0.10));
+        boxes = add(boxes, new LuxuryTax(200));
+        boxes = add(boxes, new WealthTax(0.10));
 
 
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
 
         //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
 
 
-        return tmp;
+        return boxes;
     }
 
     private Box[] add(Box[] boxes, Box box) {
@@ -107,9 +107,9 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
         //parte nuova
-        boxesInTable[x-1] = new Prison();
-        boxesInTable[(x-1)*3] = new GoToPrison();
-
+        boxesInTable[x - 1] = new Prison();
+        boxesInTable[(x - 1) * 3] = new GoToPrison();
+    }
 
 
     private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
@@ -197,5 +197,13 @@ public class Table {
         }
         stringTable.append("-".repeat(Box.boxWidth * x));
         return stringTable.toString();
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
