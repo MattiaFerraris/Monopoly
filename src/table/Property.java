@@ -1,21 +1,46 @@
 package table;
 
 
+import player.Player;
 
 public class Property extends Box{
-    //
-    private int nHouses = 0;
-    private int nHotels = 0;
+    static final int MAX_HOUSES = 4;
+    static final int MAX_HOTELS = 1;
+    private int housesCount;
+    private int hotelsCount;
     private int priceHouse;
     private int priceHotel;
     private int price;
+    private Player owner;
 
-    //
     public Property(Colors color, String name) {
         super(color, name);
+        housesCount = 0;
+        hotelsCount = 0;
         priceHouse = Box.generateMoneyValue(75,125);
         priceHotel = Box.generateMoneyValue(95,175);
         price = Box.generateMoneyValue(150,500);
+    }
+
+    public boolean addHouse(Player player){
+        if(player.equals(owner) && housesCount < MAX_HOUSES && hotelsCount == 0){
+            housesCount++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addHotel(Player player){
+        if(player.equals(owner) && housesCount == MAX_HOUSES && hotelsCount < MAX_HOTELS){
+            hotelsCount++;
+            housesCount = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 
     @Override
