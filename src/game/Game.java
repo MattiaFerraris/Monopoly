@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class Game {
     public static final int NUMBER_OF_PLAYERS = 4;
 
-
     public static void main(String[] args) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
         Monopoly monopoly = new Monopoly();

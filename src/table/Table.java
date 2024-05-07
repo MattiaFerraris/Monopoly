@@ -1,5 +1,6 @@
 package table;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Table {
@@ -12,8 +13,8 @@ public class Table {
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        this.totalBoxesCount = (2 * x + (y - 2) * 2); //32 (x=9, y=9)
-        boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
+        this.boxesNumber = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
+        boxes = generateBoxes(boxesNumber, assignBoxes());
         table = generateTable(boxes);
     }
 
@@ -58,10 +59,23 @@ public class Table {
         boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
         boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
-        //VARIE
-        boxes = add(boxes, new LuxuryTax());
-        boxes = add(boxes, new WealthTax());
-        return boxes;
+        tmp = add(tmp, new LuxuryTax(200));
+        tmp = add(tmp, new WealthTax(0.10));
+
+
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+
+        //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
+        tmp = add(tmp, new EmptyBox());
+        tmp = add(tmp, new EmptyBox());
+
+
+        return tmp;
     }
 
     private Box[] add(Box[] boxes, Box box) {
@@ -92,7 +106,11 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
-    }
+        //parte nuova
+        boxesInTable[x-1] = new Prison();
+        boxesInTable[(x-1)*3] = new GoToPrison();
+
+
 
     private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
         Random ran = new Random();
@@ -147,29 +165,29 @@ public class Table {
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                stringTable.append("-".repeat(Box.BOX_WIDTH * x));
+                stringTable.append("-".repeat(Box.boxWidth * x));
 
             } else {
-                stringTable.append("-".repeat(Box.BOX_WIDTH));
-                stringTable.append(" ".repeat(Box.BOX_WIDTH * (x - 2)));
-                stringTable.append("-".repeat(Box.BOX_WIDTH));
+                stringTable.append("-".repeat(Box.boxWidth));
+                stringTable.append(" ".repeat(Box.boxWidth * (x - 2)));
+                stringTable.append("-".repeat(Box.boxWidth));
             }
             stringTable.append("\n");
 
-            for (int d = 0; d < Box.HEIGHT; d++) {
+            for (int d = 0; d < Box.boxHeight; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        stringTable.append(" ".repeat(Box.BOX_WIDTH));
+                        stringTable.append(" ".repeat(Box.boxWidth));
                     }
                     if (table[i][col] != null) {
-                        if(d == 0)
+                        if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
-                        String[] boxDetails = table[i][col].getBoxDetails();
-
+                        String[] boxDetails = table[i][col].toString().split(",");
                         stringTable.append("|");
-                        stringTable.append(boxDetails[d] + " ".repeat(Box.BOX_WIDTH - boxDetails[d].length() - 2));
+
+                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
                         stringTable.append("|");
                         stringTable.append("\u001B[0m");
                     }
@@ -177,7 +195,7 @@ public class Table {
                 stringTable.append("\n");
             }
         }
-        stringTable.append("-".repeat(Box.BOX_WIDTH * x));
+        stringTable.append("-".repeat(Box.boxWidth * x));
         return stringTable.toString();
     }
 }

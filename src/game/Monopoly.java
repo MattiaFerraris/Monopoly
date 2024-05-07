@@ -10,8 +10,8 @@ public class Monopoly {
 
     public static final int BANK_MONEY = 1000000;
     public static final int DICE_FACES = 6;
-    public static final int WIDTH = 9;
-    public static final int HEIGHT = 9;
+    public static final int WIDTH = 11;
+    public static final int HEIGHT = 11;
     private Table table;
     private Bank bank;
     private Dice dice1;
