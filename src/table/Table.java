@@ -59,18 +59,14 @@ public class Table {
         boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
         boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
-        boxes = add(boxes, new LuxuryTax(200));
-        boxes = add(boxes, new WealthTax(0.10));
+        boxes = add(boxes, new LuxuryTax());
+        boxes = add(boxes, new WealthTax());
 
 
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-
-        //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
 
@@ -106,7 +102,6 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
-        //parte nuova
         boxesInTable[x - 1] = new Prison();
         boxesInTable[(x - 1) * 3] = new GoToPrison();
     }
@@ -184,7 +179,7 @@ public class Table {
                         if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
-                        String[] boxDetails = table[i][col].toString().split(",");
+                        String[] boxDetails = table[i][col].getBoxDetails();
                         stringTable.append("|");
 
                         stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
