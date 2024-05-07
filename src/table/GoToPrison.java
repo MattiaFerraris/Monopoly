@@ -3,7 +3,7 @@ package table;
 public class GoToPrison extends Box{
 
     public GoToPrison() {
-        super(Colors.BLACK, 0, "Vai in prigione");
+        super(Colors.BLACK, 0, "\uD83E\uDEF5VAI IN PRIGIONE");
     }
 
     @Override

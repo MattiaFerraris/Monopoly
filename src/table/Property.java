@@ -1,8 +1,21 @@
 package table;
 
+
+
 public class Property extends Box{
+    //
+    private int nHouses = 0;
+    private int nHotels = 0;
+    private int priceHouse;
+    private int priceHotel;
+    private int price;
+
+    //
     public Property(Colors color, String name) {
         super(color, name);
+        priceHouse = Box.generateMoneyValue(75,125);
+        priceHotel = Box.generateMoneyValue(95,175);
+        price = Box.generateMoneyValue(150,500);
     }
 
     @Override
