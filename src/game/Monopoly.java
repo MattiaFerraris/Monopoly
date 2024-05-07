@@ -5,9 +5,6 @@ import gameLogic.Dice;
 import player.Player;
 import table.Box;
 import table.Table;
-import utility.ScannerUtilities;
-
-import java.util.Arrays;
 
 public class Monopoly {
 
@@ -42,7 +39,7 @@ public class Monopoly {
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
         int newPosition = temPosition + diceNumber;
-        player.setPosition(newPosition >= table.boxesNumber ? newPosition - table.boxesNumber : newPosition);
+        player.setPosition(newPosition >= table.totalBoxesCount ? newPosition - table.totalBoxesCount : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }

@@ -10,7 +10,6 @@ public class Bank {
     }
 
     public void addMoney(int amount, Player player) {
-
         if (amount >= 0) {
             this.bankMoney += amount;
             player.setBalance(player.getBalance() - amount);
@@ -24,6 +23,10 @@ public class Bank {
         }
     }
 
+    /**
+     * Metodo che aggiorna il saldo del giocatore in base all'importo passato come parametro.
+     * Se amount è negativo il giocatore perde soldi, altrimenti li guadagna.
+     */
     public void updateBalance(int amount, Player player) {
         if (amount < 0)
             addMoney(Math.abs(amount), player);

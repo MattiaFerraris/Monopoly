@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Table {
-    private final int x;
-    private final int y;
-    final public int boxesNumber;
+    private int x;
+    private int y;
+    final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
 
@@ -18,55 +18,46 @@ public class Table {
         table = generateTable(boxes);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public Box getBox(int index) {
         return boxes[index];
     }
 
 
-    Box[] assignBoxes() {
-        //24 boxes
+    private Box[] createRandomBoxes() {
         //MARRONE
-        Box[] tmp = new Box[0];
-        tmp = add(tmp, new Property(Colors.BROWN, "Vicolo Corto"));
-        tmp = add(tmp, new Property(Colors.BROWN, "Vicolo Stretto"));
+        Box[] boxes = new Box[0];
+        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Corto"));
+        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Stretto"));
         //AZZURRO
-        tmp = add(tmp, new Property(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
-        tmp = add(tmp, new Property(Colors.LIGHT_BLUE, "Viale Monterosa"));
-        tmp = add(tmp, new Property(Colors.LIGHT_BLUE, "Viale Vesuvio"));
+        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
+        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Monterosa"));
+        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Vesuvio"));
         //ROSA
-        tmp = add(tmp, new Property(Colors.PINK, "Via Accademia"));
-        tmp = add(tmp, new Property(Colors.PINK, "Corso Ateneo"));
-        tmp = add(tmp, new Property(Colors.PINK, "Piazza Università"));
+        boxes = add(boxes, new Property(Colors.PINK, "Via Accademia"));
+        boxes = add(boxes, new Property(Colors.PINK, "Corso Ateneo"));
+        boxes = add(boxes, new Property(Colors.PINK, "Piazza Università"));
         //GRIGIO
-        tmp = add(tmp, new Property(Colors.GREY, "Via Verdi"));
-        tmp = add(tmp, new Property(Colors.GREY, "Via Corso Raffaello"));
-        tmp = add(tmp, new Property(Colors.GREY, "Via Piazza Dante"));
+        boxes = add(boxes, new Property(Colors.GREY, "Via Verdi"));
+        boxes = add(boxes, new Property(Colors.GREY, "Via Corso Raffaello"));
+        boxes = add(boxes, new Property(Colors.GREY, "Via Piazza Dante"));
         //ROSSO
-        tmp = add(tmp, new Property(Colors.RED, "Via Marco Polo"));
-        tmp = add(tmp, new Property(Colors.RED, "Corso Magellano"));
-        tmp = add(tmp, new Property(Colors.RED, "Largo Colombo"));
+        boxes = add(boxes, new Property(Colors.RED, "Via Marco Polo"));
+        boxes = add(boxes, new Property(Colors.RED, "Corso Magellano"));
+        boxes = add(boxes, new Property(Colors.RED, "Largo Colombo"));
         //GIALLO
-        tmp = add(tmp, new Property(Colors.YELLOW, "Viale Costantino"));
-        tmp = add(tmp, new Property(Colors.YELLOW, "Viale Traiano"));
-        tmp = add(tmp, new Property(Colors.YELLOW, "Piazza Giulio Cesare"));
+        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Costantino"));
+        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Traiano"));
+        boxes = add(boxes, new Property(Colors.YELLOW, "Piazza Giulio Cesare"));
         //VERDE
-        tmp = add(tmp, new Property(Colors.GREEN, "Via Roma"));
-        tmp = add(tmp, new Property(Colors.GREEN, "Corso Impero"));
-        tmp = add(tmp, new Property(Colors.GREEN, "Largo Augusto"));
+        boxes = add(boxes, new Property(Colors.GREEN, "Via Roma"));
+        boxes = add(boxes, new Property(Colors.GREEN, "Corso Impero"));
+        boxes = add(boxes, new Property(Colors.GREEN, "Largo Augusto"));
         //BLU
-        tmp = add(tmp, new Property(Colors.BLUE, "Viale dei Giardini"));
-        tmp = add(tmp, new Property(Colors.BLUE, "Parco della Vittoria"));
+        boxes = add(boxes, new Property(Colors.BLUE, "Viale dei Giardini"));
+        boxes = add(boxes, new Property(Colors.BLUE, "Parco della Vittoria"));
         //NERO
-        tmp = add(tmp, new Property(Colors.BLACK, "Società Acqua Potabile"));
-        tmp = add(tmp, new Property(Colors.BLACK, "Società Elettrica"));
+        boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
+        boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
         tmp = add(tmp, new LuxuryTax(200));
         tmp = add(tmp, new WealthTax(0.10));
@@ -101,12 +92,16 @@ public class Table {
         return tmp;
     }
 
-    //POPOLAZIONE ARRAY CON LE PROPRIETÀ IN POSIZIONI CASUALI
-    Box[] generateBoxes(int n, Box[] boxes) {
-        Box[] boxesInTable = new Box[n];
-        //box assegnati di default
+    private Box[] assignBoxes(int totalBoxes, Box[] boxes) {
+        Box[] boxesInTable = new Box[totalBoxes];
+        assignDefaultBoxes(boxesInTable);
+        assignRandomBoxes(boxesInTable, boxes);
+        return boxesInTable;
+    }
+
+    private void assignDefaultBoxes(Box[] boxesInTable) {
         boxesInTable[0] = new Start(); //START
-        boxesInTable[boxesNumber / 2] = new Parking(); //PARCHEGGIO
+        boxesInTable[totalBoxesCount / 2] = new Parking(); //PARCHEGGIO
         boxesInTable[(int) x / 2] = new Property(Colors.BLACK, "Stazione SUD");
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
@@ -117,26 +112,21 @@ public class Table {
 
 
 
-        int cnt = 0;
-        for (int i = 0; i < n; i++) {
-
-            if (boxesInTable[i] == null && cnt < boxes.length)
-                boxesInTable[i] = pickNewBox(boxes, boxesInTable);
-
+    private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
+        Random ran = new Random();
+        for (int i = 0; i < boxesInTable.length; i++) {
+            if (boxesInTable[i] == null) {
+                boxesInTable[i] = pickNewBox(randomBoxes, boxesInTable);
+            }
         }
-
-        return boxesInTable;
     }
 
     private Box pickNewBox(Box[] boxes, Box[] boxesInTable) {
         Random ran = new Random();
         Box newBox;
-
         do {
             newBox = boxes[ran.nextInt(boxes.length)];
-
         } while (isBoxInTable(newBox, boxesInTable));
-
         return newBox;
     }
 
@@ -148,7 +138,7 @@ public class Table {
         return false;
     }
 
-    Box[][] generateTable(Box[] boxes) {
+    private Box[][] generateTable(Box[] boxes) {
         Box[][] table = new Box[y][x];
 
         for (int i = 0; i < x; i++) {     //popola l'ultima riga della matrice

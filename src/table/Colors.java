@@ -1,20 +1,16 @@
 package table;
 
 public enum Colors {
-    BROWN, LIGHT_BLUE, PINK, GREY, RED, YELLOW, GREEN, BLUE, BLACK;
+    BROWN("\033[94m"), LIGHT_BLUE("\033[36m"), PINK("\033[35m"), GREY("\033[37m"), RED("\033[31m"), YELLOW("\033[33m"), GREEN("\033[32m"), BLUE("\033[34m"), BLACK("\033[00m");
+
+    private final String color;
+
+    Colors(String color) {
+        this.color = color;
+    }
 
     @Override
     public String toString() {
-        return switch (this){
-            case BROWN -> "\033[94m";
-            case LIGHT_BLUE -> "\033[36m";
-            case PINK -> "\033[35m";
-            case GREY -> "\033[37m";
-            case RED -> "\033[31m";
-            case YELLOW -> "\033[33m";
-            case GREEN -> "\033[32m";
-            case BLUE -> "\033[34m";
-            case BLACK -> "\033[00m";
-        };
+        return color;
     }
 }

@@ -54,9 +54,4 @@ public class Player {
         Player player = (Player) o;
         return Objects.equals(name, player.name) || Objects.equals(symbol, player.symbol);
     }
-
-    //VISUALIZZO GIOCATORE
-    public String toString(Player player){
-        return "Nome: " + name + ", Simbolo: " + symbol + ", Posizione: " + player.getPosition() + ", Soldi: " + balance;
-    }
 }
