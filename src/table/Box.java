@@ -8,8 +8,8 @@ abstract public class Box {
     private Colors color;
     private final int money;
     private String name;
-    final static int boxWidth = 24; //inizialmente 24
-    final static int boxHeight = 7; //inizialmente 5 (da cambiare in
+    final static int WIDTH = 24; //inizialmente 24
+    final static int HEIGHT = 7; //inizialmente 5 (da cambiare in
 
     private static final int MIN_MONEY = 50;
     private static final int MAX_MONEY = 150;
@@ -19,7 +19,7 @@ abstract public class Box {
         this.color = color;
         this.money = money;
         this.name = name;
-        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
+        this.playersInBox = new Player[Game.NUMBER_OF_PLAYERS];
 
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
@@ -27,7 +27,7 @@ abstract public class Box {
     public Box(int money, String name) {
         this.money = money;
         this.name = name;
-        this.playersInTheBox = new Player[Game.NUMBER_OF_PLAYERS];
+        this.playersInBox = new Player[Game.NUMBER_OF_PLAYERS];
 
         //crea un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
