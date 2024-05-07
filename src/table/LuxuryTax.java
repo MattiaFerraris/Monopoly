@@ -14,7 +14,7 @@ public class LuxuryTax extends Box{
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
         details[1] = "Paga " + Math.abs(super.getMoney());
-        details[2] = super.getSymbolsOfPlayersInBox();
+
         return details;
     }
 

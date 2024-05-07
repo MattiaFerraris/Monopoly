@@ -2,12 +2,14 @@ package table;
 
 import game.Game;
 import player.Player;
+
 import java.util.Random;
 
 abstract public class Box {
     private Colors color;
     private final int money;
     private String name;
+
     final static int WIDTH = 24; //inizialmente 24
     final static int HEIGHT = 7; //inizialmente 5 (da cambiare in
 
@@ -24,6 +26,7 @@ abstract public class Box {
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
+
     public Box(int money, String name) {
         this.money = money;
         this.name = name;
@@ -33,22 +36,22 @@ abstract public class Box {
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
     }
 
-    public Box(Colors color, String name){
-        this(color, -generateMoneyValue(MIN_MONEY, MAX_MONEY) ,name);
+    public Box(Colors color, String name) {
+        this(color, -generateMoneyValue(MIN_MONEY, MAX_MONEY), name);
     }
 
-    private static int generateMoneyValue(int min, int max) {
+    static int generateMoneyValue(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
 
     public void removePlayerFromTheBox(Player player) {
         for (int i = 0; i < playersInBox.length; i++) {
-            if(playersInBox[i].equals(player)) {
-                for (int j = i; j < playersInBox.length-1; j++) {
+            if (playersInBox[i].equals(player)) {
+                for (int j = i; j < playersInBox.length - 1; j++) {
                     playersInBox[j] = playersInBox[j + 1];
                 }
-                playersInBox[playersInBox.length-1] = null;
+                playersInBox[playersInBox.length - 1] = null;
                 return;
             }
         }
@@ -56,12 +59,13 @@ abstract public class Box {
 
     public void addPlayerToTheBox(Player player) {
         for (int i = 0; i < playersInBox.length; i++) {
-            if(playersInBox[i] == null) {
+            if (playersInBox[i] == null) {
                 playersInBox[i] = player;
                 return;
             }
         }
     }
+
     public int getMoney() {
         return money;
     }
@@ -84,14 +88,18 @@ abstract public class Box {
 
     /**
      * Crea un array di stringhe con i dettagli del box da visualizzare, da sovrascrivere nelle classi figlie
+     *
      * @return array di stringhe con i dettagli del box
      */
-    public String[] getBoxDetails(){
+    public String[] getBoxDetails() {
         String[] details = new String[HEIGHT];
-        details[0] = name;
-        for (int i = 1; i < details.length; i++) {
+        for (int i = 0; i < details.length; i++) {
             details[i] = "";
         }
+        details[0] = name;
+        details[HEIGHT-1] = getSymbolsOfPlayersInBox();
+
+
         return details;
     }
 }
