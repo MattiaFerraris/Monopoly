@@ -165,20 +165,20 @@ public class Table {
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                stringTable.append("-".repeat(Box.boxWidth * x));
+                stringTable.append("-".repeat(Box.WIDTH * x));
 
             } else {
-                stringTable.append("-".repeat(Box.boxWidth));
-                stringTable.append(" ".repeat(Box.boxWidth * (x - 2)));
-                stringTable.append("-".repeat(Box.boxWidth));
+                stringTable.append("-".repeat(Box.WIDTH));
+                stringTable.append(" ".repeat(Box.WIDTH * (x - 2)));
+                stringTable.append("-".repeat(Box.WIDTH));
             }
             stringTable.append("\n");
 
-            for (int d = 0; d < Box.boxHeight; d++) {
+            for (int d = 0; d < Box.HEIGHT; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        stringTable.append(" ".repeat(Box.boxWidth));
+                        stringTable.append(" ".repeat(Box.WIDTH));
                     }
                     if (table[i][col] != null) {
                         if (d == 0)
@@ -187,7 +187,7 @@ public class Table {
                         String[] boxDetails = table[i][col].toString().split(",");
                         stringTable.append("|");
 
-                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
+                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
                         stringTable.append("|");
                         stringTable.append("\u001B[0m");
                     }
@@ -195,7 +195,7 @@ public class Table {
                 stringTable.append("\n");
             }
         }
-        stringTable.append("-".repeat(Box.boxWidth * x));
+        stringTable.append("-".repeat(Box.WIDTH * x));
         return stringTable.toString();
     }
 
