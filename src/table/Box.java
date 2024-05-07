@@ -8,6 +8,7 @@ abstract public class Box {
     private Colors color;
     private final int money;
     private String name;
+
     final static int WIDTH = 24; //inizialmente 24
     final static int HEIGHT = 7; //inizialmente 5 (da cambiare in
 
@@ -37,7 +38,7 @@ abstract public class Box {
         this(color, -generateMoneyValue(MIN_MONEY, MAX_MONEY) ,name);
     }
 
-    private static int generateMoneyValue(int min, int max) {
+    static int generateMoneyValue(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }

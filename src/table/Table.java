@@ -70,10 +70,6 @@ public class Table {
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
 
-        //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-
 
         return boxes;
     }
@@ -102,13 +98,12 @@ public class Table {
     private void assignDefaultBoxes(Box[] boxesInTable) {
         boxesInTable[0] = new Start(); //START
         boxesInTable[totalBoxesCount / 2] = new Parking(); //PARCHEGGIO
-        boxesInTable[(int) x / 2] = new Property(Colors.BLACK, "Stazione SUD");
-        boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
-        boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
-        boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
-        //parte nuova
-        boxesInTable[x - 1] = new Prison();
-        boxesInTable[(x - 1) * 3] = new GoToPrison();
+        boxesInTable[(int) x / 2] = new Property(Colors.BLACK, "Stazione SUD \uD83D\uDE82");
+        boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST \uD83D\uDE82");
+        boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD \uD83D\uDE82");
+        boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST \uD83D\uDE82");
+        boxesInTable[x - 1] = new Prison();  //PRIGIONE
+        boxesInTable[(x - 1) * 3] = new GoToPrison();   //VAI IN PRIGIONE
     }
 
 
@@ -184,7 +179,7 @@ public class Table {
                         if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
-                        String[] boxDetails = table[i][col].toString().split(",");
+                        String[] boxDetails = table[i][col].getBoxDetails();
                         stringTable.append("|");
 
                         stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
