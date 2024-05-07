@@ -111,6 +111,11 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
+        //parte nuova
+        boxesInTable[x-1] = new Prison();
+        boxesInTable[(x-1)*3] = new GoToPrison();
+
+
 
         int cnt = 0;
         for (int i = 0; i < n; i++) {
