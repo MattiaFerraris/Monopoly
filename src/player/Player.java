@@ -9,12 +9,16 @@ public class Player {
     private String symbol;
     private int position;
     private int balance;
+    private boolean isInPrison;
+    private int nPrisonTurn;
 
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
         this.balance = INITIAL_BALANCE;
+        isInPrison = false;
+        nPrisonTurn = 0;
     }
 
     //SETTER
@@ -32,6 +36,12 @@ public class Player {
     public void setBalance(int balance) {
         this.balance = balance;
     }
+    public void setInPrison(boolean inPrison) {
+        isInPrison = inPrison;
+    }
+    public void setnPrisonTurn(int nPrisonTurn) {
+        this.nPrisonTurn = nPrisonTurn;
+    }
 
     //GETTER
     public String getName() {
@@ -45,6 +55,12 @@ public class Player {
     }
     public int getBalance() {
         return balance;
+    }
+    public boolean isInPrison() {
+        return isInPrison;
+    }
+    public int getnPrisonTurn() {
+        return nPrisonTurn;
     }
 
     @Override

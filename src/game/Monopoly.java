@@ -12,6 +12,7 @@ public class Monopoly {
     public static final int DICE_FACES = 6;
     public static final int WIDTH = 11;
     public static final int HEIGHT = 11;
+    public static final int NPRISONTURNS = 3;
     private Table table;
     private Bank bank;
     private Dice dice1;
@@ -33,17 +34,31 @@ public class Monopoly {
     }
 
     public void movePlayer(Player player) {
-        int diceNumber = diceRoll();
-        System.out.print("Numero uscito dal dado: " + diceNumber + "\n");
+        int dado1 = dice1.roll();
+        int dado2 = dice2.roll();
+
+        move(player, dado1, dado2);
+    }
+
+    public void move(Player player, int dado1, int dado2){
+        //SE IN PRIGIONE
+        if(player.isInPrison()){
+            inPrison(player);
+            return;
+        }
+
+        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
-        int newPosition = temPosition + diceNumber;
+        int newPosition = temPosition + (dado1+dado2);
 
         //VAI IN PRIGIONE
         if(newPosition == (table.getX()-1)*3){
             player.setPosition(table.getX()-1);
             table.getBox(player.getPosition()).addPlayerToTheBox(player);
+            player.setnPrisonTurn(NPRISONTURNS);
+            player.setInPrison(true);
             return;
         }
 
@@ -51,6 +66,30 @@ public class Monopoly {
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }
+
+    private void inPrison(Player player){
+        int dado1 = dice1.roll();
+        int dado2 = dice2.roll();
+
+        System.out.println("Turni rimanenti in prigione: " + player.getnPrisonTurn() + "\n");
+
+        if(player.getnPrisonTurn() == 0){
+            System.out.println("Pagati 50 CHF per uscire di prigione");
+            bank.updateBalance(-50, player);
+            player.setInPrison(false);
+            move(player, dado1, dado2);
+        } else if(dado1 == dado2){
+            player.setInPrison(false);
+            move(player, dado1, dado2);
+        }
+        else{
+            System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+            System.out.println("NO DADO DOPPIO");
+            player.setnPrisonTurn(player.getnPrisonTurn()-1);
+        }
+    }
+
+
 
     private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
         if (newPosition == 0)

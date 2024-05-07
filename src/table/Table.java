@@ -184,7 +184,7 @@ public class Table {
                         if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
-                        String[] boxDetails = table[i][col].toString().split(",");
+                        String[] boxDetails = table[i][col].getBoxDetails();
                         stringTable.append("|");
 
                         stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
