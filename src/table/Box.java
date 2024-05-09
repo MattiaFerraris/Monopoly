@@ -76,6 +76,10 @@ abstract public class Box {
         return color;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getSymbolsOfPlayersInBox() {
         StringBuilder playersDetails = new StringBuilder();
         for (Player player : playersInBox) {

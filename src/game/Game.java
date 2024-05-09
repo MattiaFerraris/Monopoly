@@ -1,6 +1,9 @@
 package game;
 
 import player.Player;
+import table.Box;
+import table.BuildableProperty;
+import table.Property;
 import utility.ScannerUtilities;
 
 import java.util.Arrays;
@@ -45,9 +48,27 @@ public class Game {
                     break;
 
                 case 2:
+                    int prevPosition = players[turn].getPosition();
                     monopoly.movePlayer(players[turn]);
-                    turn = nextTurn(turn, players.length);
                     monopoly.showTable();
+                    Box box = monopoly.getBox(players[turn]);
+                    if(box instanceof Property property){
+                        if(property.getOwner()==null){
+                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): "))
+                                if(!monopoly.buyProperty(players[turn], property))
+                                    monopoly.payPropertyFee(players[turn], property);
+                        } else if(!property.getOwner().equals(players[turn])){
+                            monopoly.payPropertyFee(players[turn], property);
+                        } else if(monopoly.hasPlayerAllSameColorProperties(players[turn], property)){
+                            BuildableProperty buildableProperty = (BuildableProperty) property;
+                            if(buildableProperty.getHousesCount()<4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
+                                monopoly.buildHouse(players[turn], buildableProperty);
+                            else if(buildableProperty.getHousesCount()==4 && buildableProperty.getHotelsCount()==0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
+                                monopoly.buildHotel(players[turn], buildableProperty);
+                        }
+                    } else
+                        monopoly.updateBalance(prevPosition, players[turn].getPosition(), players[turn]);
+                    turn = nextTurn(turn, players.length);
                     break;
 
                 default:

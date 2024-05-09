@@ -9,12 +9,19 @@ public class Table {
     final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
+    private int[] propertyCount = new int[8];
+
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
+        for(Box box : boxes){
+            if(box instanceof BuildableProperty){
+                propertyCount[box.getColor().ordinal()]++;
+            }
+        }
         table = generateTable(boxes);
     }
 
@@ -26,38 +33,38 @@ public class Table {
     private Box[] createRandomBoxes() {
         //MARRONE
         Box[] boxes = new Box[0];
-        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Corto"));
-        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Stretto"));
+        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Corto"));
+        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Stretto"));
         //AZZURRO
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Monterosa"));
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Vesuvio"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Monterosa"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Vesuvio"));
         //ROSA
-        boxes = add(boxes, new Property(Colors.PINK, "Via Accademia"));
-        boxes = add(boxes, new Property(Colors.PINK, "Corso Ateneo"));
-        boxes = add(boxes, new Property(Colors.PINK, "Piazza Università"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Via Accademia"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Corso Ateneo"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Piazza Università"));
         //GRIGIO
-        boxes = add(boxes, new Property(Colors.GREY, "Via Verdi"));
-        boxes = add(boxes, new Property(Colors.GREY, "Via Corso Raffaello"));
-        boxes = add(boxes, new Property(Colors.GREY, "Via Piazza Dante"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Verdi"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Corso Raffaello"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Piazza Dante"));
         //ROSSO
-        boxes = add(boxes, new Property(Colors.RED, "Via Marco Polo"));
-        boxes = add(boxes, new Property(Colors.RED, "Corso Magellano"));
-        boxes = add(boxes, new Property(Colors.RED, "Largo Colombo"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Via Marco Polo"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Corso Magellano"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Largo Colombo"));
         //GIALLO
-        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Costantino"));
-        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Traiano"));
-        boxes = add(boxes, new Property(Colors.YELLOW, "Piazza Giulio Cesare"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Costantino"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Traiano"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Piazza Giulio Cesare"));
         //VERDE
-        boxes = add(boxes, new Property(Colors.GREEN, "Via Roma"));
-        boxes = add(boxes, new Property(Colors.GREEN, "Corso Impero"));
-        boxes = add(boxes, new Property(Colors.GREEN, "Largo Augusto"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Via Roma"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Corso Impero"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Largo Augusto"));
         //BLU
-        boxes = add(boxes, new Property(Colors.BLUE, "Viale dei Giardini"));
-        boxes = add(boxes, new Property(Colors.BLUE, "Parco della Vittoria"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Viale dei Giardini"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Parco della Vittoria"));
         //NERO
-        boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
-        boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLACK, "Società Acqua Potabile"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLACK, "Società Elettrica"));
 
         boxes = add(boxes, new LuxuryTax());
         boxes = add(boxes, new WealthTax());
@@ -194,11 +201,19 @@ public class Table {
         return stringTable.toString();
     }
 
+    public int getPropertyCount(Colors color){
+        return propertyCount[color.ordinal()];
+    }
+
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
+    }
+
+    public Box[] getBoxes() {
+        return boxes;
     }
 }

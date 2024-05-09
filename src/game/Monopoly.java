@@ -3,8 +3,7 @@ package game;
 import gameLogic.Bank;
 import gameLogic.Dice;
 import player.Player;
-import table.Box;
-import table.Table;
+import table.*;
 
 public class Monopoly {
 
@@ -64,7 +63,32 @@ public class Monopoly {
 
         player.setPosition(newPosition >= table.totalBoxesCount ? newPosition - table.totalBoxesCount : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
-        updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
+        //updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
+    }
+
+    public Box getBox(Player player){
+        return table.getBox(player.getPosition());
+    }
+
+    public boolean buyProperty(Player player, Property property){
+        if(player.getBalance() >= property.getPrice()){
+            bank.updateBalance(-property.getPrice(), player);
+            property.setOwner(player);
+            System.out.println("Proprietà acquistata");
+            return true;
+        }
+        else
+            System.out.println("Non hai abbastanza soldi");
+        return false;
+    }
+
+    public void payPropertyFee(Player player, Property property){
+        Player owner = property.getOwner();
+        if(owner != null){
+            bank.transferMoney(property.getMoney(player.getBalance()), owner, player);
+            System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
+        }
+        bank.updateBalance(-property.getMoney(player.getBalance()), player);
     }
 
     private void inPrison(Player player){
@@ -91,7 +115,8 @@ public class Monopoly {
 
 
 
-    private void updateBalance(int oldPosition, int newPosition, Box newBox, Player player) {
+    public void updateBalance(int oldPosition, int newPosition, Player player) {
+        Box newBox = table.getBox(newPosition);
         if (newPosition == 0)
             bank.updateBalance(100, player);
         else if (oldPosition > newPosition) {
@@ -100,6 +125,32 @@ public class Monopoly {
         } else
             bank.updateBalance(newBox.getMoney(player.getBalance()), player);
 
+    }
+
+    public boolean hasPlayerAllSameColorProperties(Player player, Property property){
+        int count = 0;
+        Colors color = property.getColor();
+        if(color == Colors.BLACK)
+            return false;
+
+        for (int i = 0; i < table.totalBoxesCount; i++) {
+            if(table.getBox(i).getColor() == color){
+                if(((Property)table.getBox(i)).getOwner() == player)
+                    count++;
+            }
+        }
+
+        return count == table.getPropertyCount(color);
+    }
+
+    public void buildHouse(Player player, BuildableProperty property){
+        property.addHouse(player);
+        bank.updateBalance(-property.getPriceHouse(), player);
+    }
+
+    public void buildHotel(Player player, BuildableProperty property){
+        property.addHotel(player);
+        bank.updateBalance(-property.getPriceHotel(), player);
     }
 
     public void showBalance(Player player) {
@@ -114,6 +165,10 @@ public class Monopoly {
             if (players[i].getBalance() <= 0) {
                 cntPlayers -= 1;
                 System.out.println("Giocatore " + players[i].getName() + " ha perso");
+                for(Box box : table.getBoxes())
+                    if(box instanceof Property property)
+                        if(property.getOwner() == players[i])
+                            property.setOwner(null);
                 players[i] = null;
 
                 if (cntPlayers == 1) {
