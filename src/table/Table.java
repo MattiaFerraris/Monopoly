@@ -9,7 +9,7 @@ public class Table {
     final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
-    private int[] propertyCount = new int[8];
+    private int[] propertyCount = new int[Colors.values().length-1];
 
 
     public Table(int x, int y) {
@@ -18,7 +18,7 @@ public class Table {
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
         for(Box box : boxes){
-            if(box instanceof BuildableProperty){
+            if(box.getColor()!=Colors.BLACK){
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
