@@ -13,8 +13,6 @@ public class Property extends Box{
     }
 
 
-
-
     public Player getOwner() {
         return owner;
     }

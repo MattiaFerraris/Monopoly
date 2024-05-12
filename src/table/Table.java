@@ -9,7 +9,7 @@ public class Table {
     final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
-    private int[] propertyCount = new int[Colors.values().length-1];
+    private int[] propertyCount = new int[Colors.values().length - 1];
 
 
     public Table(int x, int y) {
@@ -17,8 +17,8 @@ public class Table {
         this.y = y;
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
-        for(Box box : boxes){
-            if(box.getColor()!=Colors.BLACK){
+        for (Box box : boxes) {
+            if (box.getColor() != Colors.BLACK) {
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
@@ -183,15 +183,15 @@ public class Table {
                         stringTable.append(" ".repeat(Box.WIDTH));
                     }
                     if (table[i][col] != null) {
+                        stringTable.append("❙");
                         if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
                         String[] boxDetails = table[i][col].getBoxDetails();
-                        stringTable.append("❙");
 
                         stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
-                        stringTable.append("❙");
                         stringTable.append("\u001B[0m");
+                        stringTable.append("❙");
                     }
                 }
                 stringTable.append("\n");
@@ -201,7 +201,7 @@ public class Table {
         return stringTable.toString();
     }
 
-    public int getPropertyCount(Colors color){
+    public int getPropertyCount(Colors color) {
         return propertyCount[color.ordinal()];
     }
 

@@ -74,7 +74,7 @@ public class Monopoly {
         if(player.getBalance() >= property.getPrice()){
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
-            System.out.println("Proprietà acquistata");
+            System.out.println(player.getName() + " ha acquistato " + property.getName() + "!");
             return true;
         }
         else
