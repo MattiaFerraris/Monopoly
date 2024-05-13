@@ -81,6 +81,7 @@ abstract public class Box {
     }
 
     public String getSymbolsOfPlayersInBox() {
+
         StringBuilder playersDetails = new StringBuilder();
         for (Player player : playersInBox) {
             if (player != null)
@@ -101,8 +102,7 @@ abstract public class Box {
             details[i] = "";
         }
         details[0] = name;
-        details[HEIGHT-1] = getSymbolsOfPlayersInBox();
-
+        details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
 
         return details;
     }
