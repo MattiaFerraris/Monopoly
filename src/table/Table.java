@@ -198,7 +198,7 @@ public class Table {
                 stringTable.append("\n");
             }
         }
-        stringTable.append("⚊".repeat(Box.WIDTH * x));
+        stringTable.append("-".repeat(Box.WIDTH * x));
         return stringTable.toString();
     }
 
