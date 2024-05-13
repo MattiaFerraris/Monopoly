@@ -37,8 +37,12 @@ public class Bank {
 
     /**
      * Metodo che aggiorna il saldo dei giocatori in base all'importo passato come parametro.
+     * @param amount Quantità di denaro che Player1 paga a Player2.
+     * @param player1 Giocatore che paga.
+     * @param player2 Giocatore che riceve.
      */
     public boolean transferMoney(int amount, Player player1, Player player2) {
+        amount = Math.abs(amount);
         if(player1.getBalance() < amount)
             return false;
         player1.setBalance(player1.getBalance() - amount);

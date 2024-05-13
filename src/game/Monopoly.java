@@ -85,8 +85,9 @@ public class Monopoly {
     public void payPropertyFee(Player player, Property property){
         Player owner = property.getOwner();
         if(owner != null){
-            bank.transferMoney(property.getMoney(player.getBalance()), owner, player);
+            bank.transferMoney(property.getMoney(player.getBalance()), player, owner);
             System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
+            return;
         }
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
