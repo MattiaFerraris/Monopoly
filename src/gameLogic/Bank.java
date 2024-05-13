@@ -36,11 +36,7 @@ public class Bank {
     }
 
     /**
-     * Metodo che aggiorna il saldo del giocatore in base all'importo passato come parametro.
-     *
-     * @param amount Se è negativo il giocatore perde soldi, altrimenti li guadagna.
-     * @param player1 Giocatore che perde i soldi
-     * @param player2 Giocatore che guadagna i soldi
+     * Metodo che aggiorna il saldo dei giocatori in base all'importo passato come parametro.
      */
     public boolean transferMoney(int amount, Player player1, Player player2) {
         if(player1.getBalance() < amount)

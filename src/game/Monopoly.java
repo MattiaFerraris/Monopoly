@@ -88,7 +88,7 @@ public class Monopoly {
             bank.transferMoney(property.getMoney(player.getBalance()), owner, player);
             System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
         }
-        bank.updateBalance(-property.getMoney(player.getBalance()), player);
+        bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
     private void inPrison(Player player){

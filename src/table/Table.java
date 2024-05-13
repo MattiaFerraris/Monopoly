@@ -18,7 +18,7 @@ public class Table {
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
         for(Box box : boxes){
-            if(box instanceof BuildableProperty){
+            if(box.getColor() != Colors.BLACK){
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
@@ -63,8 +63,8 @@ public class Table {
         boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Viale dei Giardini"));
         boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Parco della Vittoria"));
         //NERO
-        boxes = add(boxes, new BuildableProperty(Colors.BLACK, "Società Acqua Potabile"));
-        boxes = add(boxes, new BuildableProperty(Colors.BLACK, "Società Elettrica"));
+        boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
+        boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
         boxes = add(boxes, new LuxuryTax());
         boxes = add(boxes, new WealthTax());

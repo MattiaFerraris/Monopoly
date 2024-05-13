@@ -54,9 +54,11 @@ public class Game {
                     Box box = monopoly.getBox(players[turn]);
                     if(box instanceof Property property){
                         if(property.getOwner()==null){
-                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): "))
+                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): ")){
                                 if(!monopoly.buyProperty(players[turn], property))
                                     monopoly.payPropertyFee(players[turn], property);
+                            } else
+                                monopoly.payPropertyFee(players[turn], property);
                         } else if(!property.getOwner().equals(players[turn])){
                             monopoly.payPropertyFee(players[turn], property);
                         } else if(monopoly.hasPlayerAllSameColorProperties(players[turn], property)){
