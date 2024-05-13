@@ -36,6 +36,13 @@ public class BuildableProperty extends Property{
     }
 
     @Override
+    public void reset() {
+        super.reset();
+        housesCount = 0;
+        hotelsCount = 0;
+    }
+
+    @Override
     public int getMoney(int money) {
         return super.getMoney(money)+housesCount*15+hotelsCount*100;
     }

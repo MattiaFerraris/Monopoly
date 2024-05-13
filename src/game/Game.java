@@ -23,7 +23,6 @@ public class Game {
         System.out.println("Inserire il nome e il simbolo\n");
         players = generatePlayers(scannerUtilities, monopoly);
         monopoly.showTable();
-
         while (!monopoly.isGameOver(players)) {
             int playerLost = 0;
             for (int i = 0; i < players.length; i++) {
@@ -38,7 +37,6 @@ public class Game {
 
             if(playerLost>0 && turn !=0)
                 turn--;
-
             System.out.println("\nTurno di " + players[turn].getName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
 
@@ -54,9 +52,11 @@ public class Game {
                     Box box = monopoly.getBox(players[turn]);
                     if(box instanceof Property property){
                         if(property.getOwner()==null){
-                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): "))
+                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): ")){
                                 if(!monopoly.buyProperty(players[turn], property))
                                     monopoly.payPropertyFee(players[turn], property);
+                            } else
+                                monopoly.payPropertyFee(players[turn], property);
                         } else if(!property.getOwner().equals(players[turn])){
                             monopoly.payPropertyFee(players[turn], property);
                         } else if(monopoly.hasPlayerAllSameColorProperties(players[turn], property)){

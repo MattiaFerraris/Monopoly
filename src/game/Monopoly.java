@@ -168,7 +168,7 @@ public class Monopoly {
                 for(Box box : table.getBoxes())
                     if(box instanceof Property property)
                         if(property.getOwner() == players[i])
-                            property.setOwner(null);
+                            property.reset();
                 players[i] = null;
 
                 if (cntPlayers == 1) {

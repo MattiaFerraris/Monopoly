@@ -12,6 +12,9 @@ public class Property extends Box{
         price = Box.generateMoneyValue(150,500);
     }
 
+    public void reset(){
+        owner = null;
+    }
 
     public Player getOwner() {
         return owner;
@@ -29,7 +32,7 @@ public class Property extends Box{
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
         details[1] = "Paga " + Math.abs(super.getMoney());
-        details[2] = "Prezzo acquisto " + price;
+        details[2] = owner!=null?owner.getName():("Prezzo acquisto " + price);
         return details;
     }
 
