@@ -3,11 +3,14 @@ package table;
 public class GoToPrison extends Box{
 
     public GoToPrison() {
-        super(Colors.BLACK, 0, "Vai in prigione");
+        super(Colors.BLACK, 0, "\uD83E\uDEF5VAI IN PRIGIONE");
     }
 
-    public String toString() {
-        return super.toString() + "," + super.getPlayersDetails() + "," + ",".repeat(3) + "," + super.getColor();
+    @Override
+    public String[] getBoxDetails() {
+        String[] details = super.getBoxDetails();
+
+        return details;
     }
 
     @Override

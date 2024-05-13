@@ -9,12 +9,19 @@ public class Table {
     final public int totalBoxesCount;
     private Box[] boxes;
     private Box[][] table;
+    private int[] propertyCount = new int[8];
+
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
-        this.boxesNumber = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
-        boxes = generateBoxes(boxesNumber, assignBoxes());
+        this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
+        boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
+        for(Box box : boxes){
+            if(box.getColor() != Colors.BLACK){
+                propertyCount[box.getColor().ordinal()]++;
+            }
+        }
         table = generateTable(boxes);
     }
 
@@ -26,56 +33,52 @@ public class Table {
     private Box[] createRandomBoxes() {
         //MARRONE
         Box[] boxes = new Box[0];
-        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Corto"));
-        boxes = add(boxes, new Property(Colors.BROWN, "Vicolo Stretto"));
+        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Corto"));
+        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Stretto"));
         //AZZURRO
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Monterosa"));
-        boxes = add(boxes, new Property(Colors.LIGHT_BLUE, "Viale Vesuvio"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Monterosa"));
+        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Vesuvio"));
         //ROSA
-        boxes = add(boxes, new Property(Colors.PINK, "Via Accademia"));
-        boxes = add(boxes, new Property(Colors.PINK, "Corso Ateneo"));
-        boxes = add(boxes, new Property(Colors.PINK, "Piazza Università"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Via Accademia"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Corso Ateneo"));
+        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Piazza Università"));
         //GRIGIO
-        boxes = add(boxes, new Property(Colors.GREY, "Via Verdi"));
-        boxes = add(boxes, new Property(Colors.GREY, "Via Corso Raffaello"));
-        boxes = add(boxes, new Property(Colors.GREY, "Via Piazza Dante"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Verdi"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Corso Raffaello"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Piazza Dante"));
         //ROSSO
-        boxes = add(boxes, new Property(Colors.RED, "Via Marco Polo"));
-        boxes = add(boxes, new Property(Colors.RED, "Corso Magellano"));
-        boxes = add(boxes, new Property(Colors.RED, "Largo Colombo"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Via Marco Polo"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Corso Magellano"));
+        boxes = add(boxes, new BuildableProperty(Colors.RED, "Largo Colombo"));
         //GIALLO
-        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Costantino"));
-        boxes = add(boxes, new Property(Colors.YELLOW, "Viale Traiano"));
-        boxes = add(boxes, new Property(Colors.YELLOW, "Piazza Giulio Cesare"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Costantino"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Traiano"));
+        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Piazza Giulio Cesare"));
         //VERDE
-        boxes = add(boxes, new Property(Colors.GREEN, "Via Roma"));
-        boxes = add(boxes, new Property(Colors.GREEN, "Corso Impero"));
-        boxes = add(boxes, new Property(Colors.GREEN, "Largo Augusto"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Via Roma"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Corso Impero"));
+        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Largo Augusto"));
         //BLU
-        boxes = add(boxes, new Property(Colors.BLUE, "Viale dei Giardini"));
-        boxes = add(boxes, new Property(Colors.BLUE, "Parco della Vittoria"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Viale dei Giardini"));
+        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Parco della Vittoria"));
         //NERO
         boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
         boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
 
-        tmp = add(tmp, new LuxuryTax(200));
-        tmp = add(tmp, new WealthTax(0.10));
+        boxes = add(boxes, new LuxuryTax());
+        boxes = add(boxes, new WealthTax());
 
 
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
-
-        //DA SOSTITUIRE CON PRIGIONE E VaiInPrigione x Mattia
-        tmp = add(tmp, new EmptyBox());
-        tmp = add(tmp, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
+        boxes = add(boxes, new EmptyBox());
 
 
-        return tmp;
+        return boxes;
     }
 
     private Box[] add(Box[] boxes, Box box) {
@@ -106,10 +109,9 @@ public class Table {
         boxesInTable[(int) x / 2 + (x - 1)] = new Property(Colors.BLACK, "Stazione OVEST");
         boxesInTable[(int) x / 2 + (x - 1) * 2] = new Property(Colors.BLACK, "Stazione NORD");
         boxesInTable[(int) x / 2 + (x - 1) * 3] = new Property(Colors.BLACK, "Stazione EST");
-        //parte nuova
-        boxesInTable[x-1] = new Prison();
-        boxesInTable[(x-1)*3] = new GoToPrison();
-
+        boxesInTable[x - 1] = new Prison();
+        boxesInTable[(x - 1) * 3] = new GoToPrison();
+    }
 
 
     private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
@@ -165,37 +167,53 @@ public class Table {
         for (int i = 0; i < x; i++) {
 
             if (i == 0 || i == 1 || i == x - 1) {
-                stringTable.append("-".repeat(Box.boxWidth * x));
+                stringTable.append("⚊".repeat(Box.WIDTH * x));
 
             } else {
-                stringTable.append("-".repeat(Box.boxWidth));
-                stringTable.append(" ".repeat(Box.boxWidth * (x - 2)));
-                stringTable.append("-".repeat(Box.boxWidth));
+                stringTable.append("⚊".repeat(Box.WIDTH));
+                stringTable.append(" ".repeat(Box.WIDTH * (x - 2)));
+                stringTable.append("⚊".repeat(Box.WIDTH));
             }
             stringTable.append("\n");
 
-            for (int d = 0; d < Box.boxHeight; d++) {
+            for (int d = 0; d < Box.HEIGHT; d++) {
                 for (int col = 0; col < table[d].length; col++) {
 
                     if (table[i][col] == null) {
-                        stringTable.append(" ".repeat(Box.boxWidth));
+                        stringTable.append(" ".repeat(Box.WIDTH));
                     }
                     if (table[i][col] != null) {
                         if (d == 0)
                             stringTable.append(table[i][col].getColor());
 
-                        String[] boxDetails = table[i][col].toString().split(",");
-                        stringTable.append("|");
+                        String[] boxDetails = table[i][col].getBoxDetails();
+                        stringTable.append("❙");
 
-                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.boxWidth - boxDetails[d].length() - 2));
-                        stringTable.append("|");
+                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
+                        stringTable.append("❙");
                         stringTable.append("\u001B[0m");
                     }
                 }
                 stringTable.append("\n");
             }
         }
-        stringTable.append("-".repeat(Box.boxWidth * x));
+        stringTable.append("⚊".repeat(Box.WIDTH * x));
         return stringTable.toString();
+    }
+
+    public int getPropertyCount(Colors color){
+        return propertyCount[color.ordinal()];
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Box[] getBoxes() {
+        return boxes;
     }
 }
