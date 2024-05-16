@@ -17,8 +17,8 @@ public class Table {
         this.y = y;
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
-        for(Box box : boxes){
-            if(box.getColor() != Colors.BLACK){
+        for (Box box : boxes) {
+            if (box.getColor() != Colors.BLACK) {
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
@@ -181,6 +181,7 @@ public class Table {
 
                     if (table[i][col] == null) {
                         stringTable.append(" ".repeat(Box.WIDTH));
+
                     }
                     if (table[i][col] != null) {
                         stringTable.append("|");
@@ -189,8 +190,11 @@ public class Table {
 
                         String[] boxDetails = table[i][col].getBoxDetails();
 
-
-                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
+                        if(d == Box.HEIGHT - 1){
+                            stringTable.append(printSymbolLine(table[i][col],boxDetails[d]));
+                        }
+                        else
+                            stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
                         stringTable.append("\u001B[0m");
                         stringTable.append("|");
                     }
@@ -202,7 +206,15 @@ public class Table {
         return stringTable.toString();
     }
 
-    public int getPropertyCount(Colors color){
+    private String printSymbolLine(Box box, String symbolString){
+        if(box.getCntPlayersInTheBox() > 0){
+            return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 1);
+        }
+        return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 2);
+
+    }
+
+    public int getPropertyCount(Colors color) {
         return propertyCount[color.ordinal()];
     }
 

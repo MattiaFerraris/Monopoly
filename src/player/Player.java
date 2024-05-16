@@ -25,25 +25,29 @@ public class Player {
 
     //SETTER
     public void setName(String name) {
-        if(name.length() > 15)
+        if (name.length() > 15)
             this.name = name.substring(0, 15);
         else
             this.name = name;
     }
 
     public void setSymbol(String symbol) {
-        if(symbol.length() == 1)
+        if (symbol.length() == 1)
             this.symbol = symbol;
     }
+
     public void setPosition(int position) {
         this.position = position;
     }
+
     public void setBalance(int balance) {
         this.balance = balance;
     }
+
     public void setInPrison(boolean inPrison) {
         isInPrison = inPrison;
     }
+
     public void setnPrisonTurn(int nPrisonTurn) {
         this.nPrisonTurn = nPrisonTurn;
     }
@@ -53,26 +57,31 @@ public class Player {
         return name;
     }
 
-    public String getColoredName(){
+    public String getColoredName() {
         return color + name + "\033[00m";
     }
+
     public String getSymbol() {
         return symbol;
     }
+
     public String getColoredSymbol() {
-        return color + symbol + "\033[00m"; //a questo punto la stringa con il simbolo è lunga 11
+        return "\033[03m" + color + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
     }
 
 
     public int getPosition() {
         return position;
     }
+
     public int getBalance() {
         return balance;
     }
+
     public boolean isInPrison() {
         return isInPrison;
     }
+
     public int getnPrisonTurn() {
         return nPrisonTurn;
     }
@@ -88,5 +97,6 @@ public class Player {
     public void setColor(Colors color) {
         this.color = color;
     }
+
 
 }

@@ -24,9 +24,9 @@ public class Monopoly {
         this.dice2 = new Dice(DICE_FACES);
     }
 
-    private int diceRoll() {
+    /* private int diceRoll() {
         return dice1.roll() + dice2.roll();
-    }
+    } */
 
     public void showTable() {
         System.out.println(table);
@@ -74,7 +74,7 @@ public class Monopoly {
         if(player.getBalance() >= property.getPrice()){
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
-            System.out.println(player.getName() + " ha acquistato " + property.getName() + "!");
+            System.out.println(player.getColoredName() + " ha acquistato " + property.getName() + "!");
             return true;
         }
         else
