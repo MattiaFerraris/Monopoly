@@ -3,9 +3,11 @@ package game;
 import player.Player;
 import table.Box;
 import table.BuildableProperty;
+import table.Colors;
 import table.Property;
 import utility.ScannerUtilities;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Game {
@@ -18,7 +20,9 @@ public class Game {
         int choice;
         int turn = 0;
 
+        //System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
         System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
+
 
         System.out.println("Inserire il nome e il simbolo\n");
         players = generatePlayers(scannerUtilities, monopoly);
@@ -26,18 +30,18 @@ public class Game {
         while (!monopoly.isGameOver(players)) {
             int playerLost = 0;
             for (int i = 0; i < players.length; i++) {
-                if(players[i]==null){
-                    for (int j = i; j < players.length-1; j++) {
-                        players[j] = players[j+1];
+                if (players[i] == null) {
+                    for (int j = i; j < players.length - 1; j++) {
+                        players[j] = players[j + 1];
                     }
-                    players =  Arrays.copyOf(players, players.length-1);
+                    players = Arrays.copyOf(players, players.length - 1);
                     playerLost++;
                 }
             }
 
-            if(playerLost>0 && turn !=0)
+            if (playerLost > 0 && turn != 0)
                 turn--;
-            System.out.println("\nTurno di " + players[turn].getName());
+            System.out.println("\nTurno di " + players[turn].getColoredName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
 
             switch (choice) {
@@ -50,20 +54,20 @@ public class Game {
                     monopoly.movePlayer(players[turn]);
                     monopoly.showTable();
                     Box box = monopoly.getBox(players[turn]);
-                    if(box instanceof Property property){
-                        if(property.getOwner()==null){
-                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): ")){
-                                if(!monopoly.buyProperty(players[turn], property))
+                    if (box instanceof Property property) {
+                        if (property.getOwner() == null) {
+                            if (scannerUtilities.yesOrNo("Vuoi comprare " + property.getColoredName() + "? (si/no): ")) {
+                                if (!monopoly.buyProperty(players[turn], property))
                                     monopoly.payPropertyFee(players[turn], property);
                             } else
                                 monopoly.payPropertyFee(players[turn], property);
-                        } else if(!property.getOwner().equals(players[turn])){
+                        } else if (!property.getOwner().equals(players[turn])) {
                             monopoly.payPropertyFee(players[turn], property);
-                        } else if(monopoly.hasPlayerAllSameColorProperties(players[turn], property)){
+                        } else if (monopoly.hasPlayerAllSameColorProperties(players[turn], property)) {
                             BuildableProperty buildableProperty = (BuildableProperty) property;
-                            if(buildableProperty.getHousesCount()<4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
+                            if (buildableProperty.getHousesCount() < 4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
                                 monopoly.buildHouse(players[turn], buildableProperty);
-                            else if(buildableProperty.getHousesCount()==4 && buildableProperty.getHotelsCount()==0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
+                            else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
                                 monopoly.buildHotel(players[turn], buildableProperty);
                         }
                     } else
@@ -98,11 +102,14 @@ public class Game {
 
     public static Player[] generatePlayers(ScannerUtilities scannerUtilities, Monopoly monopoly) {
         Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
+        Colors[] defaultColors = {Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW};
         players[0] = newPlayer(scannerUtilities);
+        players[0].setColor(defaultColors[0]);
         monopoly.addPlayerToBox(players[0]);
         for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
             boolean isEquals = false;
             Player player = newPlayer(scannerUtilities);
+            player.setColor(defaultColors[i]);
             for (int j = 0; j < i; j++) {
                 if (player.equals(players[j])) {
                     System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");

@@ -3,6 +3,7 @@ package table;
 import game.Game;
 import player.Player;
 
+import java.util.Arrays;
 import java.util.Random;
 
 abstract public class Box {
@@ -16,6 +17,7 @@ abstract public class Box {
     private static final int MIN_MONEY = 50;
     private static final int MAX_MONEY = 150;
     private Player[] playersInBox;
+    private int cntPlayersInBox = 0;
 
     public Box(Colors color, int money, String name) {
         this.color = color;
@@ -52,8 +54,10 @@ abstract public class Box {
                     playersInBox[j] = playersInBox[j + 1];
                 }
                 playersInBox[playersInBox.length - 1] = null;
+                cntPlayersInBox--;
                 return;
             }
+
         }
     }
 
@@ -61,6 +65,7 @@ abstract public class Box {
         for (int i = 0; i < playersInBox.length; i++) {
             if (playersInBox[i] == null) {
                 playersInBox[i] = player;
+                cntPlayersInBox++;
                 return;
             }
         }
@@ -79,13 +84,16 @@ abstract public class Box {
     public String getName() {
         return name;
     }
+    public String getColoredName() {
+        return color + name + Colors.RESET;
+    }
 
     public String getSymbolsOfPlayersInBox() {
 
         StringBuilder playersDetails = new StringBuilder();
         for (Player player : playersInBox) {
             if (player != null)
-                playersDetails.append(player.getSymbol()).append(" ");
+                playersDetails.append(player.getColoredSymbol()).append(" ");
         }
         String details = playersDetails.toString();
         return !details.isEmpty() ? details.substring(0, details.length() - 1) : "";
@@ -98,12 +106,15 @@ abstract public class Box {
      */
     public String[] getBoxDetails() {
         String[] details = new String[HEIGHT];
-        for (int i = 0; i < details.length; i++) {
-            details[i] = "";
-        }
+        Arrays.fill(details, "");
         details[0] = name;
+        //details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
         details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
-
         return details;
     }
+
+    public int getCntPlayersInTheBox() {
+        return cntPlayersInBox;
+    }
+
 }
