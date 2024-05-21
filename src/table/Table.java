@@ -1,6 +1,7 @@
 package table;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Table {
@@ -10,6 +11,8 @@ public class Table {
     private Box[] boxes;
     private Box[][] table;
     private int[] propertyCount = new int[8];
+    private List<ProbabilityCard> probabilityDeck;
+    private List<ChanceCard> chanceDeck;
 
 
     public Table(int x, int y) {
@@ -23,6 +26,7 @@ public class Table {
             }
         }
         table = generateTable(boxes);
+        probabilityDeck = ProbabilityCard.LoadProbability();
     }
 
     public Box getBox(int index) {

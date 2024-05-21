@@ -12,7 +12,7 @@ abstract public class Box {
     private String name;
 
     final static int WIDTH = 24; //inizialmente 24
-    final static int HEIGHT = 7; //inizialmente 5 (da cambiare in
+    final static int HEIGHT = 7; //inizialmente 5
 
     private static final int MIN_MONEY = 50;
     private static final int MAX_MONEY = 150;

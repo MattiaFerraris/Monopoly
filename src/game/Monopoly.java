@@ -39,22 +39,22 @@ public class Monopoly {
         move(player, dado1, dado2);
     }
 
-    public void move(Player player, int dado1, int dado2){
+    public void move(Player player, int dado1, int dado2) {
         //SE IN PRIGIONE
-        if(player.isInPrison()){
+        if (player.isInPrison()) {
             inPrison(player);
             return;
         }
 
-        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " + (dado1 + dado2) + "\n");
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
-        int newPosition = temPosition + (dado1+dado2);
+        int newPosition = temPosition + (dado1 + dado2);
 
         //VAI IN PRIGIONE
-        if(newPosition == (table.getX()-1)*3){
-            player.setPosition(table.getX()-1);
+        if (newPosition == (table.getX() - 1) * 3) {
+            player.setPosition(table.getX() - 1);
             table.getBox(player.getPosition()).addPlayerToTheBox(player);
             player.setnPrisonTurn(NPRISONTURNS);
             player.setInPrison(true);
@@ -66,25 +66,24 @@ public class Monopoly {
         //updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }
 
-    public Box getBox(Player player){
+    public Box getBox(Player player) {
         return table.getBox(player.getPosition());
     }
 
-    public boolean buyProperty(Player player, Property property){
-        if(player.getBalance() >= property.getPrice()){
+    public boolean buyProperty(Player player, Property property) {
+        if (player.getBalance() >= property.getPrice()) {
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
             System.out.println(player.getColoredName() + " ha acquistato " + property.getName() + "!");
             return true;
-        }
-        else
+        } else
             System.out.println("Non hai abbastanza soldi");
         return false;
     }
 
-    public void payPropertyFee(Player player, Property property){
+    public void payPropertyFee(Player player, Property property) {
         Player owner = property.getOwner();
-        if(owner != null){
+        if (owner != null) {
             bank.transferMoney(property.getMoney(player.getBalance()), player, owner);
             System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
             return;
@@ -92,28 +91,26 @@ public class Monopoly {
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
-    private void inPrison(Player player){
+    private void inPrison(Player player) {
         int dado1 = dice1.roll();
         int dado2 = dice2.roll();
 
         System.out.println("Turni rimanenti in prigione: " + player.getnPrisonTurn() + "\n");
 
-        if(player.getnPrisonTurn() == 0){
+        if (player.getnPrisonTurn() == 0) {
             System.out.println("Pagati 50 CHF per uscire di prigione");
             bank.updateBalance(-50, player);
             player.setInPrison(false);
             move(player, dado1, dado2);
-        } else if(dado1 == dado2){
+        } else if (dado1 == dado2) {
             player.setInPrison(false);
             move(player, dado1, dado2);
-        }
-        else{
-            System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+        } else {
+            System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " + (dado1 + dado2) + "\n");
             System.out.println("NO DADO DOPPIO");
-            player.setnPrisonTurn(player.getnPrisonTurn()-1);
+            player.setnPrisonTurn(player.getnPrisonTurn() - 1);
         }
     }
-
 
 
     public void updateBalance(int oldPosition, int newPosition, Player player) {
@@ -128,15 +125,15 @@ public class Monopoly {
 
     }
 
-    public boolean hasPlayerAllSameColorProperties(Player player, Property property){
+    public boolean hasPlayerAllSameColorProperties(Player player, Property property) {
         int count = 0;
         Colors color = property.getColor();
-        if(color == Colors.BLACK)
+        if (color == Colors.BLACK)
             return false;
 
         for (int i = 0; i < table.totalBoxesCount; i++) {
-            if(table.getBox(i).getColor() == color){
-                if(((Property)table.getBox(i)).getOwner() == player)
+            if (table.getBox(i).getColor() == color) {
+                if (((Property) table.getBox(i)).getOwner() == player)
                     count++;
             }
         }
@@ -144,12 +141,12 @@ public class Monopoly {
         return count == table.getPropertyCount(color);
     }
 
-    public void buildHouse(Player player, BuildableProperty property){
+    public void buildHouse(Player player, BuildableProperty property) {
         property.addHouse(player);
         bank.updateBalance(-property.getPriceHouse(), player);
     }
 
-    public void buildHotel(Player player, BuildableProperty property){
+    public void buildHotel(Player player, BuildableProperty property) {
         property.addHotel(player);
         bank.updateBalance(-property.getPriceHotel(), player);
     }
@@ -166,9 +163,9 @@ public class Monopoly {
             if (players[i].getBalance() <= 0) {
                 cntPlayers -= 1;
                 System.out.println("Giocatore " + players[i].getName() + " ha perso");
-                for(Box box : table.getBoxes())
-                    if(box instanceof Property property)
-                        if(property.getOwner() == players[i])
+                for (Box box : table.getBoxes())
+                    if (box instanceof Property property)
+                        if (property.getOwner() == players[i])
                             property.reset();
                 players[i] = null;
 
@@ -180,7 +177,6 @@ public class Monopoly {
         }
         return false;
     }
-
 
 
     public void addPlayerToBox(Player player) {
