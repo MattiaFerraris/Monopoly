@@ -1,22 +1,23 @@
 package table;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Table {
     private int x;
     private int y;
     final public int totalBoxesCount;
-    private Box[] boxes;
-    private Box[][] table;
-    private int[] propertyCount = new int[8];
-
+    private final Box[] boxes;
+    private final Box[][] table;
+    private final int[] propertyCount = new int[8];
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
-        boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
+        boxes = assignBoxes(totalBoxesCount);
         for(Box box : boxes){
             if(box.getColor() != Colors.BLACK){
                 propertyCount[box.getColor().ordinal()]++;
@@ -73,10 +74,15 @@ public class Table {
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
+
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
         boxes = add(boxes, new EmptyBox());
 
+        ArrayList<Box> tmp = new ArrayList<>(Arrays.asList(boxes));
+        Collections.shuffle(tmp);
+
+        boxes = tmp.toArray(new Box[0]);
 
         return boxes;
     }
@@ -95,10 +101,10 @@ public class Table {
         return tmp;
     }
 
-    private Box[] assignBoxes(int totalBoxes, Box[] boxes) {
+    private Box[] assignBoxes(int totalBoxes) {
         Box[] boxesInTable = new Box[totalBoxes];
         assignDefaultBoxes(boxesInTable);
-        assignRandomBoxes(boxesInTable, boxes);
+        assignRandomBoxes(boxesInTable);
         return boxesInTable;
     }
 
@@ -114,30 +120,14 @@ public class Table {
     }
 
 
-    private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
-        Random ran = new Random();
+    private void assignRandomBoxes(Box[] boxesInTable) {
+        Box[] randomBoxes = createRandomBoxes();
+        int assignedBoxes = 0;
         for (int i = 0; i < boxesInTable.length; i++) {
             if (boxesInTable[i] == null) {
-                boxesInTable[i] = pickNewBox(randomBoxes, boxesInTable);
+                boxesInTable[i] = randomBoxes[assignedBoxes++];
             }
         }
-    }
-
-    private Box pickNewBox(Box[] boxes, Box[] boxesInTable) {
-        Random ran = new Random();
-        Box newBox;
-        do {
-            newBox = boxes[ran.nextInt(boxes.length)];
-        } while (isBoxInTable(newBox, boxesInTable));
-        return newBox;
-    }
-
-    private boolean isBoxInTable(Box box, Box[] boxesInTable) {
-        for (Box b : boxesInTable) {
-            if (box.equals(b))
-                return true;
-        }
-        return false;
     }
 
     private Box[][] generateTable(Box[] boxes) {
