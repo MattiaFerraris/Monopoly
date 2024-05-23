@@ -3,7 +3,9 @@ package table;
 import game.Game;
 import player.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Random;
 
 abstract public class Box {
@@ -16,14 +18,13 @@ abstract public class Box {
 
     private static final int MIN_MONEY = 50;
     private static final int MAX_MONEY = 150;
-    private Player[] playersInBox;
-    private int cntPlayersInBox = 0;
+    private LinkedList<Player> playersInBox;
 
     public Box(Colors color, int money, String name) {
         this.color = color;
         this.money = money;
         this.name = name;
-        this.playersInBox = new Player[Game.NUMBER_OF_PLAYERS];
+        this.playersInBox = new LinkedList<>();
 
         //creo un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
@@ -32,7 +33,7 @@ abstract public class Box {
     public Box(int money, String name) {
         this.money = money;
         this.name = name;
-        this.playersInBox = new Player[Game.NUMBER_OF_PLAYERS];
+        this.playersInBox = new LinkedList<>();
 
         //crea un'array di stringhe contenente i dettagli
         //di ogni box sotto forma di stringhe (le dimensioni sono impostate manualmente).
@@ -48,27 +49,11 @@ abstract public class Box {
     }
 
     public void removePlayerFromTheBox(Player player) {
-        for (int i = 0; i < playersInBox.length; i++) {
-            if (playersInBox[i].equals(player)) {
-                for (int j = i; j < playersInBox.length - 1; j++) {
-                    playersInBox[j] = playersInBox[j + 1];
-                }
-                playersInBox[playersInBox.length - 1] = null;
-                cntPlayersInBox--;
-                return;
-            }
-
-        }
+        playersInBox.remove(player);
     }
 
     public void addPlayerToTheBox(Player player) {
-        for (int i = 0; i < playersInBox.length; i++) {
-            if (playersInBox[i] == null) {
-                playersInBox[i] = player;
-                cntPlayersInBox++;
-                return;
-            }
-        }
+        playersInBox.add(player);
     }
 
     public int getMoney() {
@@ -114,7 +99,7 @@ abstract public class Box {
     }
 
     public int getCntPlayersInTheBox() {
-        return cntPlayersInBox;
+        return playersInBox.size();
     }
 
 }

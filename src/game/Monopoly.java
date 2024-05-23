@@ -5,28 +5,35 @@ import gameLogic.Dice;
 import player.Player;
 import table.*;
 
-public class Monopoly {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 
+public class Monopoly {
+    public static final int NUMBER_OF_PLAYERS = 4;
     public static final int BANK_MONEY = 1000000;
     public static final int DICE_FACES = 6;
     public static final int WIDTH = 11;
     public static final int HEIGHT = 11;
-    public static final int NPRISONTURNS = 3;
+    public static final int MAX_PRISION_TURNS = 3;
     private Table table;
     private Bank bank;
     private Dice dice1;
     private Dice dice2;
+    private ArrayList<Player> players;
+    private Player currentPlayer;
 
-    public Monopoly() {
+    public Monopoly(ArrayList<Player> players) {
         this.table = new Table(WIDTH, HEIGHT);
         this.bank = new Bank(BANK_MONEY);
         this.dice1 = new Dice(DICE_FACES);
         this.dice2 = new Dice(DICE_FACES);
+        this.players = players;
+        for(Player player : players)
+            addPlayerToStart(player);
+        this.currentPlayer = players.get(0);
     }
-
-    /* private int diceRoll() {
-        return dice1.roll() + dice2.roll();
-    } */
 
     public void showTable() {
         System.out.println(table);
@@ -56,7 +63,7 @@ public class Monopoly {
         if(newPosition == (table.getX()-1)*3){
             player.setPosition(table.getX()-1);
             table.getBox(player.getPosition()).addPlayerToTheBox(player);
-            player.setnPrisonTurn(NPRISONTURNS);
+            player.setnPrisonTurn(MAX_PRISION_TURNS);
             player.setInPrison(true);
             return;
         }
@@ -158,32 +165,38 @@ public class Monopoly {
         System.out.println(player.getName() + " ha " + player.getBalance() + " soldi.");
     }
 
-    public boolean isGameOver(Player[] players) {
-        int cntPlayers = players.length;
+    public boolean isGameOver() {
+        return players.size() == 1;
+    }
 
-        for (int i = 0; i < players.length; i++) {
-
-            if (players[i].getBalance() <= 0) {
-                cntPlayers -= 1;
-                System.out.println("Giocatore " + players[i].getName() + " ha perso");
-                for(Box box : table.getBoxes())
-                    if(box instanceof Property property)
-                        if(property.getOwner() == players[i])
+    public ArrayList<Player> getLostPlayers() {
+        ArrayList<Player> lostPlayers = new ArrayList<>();
+        for(Iterator<Player> iterator = players.iterator(); iterator.hasNext();){
+            Player player = iterator.next();
+            if(player.getBalance() <= 0) {
+                lostPlayers.add(player);
+                iterator.remove();
+                for(int i = 0; i < table.totalBoxesCount; i++){
+                    if(table.getBox(i) instanceof Property property){
+                        if(property.getOwner() == player)
                             property.reset();
-                players[i] = null;
-
-                if (cntPlayers == 1) {
-                    System.out.println("Il player: " + players[i == 0 ? 1 : 0].getName() + " ha vinto!!");
-                    return true;
+                    }
                 }
             }
         }
-        return false;
+        return lostPlayers;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
+    public void nextTurn() {
+        int index = players.indexOf(currentPlayer);
+        currentPlayer = players.get((index + 1) % players.size());
+    }
 
-    public void addPlayerToBox(Player player) {
+    private void addPlayerToStart(Player player) {
         table.getBox(0).addPlayerToTheBox(player);
     }
 }
