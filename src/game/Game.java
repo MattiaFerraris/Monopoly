@@ -1,5 +1,14 @@
 package game;
 
+//librerie javaFX
+
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+
+//
 import player.Player;
 import table.Box;
 import table.BuildableProperty;
@@ -7,24 +16,37 @@ import table.Colors;
 import table.Property;
 import utility.ScannerUtilities;
 
-import java.awt.*;
-import java.util.Arrays;
 
-public class Game {
+import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Objects;
+
+public class Game extends Application {
     public static final int NUMBER_OF_PLAYERS = 4;
 
+    public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/game/StartScreen.fxml")));
+            Scene startScreen = new Scene(root);
+            stage.setScene(startScreen);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
+        /*System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
+        System.out.println("Inserire il nome e il simbolo\n");*/
+        launch(args);
         ScannerUtilities scannerUtilities = new ScannerUtilities();
         Monopoly monopoly = new Monopoly();
         Player[] players;
         int choice;
         int turn = 0;
 
-        //System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
-        System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
 
-
-        System.out.println("Inserire il nome e il simbolo\n");
         players = generatePlayers(scannerUtilities, monopoly);
         monopoly.showTable();
         while (!monopoly.isGameOver(players)) {
