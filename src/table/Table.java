@@ -51,8 +51,11 @@ public class Table {
         readBoxes(boxes);
         boxes.add(new LuxuryTax());
         boxes.add(new WealthTax());
-        for (int i = 0; i < 6; i++)
-            boxes.add(new EmptyBox());
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Chance(Colors.RED, 0, "Imprevisti"));
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Probability(Colors.BLUE, 0, "Probabilità"));
+
         Collections.shuffle(boxes);
         return boxes.toArray(new Box[0]);
     }
