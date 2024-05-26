@@ -2,9 +2,10 @@ package player;
 
 import table.Colors;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Serializable {
     private static final int INITIAL_BALANCE = 2000;
     private String name;
     private String symbol;

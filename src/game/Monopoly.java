@@ -3,14 +3,13 @@ package game;
 import gameLogic.Bank;
 import gameLogic.Dice;
 import player.Player;
+import player.PlayerDiceComparator;
 import table.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.Serializable;
+import java.util.*;
 
-public class Monopoly {
+public class Monopoly implements Serializable {
     public static final int NUMBER_OF_PLAYERS = 4;
     public static final int BANK_MONEY = 1000000;
     public static final int DICE_FACES = 6;
@@ -19,8 +18,8 @@ public class Monopoly {
     public static final int MAX_PRISION_TURNS = 3;
     private Table table;
     private Bank bank;
-    private Dice dice1;
-    private Dice dice2;
+    private transient Dice dice1;
+    private transient Dice dice2;
     private ArrayList<Player> players;
     private Player currentPlayer;
 
@@ -29,10 +28,26 @@ public class Monopoly {
         this.bank = new Bank(BANK_MONEY);
         this.dice1 = new Dice(DICE_FACES);
         this.dice2 = new Dice(DICE_FACES);
-        this.players = players;
-        for(Player player : players)
+        this.players = shufflePlayerOrder(players);
+        for(Player player : this.players)
             addPlayerToStart(player);
-        this.currentPlayer = players.get(0);
+        this.currentPlayer = this.players.get(0);
+    }
+
+    private ArrayList<Player> shufflePlayerOrder(ArrayList<Player> players) {
+        Map<Player, Integer> playerDiceMap = new HashMap<>();
+        for(Player player : players){
+            int dice1 = this.dice1.roll();
+            int dice2 = this.dice2.roll();
+            System.out.println(player.getName() + " ha ottenuto " + (dice1 + dice2) + " al lancio dei dadi.");
+            playerDiceMap.put(player, dice1 + dice2);
+        }
+        ArrayList<Map.Entry<Player, Integer>> shuffledPlayers = new ArrayList(playerDiceMap.entrySet());
+        shuffledPlayers.sort(new PlayerDiceComparator());
+        ArrayList<Player> orderedPlayers = new ArrayList<>();
+        for (int i = 0; i < shuffledPlayers.size(); i++)
+            orderedPlayers.add(((Map.Entry<Player, Integer>) shuffledPlayers.get(i)).getKey());
+        return orderedPlayers;
     }
 
     public void showTable() {

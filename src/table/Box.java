@@ -3,12 +3,13 @@ package table;
 import game.Game;
 import player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
-abstract public class Box {
+abstract public class Box implements Serializable {
     private Colors color;
     private final int money;
     private String name;

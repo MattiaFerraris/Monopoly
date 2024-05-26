@@ -2,9 +2,10 @@ package table;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Table {
+public class Table implements Serializable {
     private int x;
     private int y;
     final public int totalBoxesCount;

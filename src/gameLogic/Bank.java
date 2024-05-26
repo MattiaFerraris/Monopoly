@@ -2,7 +2,9 @@ package gameLogic;
 
 import player.Player;
 
-public class Bank {
+import java.io.Serializable;
+
+public class Bank implements Serializable {
     private int bankMoney;
 
     public Bank(int bankMoney) {
