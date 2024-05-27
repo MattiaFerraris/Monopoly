@@ -79,7 +79,7 @@ public class NameController {
     public void generatePlayersCall() {
         if (enableButton()) {
             correctIn.setText("Tutti i giocatori sono validi!");
-            players = generatePlayers(monopoly);
+            players = generatePlayers();
             confermaClicked = true;
             tastoAvanti.setDisable(false);
             avantiIMG.setOpacity(1.0);
@@ -143,17 +143,30 @@ public class NameController {
         return new Player(name, symbol.substring(0, 1), 0);
     }
 
-    public Player[] generatePlayers(Monopoly monopoly) {
+    public Player[] generatePlayers() {
         players[0] = newPlayer(nameG1.getText(), symG1.getText());
         players[1] = newPlayer(nameG2.getText(), symG2.getText());
         players[2] = newPlayer(nameG3.getText(), symG3.getText());
         players[3] = newPlayer(nameG4.getText(), symG4.getText());
 
-        for (Player player : players) {
-            monopoly.addPlayerToBox(player);
-            System.out.println(player.getName() + " " + player.getSymbol());
+        for (int i=0; i<Game.NUMBER_OF_PLAYERS; i++) {
+            monopoly.addPlayerToStart(players[i], i);
+            System.out.println(players[i].getName() + " " + players[i].getSymbol());
         }
 
         return players;
     }
+
+
+    public void generateDefaultPlayers() {
+        nameG1.setText("Giocatore 1");
+        nameG2.setText("Giocatore 2");
+        nameG3.setText("Giocatore 3");
+        nameG4.setText("Giocatore 4");
+        symG1.setText("A");
+        symG2.setText("B");
+        symG3.setText("C");
+        symG4.setText("D");
+    }
+
 }

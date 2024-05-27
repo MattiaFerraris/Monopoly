@@ -70,6 +70,9 @@ abstract public class Box {
             }
         }
     }
+    public void addPlayerToStart(Player player, int index) {
+        playersInBox[index] = player;
+    }
 
     public int getMoney() {
         return money;
@@ -91,6 +94,12 @@ abstract public class Box {
     public String getSymbolsOfPlayersInBox() {
 
         StringBuilder playersDetails = new StringBuilder();
+
+        for (Player player : playersInBox) {
+            if(player != null)
+                System.out.println(player.getColoredName() + " " + player.getColoredSymbol());
+        }
+
         for (Player player : playersInBox) {
             if (player != null)
                 playersDetails.append(player.getColoredSymbol()).append(" ");
@@ -108,7 +117,6 @@ abstract public class Box {
         String[] details = new String[HEIGHT];
         Arrays.fill(details, "");
         details[0] = name;
-        //details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
         details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
         return details;
     }

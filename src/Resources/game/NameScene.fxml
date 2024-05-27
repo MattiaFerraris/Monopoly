@@ -71,7 +71,8 @@
    <TextField fx:id="symG2" layoutX="550.0" layoutY="210.0" prefHeight="26.0" prefWidth="49.0" />
    <TextField fx:id="symG3" layoutX="550.0" layoutY="270.0" prefHeight="26.0" prefWidth="49.0" />
    <TextField fx:id="symG4" layoutX="550.0" layoutY="330.0" prefHeight="26.0" prefWidth="49.0" />
-   <Button fx:id="conferma" layoutX="688.0" layoutY="241.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="43.0" prefWidth="122.0" text="Conferma" />
+   <Button fx:id="conferma" layoutX="787.0" layoutY="416.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="34.0" prefWidth="122.0" text="Conferma" />
    <Label fx:id="correctIn" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="#1d9000" />
+   <Button fx:id="defaultButton" layoutX="726.0" layoutY="223.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generateDefaultPlayers" prefHeight="43.0" prefWidth="122.0" text="Inserisci default" />
 
 </AnchorPane>
