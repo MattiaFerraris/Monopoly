@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Game extends Application {
     public static final int NUMBER_OF_PLAYERS = 4;
@@ -40,14 +41,13 @@ public class Game extends Application {
         /*System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
         System.out.println("Inserire il nome e il simbolo\n");*/
         launch(args);
+    }
+
+    public static void turns(Monopoly monopoly, Player[] players){
+        Scanner scanner = new Scanner(System.in);
         ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = new Monopoly();
-        Player[] players;
         int choice;
         int turn = 0;
-
-
-        players = generatePlayers(scannerUtilities, monopoly);
         monopoly.showTable();
         while (!monopoly.isGameOver(players)) {
             int playerLost = 0;
@@ -110,41 +110,5 @@ public class Game extends Application {
         if (turn == playersNumber)
             turn = 0;
         return turn;
-    }
-
-    public static Player newPlayer(ScannerUtilities scannerUtilities) {
-        String name = "";
-        String symbol = "";
-        while (name.isEmpty())
-            name = scannerUtilities.readString("Inserisci il nome: ").trim();
-        while (symbol.isEmpty())
-            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
-        return new Player(name, symbol.substring(0, 1), 0);
-    }
-
-    public static Player[] generatePlayers(ScannerUtilities scannerUtilities, Monopoly monopoly) {
-        Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        Colors[] defaultColors = {Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW};
-        players[0] = newPlayer(scannerUtilities);
-        players[0].setColor(defaultColors[0]);
-        monopoly.addPlayerToBox(players[0]);
-        for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
-            boolean isEquals = false;
-            Player player = newPlayer(scannerUtilities);
-            player.setColor(defaultColors[i]);
-            for (int j = 0; j < i; j++) {
-                if (player.equals(players[j])) {
-                    System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");
-                    isEquals = true;
-                    break;
-                }
-            }
-            if (!isEquals) {
-                players[i] = player;
-                monopoly.addPlayerToBox(players[i]);
-                i++;
-            }
-        }
-        return players;
     }
 }

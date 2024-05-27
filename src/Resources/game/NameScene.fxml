@@ -3,27 +3,75 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.SceneController">
-   <children>
-      <Label layoutX="201.0" layoutY="93.0" prefHeight="18.0" prefWidth="108.0" text="NOMI GIOCATORI" />
-      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToScene1" text="Indietro" />
-      <TextField layoutX="179.0" layoutY="123.0" />
-      <TextField layoutX="179.0" layoutY="161.0" />
-      <TextField layoutX="179.0" layoutY="197.0" />
-      <TextField layoutX="179.0" layoutY="234.0" />
-      <TextField layoutX="400.0" layoutY="122.0" prefWidth="53.0" />
-      <TextField layoutX="400.0" layoutY="164.0" prefWidth="53.0" />
-      <TextField layoutX="400.0" layoutY="200.0" prefWidth="53.0" />
-      <TextField layoutX="400.0" layoutY="237.0" prefWidth="53.0" />
-      <Label layoutX="400.0" layoutY="93.0" prefHeight="18.0" prefWidth="53.0" text="SIMBOLI" />
-      <Label layoutX="94.0" layoutY="136.0" prefHeight="18.0" prefWidth="76.0" text="Giocatore 1:" />
-      <Label layoutX="94.0" layoutY="174.0" prefHeight="18.0" prefWidth="76.0" text="Giocatore 2:" />
-      <Label layoutX="94.0" layoutY="210.0" prefHeight="18.0" prefWidth="76.0" text="Giocatore 3:" />
-      <Label layoutX="94.0" layoutY="247.0" prefHeight="18.0" prefWidth="76.0" text="Giocatore 4:" />
-      <Button layoutX="532.0" layoutY="360.0" mnemonicParsing="false" onAction="#tableScene" text="Avanti" />
-      <Label fx:id="playersLabel" layoutX="124.0" layoutY="47.0" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.NameController">
+   <ImageView fitHeight="555.0" fitWidth="973.0" layoutX="-7.0" layoutY="-3.0" opacity="0.11">
+      <image>
+         <Image url="@Images/colorful-fake-play-money-background-free-vector.jpg" />
+      </image>
+   </ImageView>
+   <Label layoutX="144.0" layoutY="67.0" prefHeight="49.0" prefWidth="291.0" text="NOMI GIOCATORI">
+      <font>
+         <Font name="Kaiti SC Bold" size="33.0" />
+      </font></Label>
+   <Button fx:id="tastoAvanti" layoutX="769.0" layoutY="490.0" minHeight="17.0" mnemonicParsing="false" onAction="#goToTableScene" prefHeight="22.0" prefWidth="160.0" textAlignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font></Button>
+   <Button layoutX="38.0" layoutY="490.0" minHeight="21.0" mnemonicParsing="false" onAction="#goToStartScene" prefHeight="21.0" prefWidth="170.0" text="INDIETRO" textAlignment="CENTER">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <Label fx:id="doublePlayer" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="RED" />
+   <TextField fx:id="nameG1" layoutX="271.0" layoutY="150.0" />
+   <ImageView fx:id="avantiIMG" fitHeight="200.0" fitWidth="200.0" layoutX="748.0" layoutY="386.0" mouseTransparent="true">
+      <image>
+         <Image url="@Images/TASTI/TASTO_AVANTI.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="24.0" layoutY="385.0" mouseTransparent="true">
+      <image>
+         <Image url="@Images/TASTI/TASTO_INDIETRO.png" />
+      </image>
+   </ImageView>
+   <Label layoutX="503.0" layoutY="67.0" prefHeight="20.0" prefWidth="140.0" text="SIMBOLI">
+      <font>
+         <Font name="Kaiti SC Bold" size="33.0" />
+      </font>
+   </Label>
+   <Label contentDisplay="CENTER" layoutX="145.0" layoutY="150.0" prefHeight="34.0" prefWidth="116.0" text="Giocatore 1:">
+      <font>
+         <Font name="Kaiti SC Bold" size="22.0" />
+      </font>
+   </Label>
+   <TextField fx:id="nameG2" layoutX="271.0" layoutY="210.0" />
+   <Label contentDisplay="CENTER" layoutX="145.0" layoutY="210.0" prefHeight="34.0" prefWidth="116.0" text="Giocatore 2:">
+      <font>
+         <Font name="Kaiti SC Bold" size="22.0" />
+      </font>
+   </Label>
+   <TextField fx:id="nameG3" layoutX="271.0" layoutY="270.0" />
+   <Label contentDisplay="CENTER" layoutX="146.0" layoutY="270.0" prefHeight="34.0" prefWidth="116.0" text="Giocatore 3:">
+      <font>
+         <Font name="Kaiti SC Bold" size="22.0" />
+      </font>
+   </Label>
+   <TextField fx:id="nameG4" layoutX="271.0" layoutY="330.0" />
+   <Label contentDisplay="CENTER" layoutX="145.0" layoutY="330.0" prefHeight="34.0" prefWidth="116.0" text="Giocatore 4:">
+      <font>
+         <Font name="Kaiti SC Bold" size="22.0" />
+      </font>
+   </Label>
+   <TextField fx:id="symG1" layoutX="550.0" layoutY="150.0" prefHeight="26.0" prefWidth="49.0" />
+   <TextField fx:id="symG2" layoutX="550.0" layoutY="210.0" prefHeight="26.0" prefWidth="49.0" />
+   <TextField fx:id="symG3" layoutX="550.0" layoutY="270.0" prefHeight="26.0" prefWidth="49.0" />
+   <TextField fx:id="symG4" layoutX="550.0" layoutY="330.0" prefHeight="26.0" prefWidth="49.0" />
+   <Button fx:id="conferma" layoutX="688.0" layoutY="241.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="43.0" prefWidth="122.0" text="Conferma" />
+   <Label fx:id="correctIn" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="#1d9000" />
 
-   </children>
 </AnchorPane>

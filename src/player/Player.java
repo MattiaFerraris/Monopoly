@@ -14,6 +14,11 @@ public class Player {
     private int nPrisonTurn;
     private Colors color;
 
+    private String coloredName;
+    private String coloredSymbol;
+    private static Colors[] colors = {Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW};
+    private static int colorsCnt;
+
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
@@ -21,6 +26,10 @@ public class Player {
         this.balance = INITIAL_BALANCE;
         isInPrison = false;
         nPrisonTurn = 0;
+
+        setColoredName(name);
+        setColoredSymbol(symbol);
+        colorsCnt++;
     }
 
     //SETTER
@@ -52,13 +61,26 @@ public class Player {
         this.nPrisonTurn = nPrisonTurn;
     }
 
+
+    public void setColoredName(String name) {
+        if(colorsCnt == colors.length)
+            colorsCnt = 0;
+        coloredName = "\033[03m" + colors[colorsCnt] + name + "\033[00m";
+    }
+
+    public void setColoredSymbol(String symbol) {
+        if(colorsCnt == colors.length)
+            colorsCnt = 0;
+        coloredSymbol = "\033[03m" + colors[colorsCnt] + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
+    }
+
     //GETTER
     public String getName() {
         return name;
     }
 
     public String getColoredName() {
-        return color + name + "\033[00m";
+        return coloredName;
     }
 
     public String getSymbol() {
@@ -66,7 +88,7 @@ public class Player {
     }
 
     public String getColoredSymbol() {
-        return "\033[03m" + color + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
+        return coloredSymbol;
     }
 
 
