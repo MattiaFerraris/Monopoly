@@ -5,9 +5,7 @@ import table.*;
 import utility.ScannerUtilities;
 
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -18,10 +16,49 @@ public class Game {
 
     public static void main(String[] args) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = new Monopoly(generatePlayers(scannerUtilities));
+        Monopoly monopoly = null;
         int choice;
-        int turn = 0;
 
+        /* CARICAMENTO DA FILE */
+        do{
+            choice = scannerUtilities.readInt("1 Nuova partita \n2 Carica partita salvata\n:");
+            switch (choice){
+                case 1:
+                    monopoly = new Monopoly(generatePlayers(scannerUtilities));
+                    break;
+                case 2:
+                    String[] savedGames = getSavedGames();
+                    if (savedGames.length == 0) {
+                        System.out.println("Nessuna partita salvata");
+                        return;
+                    }
+                    do{
+                        System.out.println("Partite salvate:");
+                        for (int i = 0; i < savedGames.length; i++)
+                            System.out.println((i + 1) + " " + savedGames[i]);
+                        System.out.println((savedGames.length + 1) + " NUOVA PARTITA");
+                        choice = scannerUtilities.readInt("Inserisci il numero della partita da caricare: ");
+                        if(choice < 1 || choice > savedGames.length+1)
+                            System.out.println("Scelta non valida");
+                        else{
+                            if(choice != savedGames.length+1){
+                                monopoly = loadGame("saved_games" + File.separator + savedGames[choice - 1]);
+                                break;
+                            }
+                            monopoly = new Monopoly(generatePlayers(scannerUtilities));
+                        }
+                    }while(choice < 1 || choice > savedGames.length+1);
+                    break;
+                default:
+                    System.out.println("Scelta non valida");
+                    break;
+            }
+        }while(choice < 1 || choice > 2);
+
+        if(monopoly == null)
+            monopoly = new Monopoly(generatePlayers(scannerUtilities));
+
+        /* GIOCO */
         System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
         monopoly.showTable();
         while (!monopoly.isGameOver()) {
@@ -121,13 +158,36 @@ public class Game {
     public static void saveGame(Monopoly monopoly) {
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
         DateTimeFormatter formatter = builder.appendPattern("yyyy-MM-dd_HH-mm-ss").toFormatter();
-        String fileName = "game_"+ LocalDateTime.now().format(formatter) + ".obj";
+        String fileName = "saved_games" + File.separator + "game_"+ LocalDateTime.now().format(formatter) + ".obj";
         try (FileOutputStream file = new FileOutputStream(fileName);
              ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(monopoly);
         } catch (IOException e) {
             System.out.println("Non è stato possibile salvare lo stato del gioco");
-            e.printStackTrace();
         }
+    }
+
+    public static Monopoly loadGame(String fileName) {
+        Monopoly monopoly = null;
+        try (FileInputStream file = new FileInputStream(fileName);
+             ObjectInputStream in = new ObjectInputStream(file)) {
+            monopoly = Monopoly.loadState(in);
+        } catch (FileNotFoundException e) {
+            System.out.println("File non trovato");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Non è stato possibile caricare lo stato del gioco");
+        }
+        return monopoly;
+    }
+
+    public static String[] getSavedGames() {
+        File folder = new File("saved_games");
+        File[] files = folder.listFiles();
+        if (files == null)
+            return new String[0];
+        ArrayList<String> filesList = new ArrayList<>();
+        for (File file : files)
+            filesList.add(file.getName());
+        return filesList.toArray(new String[0]);
     }
 }

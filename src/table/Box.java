@@ -3,6 +3,7 @@ package table;
 import game.Game;
 import player.Player;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 abstract public class Box implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 7488274957749693850L;
     private Colors color;
     private final int money;
     private String name;

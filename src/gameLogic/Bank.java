@@ -2,9 +2,12 @@ package gameLogic;
 
 import player.Player;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Bank implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -78467081455101893L;
     private int bankMoney;
 
     public Bank(int bankMoney) {

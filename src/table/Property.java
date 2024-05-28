@@ -3,7 +3,11 @@ package table;
 
 import player.Player;
 
+import java.io.Serial;
+
 public class Property extends Box{
+    @Serial
+    private static final long serialVersionUID = 41741538644209896L;
     private Player owner;
     private int price;
 

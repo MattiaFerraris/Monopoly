@@ -1,12 +1,15 @@
 package table;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Chance extends Box {
 
-    private List<ChanceCard> chanceCards;
+    @Serial
+    private static final long serialVersionUID = -896940612407325798L;
+    List<ChanceCard> chanceCards;
 
 
     public Chance(Colors color, int money, String name) {
@@ -27,4 +30,5 @@ public class Chance extends Box {
     public void useChanceCard(ChanceCard chanceCard) {
         System.out.printf(chanceCard.getPrint());
     }
+
 }

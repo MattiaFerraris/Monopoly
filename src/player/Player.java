@@ -2,11 +2,14 @@ package player;
 
 import table.Colors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class Player implements Serializable {
     private static final int INITIAL_BALANCE = 2000;
+    @Serial
+    private static final long serialVersionUID = 7002164350116810714L;
     private String name;
     private String symbol;
     private int position;

@@ -6,6 +6,9 @@ import player.Player;
 import player.PlayerDiceComparator;
 import table.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -16,18 +19,18 @@ public class Monopoly implements Serializable {
     public static final int WIDTH = 11;
     public static final int HEIGHT = 11;
     public static final int MAX_PRISION_TURNS = 3;
+    @Serial
+    private static final long serialVersionUID = 5796923655661778963L;
     private Table table;
     private Bank bank;
-    private transient Dice dice1;
-    private transient Dice dice2;
+    private transient Dice dice1 = new Dice(DICE_FACES);
+    private transient Dice dice2 = new Dice(DICE_FACES);
     private ArrayList<Player> players;
     private Player currentPlayer;
 
     public Monopoly(ArrayList<Player> players) {
         this.table = new Table(WIDTH, HEIGHT);
         this.bank = new Bank(BANK_MONEY);
-        this.dice1 = new Dice(DICE_FACES);
-        this.dice2 = new Dice(DICE_FACES);
         this.players = shufflePlayerOrder(players);
         for(Player player : this.players)
             addPlayerToStart(player);
@@ -213,5 +216,12 @@ public class Monopoly implements Serializable {
 
     private void addPlayerToStart(Player player) {
         table.getBox(0).addPlayerToTheBox(player);
+    }
+
+    public static Monopoly loadState(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        Monopoly monopoly = (Monopoly) objectInputStream.readObject();
+        monopoly.dice1 = new Dice(DICE_FACES);
+        monopoly.dice2 = new Dice(DICE_FACES);
+        return monopoly;
     }
 }

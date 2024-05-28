@@ -2,9 +2,13 @@ package table;
 
 import player.Player;
 
+import java.io.Serial;
+
 public class BuildableProperty extends Property{
     static final int MAX_HOUSES = 4;
     static final int MAX_HOTELS = 1;
+    @Serial
+    private static final long serialVersionUID = -6393718302342100774L;
     private int housesCount;
     private int hotelsCount;
     private int priceHouse;

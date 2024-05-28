@@ -2,10 +2,13 @@ package table;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
 public class Table implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1662367044573714210L;
     private int x;
     private int y;
     final public int totalBoxesCount;

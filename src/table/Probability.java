@@ -1,14 +1,15 @@
 package table;
 
-import player.Player;
-
+import java.io.Serial;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
 public class Probability extends Box {
 
-    private List<ProbabilityCard> probabilityCards;
+    @Serial
+    private static final long serialVersionUID = -6002629718963144379L;
+    List<ProbabilityCard> probabilityCards;
 
     public Probability(Colors color, int money, String name) {
         super(color, money, name);
@@ -28,5 +29,4 @@ public class Probability extends Box {
     public void useProbabilityCard(ProbabilityCard probabilityCard) {
         System.out.printf(probabilityCard.getPrint());
     }
-
 }

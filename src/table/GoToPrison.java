@@ -1,6 +1,11 @@
 package table;
 
+import java.io.Serial;
+
 public class GoToPrison extends Box{
+
+    @Serial
+    private static final long serialVersionUID = 6839721514262352884L;
 
     public GoToPrison() {
         super(Colors.BLACK, 0, "\uD83E\uDEF5VAI IN PRIGIONE");
