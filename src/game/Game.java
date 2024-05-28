@@ -1,10 +1,7 @@
 package game;
 
 import player.Player;
-import table.Box;
-import table.BuildableProperty;
-import table.Colors;
-import table.Property;
+import table.*;
 import utility.ScannerUtilities;
 
 import java.awt.*;
@@ -49,6 +46,17 @@ public class Game {
                     monopoly.movePlayer(currentPlayer);
                     monopoly.showTable();
                     Box box = monopoly.getBox(currentPlayer);
+
+                    if(box instanceof Probability)
+                    {
+                        ((Probability) box).getProbabilityCards();
+
+                    } else if (box instanceof  Chance) {
+
+                        ((Chance) box).getChanceCard();
+                        
+                    }
+
                     if (box instanceof Property property) {
                         if (property.getOwner() == null) { //Acquisto della proprietà
                             if (scannerUtilities.yesOrNo("Vuoi comprare " + property.getColoredName() + "? (si/no): ")) {

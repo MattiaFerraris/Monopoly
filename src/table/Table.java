@@ -86,7 +86,6 @@ public class Table implements Serializable {
         for (int i = 0; i < boxesInTable.length; i++) {
             if (boxesInTable[i] == null)
                 boxesInTable[i] = randomBoxes[assignedBoxes++];
-
         }
     }
 
