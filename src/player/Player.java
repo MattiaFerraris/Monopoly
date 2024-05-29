@@ -2,10 +2,14 @@ package player;
 
 import table.Colors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Serializable {
     private static final int INITIAL_BALANCE = 2000;
+    @Serial
+    private static final long serialVersionUID = 7002164350116810714L;
     private String name;
     private String symbol;
     private int position;
@@ -14,22 +18,17 @@ public class Player {
     private int nPrisonTurn;
     private Colors color;
 
-    private String coloredName;
-    private String coloredSymbol;
-    private static Colors[] colors = {Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW};
-    private static int colorsCnt;
+    private Colors[] defColors = {Colors.RED, Colors.BLUE, Colors.YELLOW, Colors.GREEN};
+    private static int cntColors;
 
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
+        color = defColors[cntColors++];
         this.balance = INITIAL_BALANCE;
         isInPrison = false;
         nPrisonTurn = 0;
-
-        setColoredName(name);
-        setColoredSymbol(symbol);
-        colorsCnt++;
     }
 
     //SETTER
@@ -61,26 +60,13 @@ public class Player {
         this.nPrisonTurn = nPrisonTurn;
     }
 
-
-    public void setColoredName(String name) {
-        if(colorsCnt == colors.length)
-            colorsCnt = 0;
-        coloredName = "\033[03m" + colors[colorsCnt] + name + "\033[00m";
-    }
-
-    public void setColoredSymbol(String symbol) {
-        if(colorsCnt == colors.length)
-            colorsCnt = 0;
-        coloredSymbol = "\033[03m" + colors[colorsCnt] + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
-    }
-
     //GETTER
     public String getName() {
         return name;
     }
 
     public String getColoredName() {
-        return coloredName;
+        return color + name + "\033[00m";
     }
 
     public String getSymbol() {
@@ -88,7 +74,7 @@ public class Player {
     }
 
     public String getColoredSymbol() {
-        return coloredSymbol;
+        return "\033[03m" + color + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
     }
 
 

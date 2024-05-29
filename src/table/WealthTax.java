@@ -1,8 +1,12 @@
 package table;
 
+import java.io.Serial;
+
 public class WealthTax extends Box {
 
     private static final double DEAFAULT_TAX = 0.1;
+    @Serial
+    private static final long serialVersionUID = -5202390224021070504L;
 
     private double tax;
 

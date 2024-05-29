@@ -2,9 +2,13 @@ package table;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Table {
+public class Table implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1662367044573714210L;
     private int x;
     private int y;
     final public int totalBoxesCount;
@@ -51,8 +55,11 @@ public class Table {
         readBoxes(boxes);
         boxes.add(new LuxuryTax());
         boxes.add(new WealthTax());
-        for (int i = 0; i < 6; i++)
-            boxes.add(new EmptyBox());
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Chance(Colors.RED, 0, "Imprevisti"));
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Probability(Colors.BLUE, 0, "Probabilità"));
+
         Collections.shuffle(boxes);
         return boxes.toArray(new Box[0]);
     }
@@ -82,7 +89,6 @@ public class Table {
         for (int i = 0; i < boxesInTable.length; i++) {
             if (boxesInTable[i] == null)
                 boxesInTable[i] = randomBoxes[assignedBoxes++];
-
         }
     }
 

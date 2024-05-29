@@ -1,0 +1,13 @@
+Avanza fino al "VIA!" (Ricevi 100CHF);vai a;via
+Avanza fino a Piazza Dante (Se passi dal "VIA!" ricevi 100CHF).;vai a;piazza dante
+Avanza fino a Corso Magellano (Se passi dal "VIA!" ricevi 100CHF.);vai a;corso magellano
+Avanza fino a Piazza Giulio Cesare (Se passi dal "VIA!" ricevi 100CHF);vai a;piazza giulio cesare
+La banca ti paga un dividendo di 50CHF.;ricevi;50
+Ritorna a Viale Costantino (Se passi dal "VIA!" ricevi 100CHF).;vai a;viale costantino
+Vai in prigione. Sposta direttamente la tua pedina lì senza passare dal "VIA!" e senza raccogliere 100CHF.;vai a;prigione
+Fai un viaggio alla Stazione Est. Se passi dal "VIA!" raccogli 100CHF.;vai a;stazione est
+Avanza al Parcheggio.;vai a;parcheggio
+Vai a Viale Traiano (Se passi dal "VIA!" ricevi 100CHF).;vai a;viale traiano
+Paga una tassa scolastica di 150CHF.;paga;150
+Paga una multa di 55CHF per eccesso di velocità.;paga;55
+Hai vinto il secondo premio in un concorso di bellezza. Incassa 35CHF.;ricevi;35

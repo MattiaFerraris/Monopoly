@@ -49,4 +49,8 @@ public class Bank {
         player2.setBalance(player2.getBalance() + amount);
         return true;
     }
+
+    public int getBankMoney(){
+        return bankMoney;
+    }
 }

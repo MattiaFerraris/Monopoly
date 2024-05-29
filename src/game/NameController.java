@@ -2,6 +2,7 @@ package game;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +17,7 @@ import javafx.stage.Stage;
 import player.Player;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class NameController {
     private Stage stage;
@@ -29,8 +28,6 @@ public class NameController {
     private Label correctIn;
     @FXML
     private Button conferma;
-    @FXML
-    private Button tastoAvanti;
     @FXML
     private TextField nameG1;
     @FXML
@@ -51,7 +48,7 @@ public class NameController {
     private ImageView avantiIMG;
 
     Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-    Monopoly monopoly = new Monopoly();
+    Monopoly monopoly;
     private boolean confermaClicked = false;
 
     public void goToStartScene(ActionEvent event) throws IOException {
@@ -60,9 +57,20 @@ public class NameController {
     }
 
     public void goToTableScene(ActionEvent event) throws IOException {
-        if (confermaClicked) {
-            TableController table = new TableController();
-            table.tableScene(event, monopoly, players);
+        try {
+            if (confermaClicked) {
+                FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/game/TableScene.fxml")));
+                Parent root = loader.load();
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                TableController controller = loader.getController();
+                controller.tableScene(monopoly, players);
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -76,16 +84,14 @@ public class NameController {
         stage.show();
     }
 
-    public void generatePlayersCall() {
-        if (enableButton()) {
-            correctIn.setText("Tutti i giocatori sono validi!");
-            players = generatePlayers();
-            confermaClicked = true;
-            tastoAvanti.setDisable(false);
-            avantiIMG.setOpacity(1.0);
-        } else {
-            correctIn.setText("Tasto non schiacciabile");
-        }
+    public void generatePlayersCall(ActionEvent event) throws IOException {
+        correctIn.setText("Tutti i giocatori sono validi!");
+        players = generatePlayers();
+        ArrayList<Player> playersList = new ArrayList<>(List.of(players));
+        monopoly = new Monopoly(playersList);
+        confermaClicked = true;
+
+        goToTableScene(event);
     }
 
     @FXML
@@ -103,8 +109,13 @@ public class NameController {
         );
 
         conferma.disableProperty().bind(disableBinding);
-        tastoAvanti.setDisable(true);
-        avantiIMG.setOpacity(0.5);
+
+        DoubleBinding opacityBinding = Bindings.createDoubleBinding(
+                () -> conferma.isDisabled() ? 0.5 : 1.0,
+                conferma.disableProperty()
+        );
+
+        avantiIMG.opacityProperty().bind(opacityBinding);
     }
 
     private boolean enableButton() {
@@ -149,14 +160,8 @@ public class NameController {
         players[2] = newPlayer(nameG3.getText(), symG3.getText());
         players[3] = newPlayer(nameG4.getText(), symG4.getText());
 
-        for (int i=0; i<Game.NUMBER_OF_PLAYERS; i++) {
-            monopoly.addPlayerToStart(players[i], i);
-            System.out.println(players[i].getName() + " " + players[i].getSymbol());
-        }
-
         return players;
     }
-
 
     public void generateDefaultPlayers() {
         nameG1.setText("Giocatore 1");
@@ -168,5 +173,4 @@ public class NameController {
         symG3.setText("C");
         symG4.setText("D");
     }
-
 }

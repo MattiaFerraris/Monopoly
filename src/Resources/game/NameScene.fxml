@@ -18,16 +18,13 @@
       <font>
          <Font name="Kaiti SC Bold" size="33.0" />
       </font></Label>
-   <Button fx:id="tastoAvanti" layoutX="769.0" layoutY="490.0" minHeight="17.0" mnemonicParsing="false" onAction="#goToTableScene" prefHeight="22.0" prefWidth="160.0" textAlignment="CENTER">
-      <font>
-         <Font size="18.0" />
-      </font></Button>
    <Button layoutX="38.0" layoutY="490.0" minHeight="21.0" mnemonicParsing="false" onAction="#goToStartScene" prefHeight="21.0" prefWidth="170.0" text="INDIETRO" textAlignment="CENTER">
       <font>
          <Font size="18.0" />
       </font>
    </Button>
    <Label fx:id="doublePlayer" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="RED" />
+   <Button fx:id="conferma" layoutX="787.0" layoutY="488.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="26.0" prefWidth="122.0" />
    <TextField fx:id="nameG1" layoutX="271.0" layoutY="150.0" />
    <ImageView fx:id="avantiIMG" fitHeight="200.0" fitWidth="200.0" layoutX="748.0" layoutY="386.0" mouseTransparent="true">
       <image>
@@ -71,7 +68,6 @@
    <TextField fx:id="symG2" layoutX="550.0" layoutY="210.0" prefHeight="26.0" prefWidth="49.0" />
    <TextField fx:id="symG3" layoutX="550.0" layoutY="270.0" prefHeight="26.0" prefWidth="49.0" />
    <TextField fx:id="symG4" layoutX="550.0" layoutY="330.0" prefHeight="26.0" prefWidth="49.0" />
-   <Button fx:id="conferma" layoutX="787.0" layoutY="416.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="34.0" prefWidth="122.0" text="Conferma" />
    <Label fx:id="correctIn" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="#1d9000" />
    <Button fx:id="defaultButton" layoutX="726.0" layoutY="223.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generateDefaultPlayers" prefHeight="43.0" prefWidth="122.0" text="Inserisci default" />
 
