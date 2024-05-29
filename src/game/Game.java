@@ -1,5 +1,12 @@
 package game;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import player.Player;
 import table.*;
 import utility.ScannerUtilities;
@@ -11,12 +18,28 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
-public class Game {
+import static javafx.application.Application.launch;
 
+public class Game extends Application {
+
+    public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/game/StartScreen.fxml")));
+            Scene startScreen = new Scene(root);
+            stage.setScene(startScreen);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    public static void playGame(Monopoly monopoly, Player[] players, TableController tc) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = null;
         int choice;
 
         /* CARICAMENTO DA FILE */
@@ -24,7 +47,7 @@ public class Game {
             choice = scannerUtilities.readInt("1 Nuova partita \n2 Carica partita salvata\n:");
             switch (choice){
                 case 1:
-                    monopoly = new Monopoly(generatePlayers(scannerUtilities));
+                    monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
                     break;
                 case 2:
                     String[] savedGames = getSavedGames();
@@ -45,7 +68,7 @@ public class Game {
                                 monopoly = loadGame("saved_games" + File.separator + savedGames[choice - 1]);
                                 break;
                             }
-                            monopoly = new Monopoly(generatePlayers(scannerUtilities));
+                            monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
                         }
                     }while(choice < 1 || choice > savedGames.length+1);
                     break;
@@ -56,12 +79,13 @@ public class Game {
         }while(choice < 1 || choice > 2);
 
         if(monopoly == null)
-            monopoly = new Monopoly(generatePlayers(scannerUtilities));
+            monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
 
         /* GIOCO */
         System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
         monopoly.showTable();
         while (!monopoly.isGameOver()) {
+            Platform.runLater(() -> tc.updateBalances());
             ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
             if(!lostPlayers.isEmpty())
@@ -72,6 +96,9 @@ public class Game {
             Player currentPlayer = monopoly.getCurrentPlayer();
 
             System.out.println("\nTurno di " + currentPlayer.getColoredName());
+
+            Platform.runLater(() -> tc.mostraTurno("Turno di " + currentPlayer.getName()));
+
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n3 Salva la partita\n:");
 
             switch (choice) {
@@ -127,33 +154,6 @@ public class Game {
         }
     }
 
-
-    public static Player newPlayer(ScannerUtilities scannerUtilities) {
-        String name = "";
-        String symbol = "";
-        while (name.isEmpty())
-            name = scannerUtilities.readString("Inserisci il nome: ").trim();
-        while (symbol.isEmpty())
-            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
-        return new Player(name, symbol.substring(0, 1), 0);
-    }
-
-    public static ArrayList<Player> generatePlayers(ScannerUtilities scannerUtilities) {
-        System.out.println("Inserire il nome e il simbolo\n");
-        ArrayList<Player>  players = new ArrayList<>(Monopoly.NUMBER_OF_PLAYERS);
-        Colors[] defaultColors = {Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW};
-        for (int i = 0; i < Monopoly.NUMBER_OF_PLAYERS; ) {
-            Player playerToAdd = newPlayer(scannerUtilities);
-            if(players.contains(playerToAdd))
-                System.out.println("Nome o simbolo già utilizzato");
-            else {
-                playerToAdd.setColor(defaultColors[i]);
-                players.add(playerToAdd);
-                i++;
-            }
-        }
-        return players;
-    }
 
     public static void saveGame(Monopoly monopoly) {
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();

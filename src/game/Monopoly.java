@@ -224,4 +224,7 @@ public class Monopoly implements Serializable {
         monopoly.dice2 = new Dice(DICE_FACES);
         return monopoly;
     }
+    public int getBankBalance(){
+        return bank.getBankMoney();
+    }
 }
