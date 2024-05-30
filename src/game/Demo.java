@@ -1,0 +1,84 @@
+package game;
+
+import player.Player;
+import table.*;
+import utility.ScannerUtilities;
+
+import java.io.File;
+import java.util.ArrayList;
+
+public class Demo {
+    public static void main(String[] args) {
+        ScannerUtilities scannerUtilities = new ScannerUtilities();
+        Monopoly monopoly = Game.loadGame("saved_games" + File.separator + "demoSecondTurn.obj");
+        demo(monopoly, scannerUtilities);
+    }
+
+    public static void demo(Monopoly monopoly, ScannerUtilities scannerUtilities){
+        int choice;
+        while (!monopoly.isGameOver()) {
+            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
+
+            if(!lostPlayers.isEmpty())
+                for(Player player : lostPlayers)
+                    System.out.println(player.getColoredName() + " ha perso!");
+
+
+            Player currentPlayer = monopoly.getCurrentPlayer();
+
+            System.out.println("\nTurno di " + currentPlayer.getColoredName());
+            choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n3 Salva la partita\n:");
+
+            switch (choice) {
+                case 1:
+                    monopoly.showBalance(currentPlayer);
+                    break;
+                case 2:
+                    int prevPosition = currentPlayer.getPosition();
+                    monopoly.movePlayer(currentPlayer);
+                    monopoly.showTable();
+                    Box box = monopoly.getBox(currentPlayer);
+
+                    if(box instanceof Probability)
+                    {
+                        ((Probability) box).getProbabilityCards();
+
+                    } else if (box instanceof Chance) {
+
+                        ((Chance) box).getChanceCard();
+
+                    }
+
+                    if (box instanceof Property property) {
+                        if (property.getOwner() == null) { //Acquisto della proprietà
+                            if (scannerUtilities.yesOrNo("Vuoi comprare " + property.getColoredName() + "? (si/no): ")) {
+                                if (!monopoly.buyProperty(currentPlayer, property))
+                                    monopoly.payPropertyFee(currentPlayer, property);
+                            } else
+                                monopoly.payPropertyFee(currentPlayer, property);
+
+                        } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
+                            monopoly.payPropertyFee(currentPlayer, property);
+
+                        } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
+                            BuildableProperty buildableProperty = (BuildableProperty) property;
+                            if (buildableProperty.getHousesCount() < 4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
+                                monopoly.buildHouse(currentPlayer, buildableProperty);
+                            else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
+                                monopoly.buildHotel(currentPlayer, buildableProperty);
+                        }
+                    } else
+                        monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
+                    monopoly.nextTurn();
+                    break;
+                case 3:
+                    Game.saveGame(monopoly);
+                    break;
+                default:
+                    System.out.println("Scelta non valida");
+                    break;
+
+            }
+        }
+    }
+}

@@ -18,6 +18,7 @@ public class Game {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
         Monopoly monopoly = null;
         int choice;
+        int selectedGame;
 
         /* CARICAMENTO DA FILE */
         do{
@@ -33,21 +34,22 @@ public class Game {
                         return;
                     }
                     do{
+
                         System.out.println("Partite salvate:");
                         for (int i = 0; i < savedGames.length; i++)
                             System.out.println((i + 1) + " " + savedGames[i]);
                         System.out.println((savedGames.length + 1) + " NUOVA PARTITA");
-                        choice = scannerUtilities.readInt("Inserisci il numero della partita da caricare: ");
-                        if(choice < 1 || choice > savedGames.length+1)
+                        selectedGame = scannerUtilities.readInt("Inserisci il numero della partita da caricare: ");
+                        if(selectedGame < 1 || selectedGame > savedGames.length+1)
                             System.out.println("Scelta non valida");
                         else{
-                            if(choice != savedGames.length+1){
-                                monopoly = loadGame("saved_games" + File.separator + savedGames[choice - 1]);
+                            if(selectedGame != savedGames.length+1){
+                                monopoly = loadGame("saved_games" + File.separator + savedGames[selectedGame - 1]);
                                 break;
                             }
                             monopoly = new Monopoly(generatePlayers(scannerUtilities));
                         }
-                    }while(choice < 1 || choice > savedGames.length+1);
+                    }while(selectedGame < 1 || selectedGame > savedGames.length+1);
                     break;
                 default:
                     System.out.println("Scelta non valida");
