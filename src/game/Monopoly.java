@@ -164,7 +164,7 @@ public class Monopoly implements Serializable {
             return false;
 
         for (int i = 0; i < table.totalBoxesCount; i++) {
-            if(table.getBox(i).getColor() == color){
+            if(table.getBox(i) instanceof Property && table.getBox(i).getColor() == color){
                 if(((Property)table.getBox(i)).getOwner() == player)
                     count++;
             }

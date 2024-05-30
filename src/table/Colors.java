@@ -17,4 +17,18 @@ public enum Colors {
         return color;
     }
 
+    public static Colors getColor(String color) {
+        return switch (color) {
+            case "BROWN" -> BROWN;
+            case "LIGHT_BLUE" -> LIGHT_BLUE;
+            case "PINK" -> PINK;
+            case "GREY" -> GREY;
+            case "RED" -> RED;
+            case "YELLOW" -> YELLOW;
+            case "GREEN" -> GREEN;
+            case "BLUE" -> BLUE;
+            case "BLACK" -> BLACK;
+            default -> RESET;
+        };
+    }
 }

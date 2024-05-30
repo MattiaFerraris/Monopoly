@@ -38,6 +38,7 @@ public class ScannerUtilities {
     }
 
     public String readString(String message) {
+        scanner.nextLine();
         System.out.print(message);
         return scanner.nextLine();
     }

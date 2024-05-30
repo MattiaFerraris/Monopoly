@@ -10,13 +10,14 @@ import java.util.ArrayList;
 public class Demo {
     public static void main(String[] args) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = Game.loadGame("saved_games" + File.separator + "demoSecondTurn.obj");
+        Monopoly monopoly = Game.loadGame("saved_games" + File.separator + "demoInitPlayers.obj");
         demo(monopoly, scannerUtilities);
     }
 
     public static void demo(Monopoly monopoly, ScannerUtilities scannerUtilities){
         int choice;
         while (!monopoly.isGameOver()) {
+            monopoly.showTable();
             ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
             if(!lostPlayers.isEmpty())
@@ -29,13 +30,23 @@ public class Demo {
             System.out.println("\nTurno di " + currentPlayer.getColoredName());
             choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n3 Salva la partita\n:");
 
+
+            /* DEBUG COMMANDS
+            - 4: GET POSITION
+            - 5: MOVE PLAYER
+            - 6: GIVE PLAYER PROPERTY
+             */
+
             switch (choice) {
                 case 1:
                     monopoly.showBalance(currentPlayer);
                     break;
-                case 2:
+                case 2, 5:
                     int prevPosition = currentPlayer.getPosition();
-                    monopoly.movePlayer(currentPlayer);
+                    if (choice == 5) // DEBUG
+                        monopoly.move(currentPlayer, scannerUtilities.readInt("Positions to move: "));
+                    else
+                        monopoly.movePlayer(currentPlayer);
                     monopoly.showTable();
                     Box box = monopoly.getBox(currentPlayer);
 
@@ -73,6 +84,13 @@ public class Demo {
                     break;
                 case 3:
                     Game.saveGame(monopoly);
+                    break;
+                /* DEBUG */
+                case 4: // GET POSITION
+                    System.out.println("CURRENT PLAYER POSITION: " + monopoly.getCurrentPlayer().getPosition());
+                    break;
+                case 6:
+                    monopoly.givePlayerProperty(currentPlayer.getName(), scannerUtilities.readString("Property name: "));
                     break;
                 default:
                     System.out.println("Scelta non valida");
