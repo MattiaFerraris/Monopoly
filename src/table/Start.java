@@ -7,7 +7,7 @@ public class Start extends Box{
     private static final long serialVersionUID = -2062168555047886374L;
 
     public Start() {
-        super(Colors.BLACK,100, "Start");
+        super(Colors.BLACK,100, "Via");
     }
 
     @Override

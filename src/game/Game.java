@@ -88,12 +88,9 @@ public class Game {
 
                     if(box instanceof Probability)
                     {
-                        ((Probability) box).getProbabilityCards();
-
+                        monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
                     } else if (box instanceof  Chance) {
-
-                        ((Chance) box).getChanceCard();
-                        
+                        monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
                     }
 
                     if (box instanceof Property property) {
