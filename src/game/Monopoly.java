@@ -121,6 +121,30 @@ public class Monopoly implements Serializable {
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
+    public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
+        System.out.printf(probabilityCard.getPrint());
+        if(probabilityCard.getType() == ProbabilityChanceType.PAY)
+            bank.updateBalance(-probabilityCard.getAmmount(), player);
+        else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
+            bank.updateBalance(probabilityCard.getAmmount(), player);
+        else {
+            int boxPosition = table.getBoxPosition(probabilityCard.getPlace());
+            movePlayer(player.getName(), boxPosition);
+        }
+    }
+
+    public void useChanceCard(Player player,  ChanceCard chanceCard){
+        System.out.printf(chanceCard.getPrint());
+        if(chanceCard.getType() == ProbabilityChanceType.PAY)
+            bank.updateBalance(-chanceCard.getAmmount(), player);
+        else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
+            bank.updateBalance(chanceCard.getAmmount(), player);
+        else {
+            int boxPosition = table.getBoxPosition(chanceCard.getPlace());
+            movePlayer(player.getName(), boxPosition);
+        }
+    }
+
     private void inPrison(Player player){
         int dado1 = dice1.roll();
         int dado2 = dice2.roll();
@@ -266,6 +290,11 @@ public class Monopoly implements Serializable {
         table.getBox(player.getPosition()).removePlayerFromTheBox(player);
         player.setPosition(position);
         table.getBox(player.getPosition()).addPlayerToTheBox(player);
+
+        if(position == (table.getX()-1)){
+            player.setnPrisonTurn(MAX_PRISION_TURNS);
+            player.setInPrison(true);
+        }
     }
 
     public void setPlayerBalance(String playerName, int balance){

@@ -5,10 +5,7 @@ import player.Player;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 abstract public class Box implements Serializable {
     @Serial
@@ -50,6 +47,14 @@ abstract public class Box implements Serializable {
     static int generateMoneyValue(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Box box = (Box) o;
+        return Objects.equals(name, box.name);
     }
 
     public void removePlayerFromTheBox(Player player) {

@@ -49,18 +49,10 @@ public class ChanceCard implements Serializable {
                 line = scanner.nextLine();
                 String[] split = line.split(";");
 
-                if(split[1].equals("paga"))
-                    split[1] = "PAY";
-                else if(split[1].equals("ricevi"))
-                    split[1] = "RECEIVE";
-                else {
-                    split[1] = "GOTO";
-                }
-
-                if(!split[1].equals("GOTO"))
-                    cards.add(new ChanceCard(split[0], ProbabilityChanceType.valueOf(split[1]), Integer.parseInt(split[2]),""));
+                if(!split[1].equals("vai a"))
+                    cards.add(new ChanceCard(split[0], ProbabilityChanceType.getProbabilityChanceType(split[1]), Integer.parseInt(split[2]),""));
                 else
-                    cards.add(new ChanceCard(split[0], ProbabilityChanceType.valueOf(split[1]), 0, split[2]));
+                    cards.add(new ChanceCard(split[0], ProbabilityChanceType.getProbabilityChanceType(split[1]), 0, split[2]));
 
                 i++;
             }

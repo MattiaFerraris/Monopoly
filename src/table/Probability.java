@@ -1,7 +1,6 @@
 package table;
 
 import java.io.Serial;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
@@ -21,12 +20,12 @@ public class Probability extends Box {
         return 0;
     }
 
-    public void getProbabilityCards() {
+    public ProbabilityCard getProbabilityCards() {
+        ProbabilityCard probabilityCard = probabilityCards.get(0);
+        probabilityCards.add(probabilityCards.get(0));
+        probabilityCards.remove(0);
         Collections.shuffle(probabilityCards);
-        useProbabilityCard(probabilityCards.get(0));
-    }
 
-    public void useProbabilityCard(ProbabilityCard probabilityCard) {
-        System.out.printf(probabilityCard.getPrint());
+        return probabilityCard;
     }
 }

@@ -50,6 +50,16 @@ public class Table implements Serializable {
         }
     }
 
+    public int getBoxPosition(String boxName){
+        for (int i = 0; i < boxes.length; i++) {
+            if(boxes[i].getName().toLowerCase().equals(boxName))
+                return i;
+        }
+        return 0;
+    }
+
+
+
     private Box[] createRandomBoxes() {
         ArrayList<Box> boxes = new ArrayList<>();
         readBoxes(boxes);
