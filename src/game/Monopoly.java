@@ -260,7 +260,6 @@ public class Monopoly implements Serializable {
     public Player[] getPlayers() {
         return players.toArray(new Player[players.size()]);
     }
-}
 
     /* DEBUG METHODS */
 
