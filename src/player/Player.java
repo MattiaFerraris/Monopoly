@@ -17,11 +17,14 @@ public class Player implements Serializable {
     private boolean isInPrison;
     private int nPrisonTurn;
     private Colors color;
+    private Colors[] defColors = {Colors.RED, Colors.BLUE, Colors.YELLOW, Colors.GREEN};
+    private static int cntColors;
 
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
+        color = defColors[cntColors++];
         this.balance = INITIAL_BALANCE;
         isInPrison = false;
         nPrisonTurn = 0;

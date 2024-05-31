@@ -1,5 +1,7 @@
 package table;
 
+import game.TableController;
+
 import java.io.Serial;
 import java.util.List;
 import java.util.Collections;
@@ -25,7 +27,6 @@ public class Probability extends Box {
         probabilityCards.add(probabilityCards.get(0));
         probabilityCards.remove(0);
         Collections.shuffle(probabilityCards);
-
         return probabilityCard;
     }
 }

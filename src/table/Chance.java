@@ -1,5 +1,7 @@
 package table;
 
+import game.TableController;
+
 import java.io.Serial;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +28,6 @@ public class Chance extends Box {
         chanceCards.add(chanceCards.get(0));
         chanceCards.remove(0);
         Collections.shuffle(chanceCards);
-
         return chanceCard;
     }
 
