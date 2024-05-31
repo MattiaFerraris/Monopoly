@@ -3,7 +3,6 @@ package table;
 import game.TableController;
 
 import java.io.Serial;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,14 +23,12 @@ public class Chance extends Box {
         return 0;
     }
 
-    public void getChanceCard() {
+    public ChanceCard getChanceCard() {
+        ChanceCard chanceCard = chanceCards.get(0);
+        chanceCards.add(chanceCards.get(0));
+        chanceCards.remove(0);
         Collections.shuffle(chanceCards);
-        useChanceCard(chanceCards.get(0));
-    }
-
-    public void useChanceCard(ChanceCard chanceCard) {
-        TableController.showAlert(chanceCard.getPrint(), "IMPREVISTI");
-        //System.out.printf(chanceCard.getPrint());
+        return chanceCard;
     }
 
 }

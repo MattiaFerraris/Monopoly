@@ -16,5 +16,4 @@ public enum Colors {
     public String toString() {
         return color;
     }
-
 }

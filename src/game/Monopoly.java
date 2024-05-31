@@ -64,18 +64,11 @@ public class Monopoly implements Serializable {
         move(player, dado1, dado2);
     }
 
-    public void move(Player player, int dado1, int dado2){
-        //SE IN PRIGIONE
-        if(player.isInPrison()){
-            inPrison(player);
-            return;
-        }
-
-        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+    public void move(Player player, int position){
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
-        int newPosition = temPosition + (dado1+dado2);
+        int newPosition = temPosition + (position);
 
         //VAI IN PRIGIONE
         if(newPosition == (table.getX()-1)*3){
@@ -89,6 +82,17 @@ public class Monopoly implements Serializable {
         player.setPosition(newPosition >= table.totalBoxesCount ? newPosition - table.totalBoxesCount : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
         //updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
+    }
+
+    public void move(Player player, int dado1, int dado2){
+        //SE IN PRIGIONE
+        if(player.isInPrison()){
+            inPrison(player);
+            return;
+        }
+
+        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+        move(player, dado1 + dado2);
     }
 
     public Box getBox(Player player){
@@ -115,6 +119,30 @@ public class Monopoly implements Serializable {
             return;
         }
         bank.updateBalance(property.getMoney(player.getBalance()), player);
+    }
+
+    public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
+        System.out.printf(probabilityCard.getPrint());
+        if(probabilityCard.getType() == ProbabilityChanceType.PAY)
+            bank.updateBalance(-probabilityCard.getAmmount(), player);
+        else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
+            bank.updateBalance(probabilityCard.getAmmount(), player);
+        else {
+            int boxPosition = table.getBoxPosition(probabilityCard.getPlace());
+            movePlayer(player.getName(), boxPosition);
+        }
+    }
+
+    public void useChanceCard(Player player,  ChanceCard chanceCard){
+        System.out.printf(chanceCard.getPrint());
+        if(chanceCard.getType() == ProbabilityChanceType.PAY)
+            bank.updateBalance(-chanceCard.getAmmount(), player);
+        else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
+            bank.updateBalance(chanceCard.getAmmount(), player);
+        else {
+            int boxPosition = table.getBoxPosition(chanceCard.getPlace());
+            movePlayer(player.getName(), boxPosition);
+        }
     }
 
     private void inPrison(Player player){
@@ -160,7 +188,7 @@ public class Monopoly implements Serializable {
             return false;
 
         for (int i = 0; i < table.totalBoxesCount; i++) {
-            if(table.getBox(i).getColor() == color){
+            if(table.getBox(i) instanceof Property && table.getBox(i).getColor() == color){
                 if(((Property)table.getBox(i)).getOwner() == player)
                     count++;
             }
@@ -224,11 +252,79 @@ public class Monopoly implements Serializable {
         monopoly.dice2 = new Dice(DICE_FACES);
         return monopoly;
     }
+
     public int getBankBalance(){
         return bank.getBankMoney();
     }
 
     public Player[] getPlayers() {
         return players.toArray(new Player[players.size()]);
+    }
+}
+
+    /* DEBUG METHODS */
+
+    public Player getPlayer(String playerName){
+        for(Player p : players){
+            if(p.getName().equals(playerName))
+                return p;
+        }
+        return null;
+    }
+
+    public void givePlayerProperty(String playerName, String propertyName){
+        Player player = getPlayer(playerName);
+        if(player == null){
+            System.out.println("Giocatore non trovato");
+            return;
+        }
+        for(int i = 0; i < table.totalBoxesCount; i++){
+            if(table.getBox(i) instanceof Property property){
+                if(property.getName().equals(propertyName)){
+                    property.setOwner(player);
+                    System.out.println(propertyName + " assegnata a " + playerName);
+                    return;
+                }
+            }
+        }
+        System.out.println("Proprietà non trovata");
+    }
+
+    public void movePlayer(String playerName, int position){
+        Player player = getPlayer(playerName);
+        if(player == null){
+            System.out.println("Giocatore non trovato");
+            return;
+        }
+        table.getBox(player.getPosition()).removePlayerFromTheBox(player);
+        player.setPosition(position);
+        table.getBox(player.getPosition()).addPlayerToTheBox(player);
+
+        if(position == (table.getX()-1)){
+            player.setnPrisonTurn(MAX_PRISION_TURNS);
+            player.setInPrison(true);
+        }
+    }
+
+    public void setPlayerBalance(String playerName, int balance){
+        Player player = getPlayer(playerName);
+        if(player == null){
+            System.out.println("Giocatore non trovato");
+            return;
+        }
+        player.setBalance(balance);
+    }
+
+    public void addHouse(String playerName, String propertyName){
+        for(int i = 0; i < table.totalBoxesCount; i++){
+            if(table.getBox(i) instanceof BuildableProperty property){
+                if(property.getName().equals(propertyName)){
+                    property.addHouse(getPlayer(playerName));
+                    System.out.println("Casa aggiunta a " + propertyName);
+                    return;
+                }
+            }
+        }
+        System.out.println("Proprietà non trovata");
     }
 }

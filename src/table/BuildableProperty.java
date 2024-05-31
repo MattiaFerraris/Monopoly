@@ -48,7 +48,7 @@ public class BuildableProperty extends Property{
 
     @Override
     public int getMoney(int money) {
-        return super.getMoney(money)+housesCount*15+hotelsCount*100;
+        return super.getMoney(money)-housesCount*15-hotelsCount*100;
     }
 
     public int getHousesCount() {

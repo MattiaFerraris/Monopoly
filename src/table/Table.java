@@ -22,7 +22,7 @@ public class Table implements Serializable {
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
         boxes = assignBoxes(totalBoxesCount);
         for (Box box : boxes) {
-            if (box.getColor() != Colors.BLACK) {
+            if (box instanceof BuildableProperty) {
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
@@ -40,7 +40,7 @@ public class Table implements Serializable {
                 String[] tokens = scanner.nextLine().split(",");
                 if (tokens.length != 2)
                     continue;
-                if (tokens[0].equals(Colors.BLACK.toString()))
+                if (Colors.valueOf(tokens[0]) == Colors.BLACK)
                     boxes.add(new Property(Colors.valueOf(tokens[0].trim()), tokens[1].trim()));
                 else
                     boxes.add(new BuildableProperty(Colors.valueOf(tokens[0].trim()), tokens[1].trim()));
@@ -49,6 +49,16 @@ public class Table implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public int getBoxPosition(String boxName){
+        for (int i = 0; i < boxes.length; i++) {
+            if(boxes[i].getName().toLowerCase().equals(boxName))
+                return i;
+        }
+        return 0;
+    }
+
+
 
     private Box[] createRandomBoxes() {
         ArrayList<Box> boxes = new ArrayList<>();

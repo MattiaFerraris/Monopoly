@@ -8,7 +8,7 @@ public class Prison extends Box {
     private static final long serialVersionUID = -30322442817269842L;
 
     public Prison() {
-        super(Colors.BLACK, 0, "PRIGIONE");
+        super(Colors.BLACK, 0, "Prigione");
     }
 
     @Override
