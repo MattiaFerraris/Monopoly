@@ -10,14 +10,16 @@ import java.util.ArrayList;
 public class Demo {
     public static void main(String[] args) {
         ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = Game.loadGame("saved_games" + File.separator + "demoInitPlayers.obj");
+        Monopoly monopoly = Game.loadGame("saved_games" + File.separator + "demoCharlieAllPropr.obj");
         demo(monopoly, scannerUtilities);
     }
 
     public static void demo(Monopoly monopoly, ScannerUtilities scannerUtilities){
+        int prefixPositions[] = {3};
+        int positionsPointer = 0;
         int choice;
+        monopoly.showTable();
         while (!monopoly.isGameOver()) {
-            monopoly.showTable();
             ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
             if(!lostPlayers.isEmpty())
@@ -35,6 +37,7 @@ public class Demo {
             - 4: GET POSITION
             - 5: MOVE PLAYER
             - 6: GIVE PLAYER PROPERTY
+            - 7: ADD HOUSE TO PROPERTY
              */
 
             switch (choice) {
@@ -46,18 +49,15 @@ public class Demo {
                     if (choice == 5) // DEBUG
                         monopoly.move(currentPlayer, scannerUtilities.readInt("Positions to move: "));
                     else
-                        monopoly.movePlayer(currentPlayer);
+                        monopoly.movePlayer(currentPlayer.getName(), prefixPositions[positionsPointer++ % prefixPositions.length]); // FOR DEMO
                     monopoly.showTable();
                     Box box = monopoly.getBox(currentPlayer);
 
                     if(box instanceof Probability)
                     {
-                        ((Probability) box).getProbabilityCards();
-
-                    } else if (box instanceof Chance) {
-
-                        ((Chance) box).getChanceCard();
-
+                        monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
+                    } else if (box instanceof  Chance) {
+                        monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
                     }
 
                     if (box instanceof Property property) {
@@ -91,6 +91,9 @@ public class Demo {
                     break;
                 case 6:
                     monopoly.givePlayerProperty(currentPlayer.getName(), scannerUtilities.readString("Property name: "));
+                    break;
+                case 7:
+                    monopoly.addHouse(currentPlayer.getName(), scannerUtilities.readString("Property name: "));
                     break;
                 default:
                     System.out.println("Scelta non valida");

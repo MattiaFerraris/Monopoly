@@ -306,5 +306,16 @@ public class Monopoly implements Serializable {
         player.setBalance(balance);
     }
 
-
+    public void addHouse(String playerName, String propertyName){
+        for(int i = 0; i < table.totalBoxesCount; i++){
+            if(table.getBox(i) instanceof BuildableProperty property){
+                if(property.getName().equals(propertyName)){
+                    property.addHouse(getPlayer(playerName));
+                    System.out.println("Casa aggiunta a " + propertyName);
+                    return;
+                }
+            }
+        }
+        System.out.println("Proprietà non trovata");
+    }
 }
