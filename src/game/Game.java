@@ -2,20 +2,15 @@ package game;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 import player.Player;
 import table.*;
 import table.Box;
 import utility.ScannerUtilities;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,8 +18,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-
-import static javafx.application.Application.launch;
 
 public class Game extends Application {
 

@@ -88,7 +88,7 @@ public class TableController {
         currentPlayerLabel.setText(nome);
     }
 
-    public static void showAlert(String text, String type) {
+    public static void showAlert(String text, String type) { //show alert con doppio testo
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
         alert.setTitle(type);
@@ -96,7 +96,7 @@ public class TableController {
         alert.setGraphic(null);
         alert.showAndWait();
     }
-    public static void showAlert(String text) {
+    public static void showAlert(String text) { //show alert con singolo testo
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
         alert.setTitle(null);
