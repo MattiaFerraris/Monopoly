@@ -49,7 +49,7 @@ public class Demo {
                     if (choice == 5) // DEBUG
                         monopoly.move(currentPlayer, scannerUtilities.readInt("Positions to move: "));
                     else
-                        monopoly.movePlayer(currentPlayer.getName(), prefixPositions[positionsPointer++ % prefixPositions.length]); // FOR DEMO
+                        monopoly.move(currentPlayer, prefixPositions[positionsPointer++ % prefixPositions.length]); // FOR DEMO
                     monopoly.showTable();
                     Box box = monopoly.getBox(currentPlayer);
 
