@@ -1,33 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.StartController">
    <children>
-      <ImageView fitHeight="545.0" fitWidth="967.0" layoutX="-7.0" layoutY="-2.0" opacity="0.74">
+      <Button fx:id="nuovaPartitaButton" alignment="CENTER" contentDisplay="CENTER" layoutX="276.0" layoutY="316.0" maxHeight="142.0" maxWidth="402.0" minHeight="29.0" minWidth="100.0" mnemonicParsing="false" onAction="#goToNameScene" prefHeight="60.0" prefWidth="402.0" textAlignment="CENTER" />
+      <Button fx:id="caricaPartitaButton" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="332.0" layoutY="428.0" maxHeight="142.0" maxWidth="402.0" minHeight="29.0" minWidth="100.0" mnemonicParsing="false" onAction="#caricaPartita" prefHeight="36.0" prefWidth="292.0" textAlignment="CENTER" />
+      <SplitMenuButton fx:id="uploadGameMenuButton" layoutX="327.0" layoutY="423.0" mnemonicParsing="false" onAction="#caricaPartita" prefHeight="42.0" prefWidth="301.0" text="SplitMenuButton" />
+      <ImageView fitHeight="542.0" fitWidth="968.0" layoutX="-6.0" layoutY="-2.0" mouseTransparent="true">
          <image>
-            <Image url="@Images/colorful-fake-play-money-background-free-vector.jpg" />
-         </image>
-      </ImageView>
-      <Label textAlignment="CENTER">
-         <font>
-            <Font name="Arial Bold" size="28.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="617.0" fitWidth="598.0" layoutX="186.0" layoutY="-72.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Monopoly_Logo.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="gioca" alignment="CENTER" contentDisplay="CENTER" layoutX="366.0" layoutY="331.0" maxHeight="142.0" maxWidth="272.0" minHeight="29.0" minWidth="100.0" mnemonicParsing="false" onAction="#goToNameScene" prefHeight="38.0" prefWidth="239.0" textAlignment="CENTER" />
-      <ImageView fitHeight="285.0" fitWidth="285.0" layoutX="344.0" layoutY="185.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/TASTI/TASTO_START.png" />
+            <Image url="@Images/Start_Image.png" />
          </image>
       </ImageView>
    </children>

@@ -1,5 +1,7 @@
 package table;
 
+import game.TableController;
+
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +30,8 @@ public class Chance extends Box {
     }
 
     public void useChanceCard(ChanceCard chanceCard) {
-        System.out.printf(chanceCard.getPrint());
+        TableController.showAlert(chanceCard.getPrint(), "IMPREVISTI");
+        //System.out.printf(chanceCard.getPrint());
     }
 
 }

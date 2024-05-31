@@ -7,61 +7,83 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="488.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.TableController">
+<AnchorPane prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.TableController">
    <children>
-      <ImageView fitHeight="488.0" fitWidth="661.0" opacity="0.24">
+      <Button layoutX="109.0" layoutY="449.0" mnemonicParsing="false" onAction="#launchDice" prefHeight="49.0" prefWidth="235.0" text="Tira i dadi" />
+      <Button layoutX="726.0" layoutY="27.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="35.0" prefWidth="204.0" text="Salva partita" />
+      <ImageView fitHeight="540.0" fitWidth="960.0" mouseTransparent="true">
          <image>
-            <Image url="@Images/colorful-fake-play-money-background-free-vector.jpg" />
+            <Image url="@Images/TableBackGround.png" />
          </image>
       </ImageView>
-      <Label layoutX="112.0" layoutY="45.0" text="SALDO GIOCATORI">
+      <Label fx:id="name1" layoutX="79.0" layoutY="110.0" text="NomeG1:">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="name1" layoutX="44.0" layoutY="106.0" text="NomeG1:">
+      <Label fx:id="name2" layoutX="79.0" layoutY="160.0" text="NomeG2: ">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="name2" layoutX="44.0" layoutY="156.0" text="NomeG2: ">
+      <Label fx:id="name3" layoutX="79.0" layoutY="210.0" text="NomeG3: ">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="name3" layoutX="44.0" layoutY="206.0" text="NomeG3: ">
+      <Label fx:id="name4" layoutX="79.0" layoutY="260.0" text="NomeG4: ">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="name4" layoutX="44.0" layoutY="256.0" text="NomeG4: ">
+      <Label layoutX="79.0" layoutY="337.0" text="Banca:">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label layoutX="44.0" layoutY="333.0" text="Banca:">
+      <Label fx:id="balance1" layoutX="261.0" layoutY="111.0" text="balance1">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balance1" layoutX="226.0" layoutY="107.0" text="balance1">
+      <Label fx:id="balance2" layoutX="261.0" layoutY="161.0" text="balance2">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balance2" layoutX="226.0" layoutY="157.0" text="balance2">
+      <Label fx:id="balance3" layoutX="261.0" layoutY="211.0" text="balance3">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balance3" layoutX="226.0" layoutY="207.0" text="balance3">
+      <Label fx:id="balance4" layoutX="261.0" layoutY="261.0" text="balance4">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balance4" layoutX="226.0" layoutY="257.0" text="balance4">
+      <Label fx:id="balanceBank" layoutX="261.0" layoutY="338.0" text="Banca:">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balanceBank" layoutX="226.0" layoutY="334.0" text="Banca:">
+      <Label fx:id="currentPlayerLabel" layoutX="79.0" layoutY="405.0" text="CurrentPlayer">
          <font>
             <Font size="19.0" />
-         </font></Label>
-      <Button layoutX="146.0" layoutY="423.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="94.0" text="Tira i dadi" />
-      <Label fx:id="currentPlayer" layoutX="54.0" layoutY="388.0" text="CurrentPlayer">
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="111.0" text="CHF">
          <font>
-            <Font size="19.0" />
+            <Font name="Kaiti SC Regular" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="161.0" text="CHF">
+         <font>
+            <Font name="Kaiti SC Regular" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="210.0" text="CHF">
+         <font>
+            <Font name="Kaiti SC Regular" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="261.0" text="CHF">
+         <font>
+            <Font name="Kaiti SC Regular" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="337.0" text="CHF">
+         <font>
+            <Font name="Kaiti SC Regular" size="22.0" />
          </font>
       </Label>
 

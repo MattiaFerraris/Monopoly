@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.NameController">
-   <ImageView fitHeight="555.0" fitWidth="973.0" layoutX="-7.0" layoutY="-3.0" opacity="0.11">
+   <ImageView fitHeight="539.0" fitWidth="966.0" layoutX="-6.0" layoutY="1.0" opacity="0.8">
       <image>
-         <Image url="@Images/colorful-fake-play-money-background-free-vector.jpg" />
+         <Image url="@Images/background_symbols.jpeg" />
       </image>
    </ImageView>
    <Label layoutX="144.0" layoutY="67.0" prefHeight="49.0" prefWidth="291.0" text="NOMI GIOCATORI">

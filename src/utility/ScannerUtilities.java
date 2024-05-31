@@ -41,4 +41,7 @@ public class ScannerUtilities {
         System.out.print(message);
         return scanner.nextLine();
     }
+    public void close(){
+        scanner.close();
+    }
 }

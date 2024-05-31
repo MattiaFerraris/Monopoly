@@ -99,7 +99,7 @@ public class Monopoly implements Serializable {
         if(player.getBalance() >= property.getPrice()){
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
-            System.out.println(player.getColoredName() + " ha acquistato " + property.getName() + "!");
+            TableController.showAlert(player.getName() + " ha acquistato " + property.getName() + "!");
             return true;
         }
         else
@@ -226,5 +226,9 @@ public class Monopoly implements Serializable {
     }
     public int getBankBalance(){
         return bank.getBankMoney();
+    }
+
+    public Player[] getPlayers() {
+        return players.toArray(new Player[players.size()]);
     }
 }

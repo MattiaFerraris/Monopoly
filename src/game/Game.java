@@ -2,15 +2,19 @@ package game;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import player.Player;
 import table.*;
+import table.Box;
 import utility.ScannerUtilities;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.time.LocalDateTime;
@@ -26,143 +30,47 @@ public class Game extends Application {
 
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/game/StartScreen.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/Resources/game/StartScreen.fxml")));
+            Parent root = loader.load();
             Scene startScreen = new Scene(root);
             stage.setScene(startScreen);
             stage.show();
+
+            StartController controller = loader.getController();
+            controller.uploadGamesToButton(controller.uploadGameMenuButton);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
 
     public static void playGame(Monopoly monopoly, Player[] players, TableController tc) {
-        ScannerUtilities scannerUtilities = new ScannerUtilities();
-        int choice;
+        if (monopoly == null)
+            monopoly = new Monopoly(new ArrayList<>(Arrays.asList(players)));
 
-        /* CARICAMENTO DA FILE */
-        do{
-            choice = scannerUtilities.readInt("1 Nuova partita \n2 Carica partita salvata\n:");
-            switch (choice){
-                case 1:
-                    monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
-                    break;
-                case 2:
-                    String[] savedGames = getSavedGames();
-                    if (savedGames.length == 0) {
-                        System.out.println("Nessuna partita salvata");
-                        return;
-                    }
-                    do{
-                        System.out.println("Partite salvate:");
-                        for (int i = 0; i < savedGames.length; i++)
-                            System.out.println((i + 1) + " " + savedGames[i]);
-                        System.out.println((savedGames.length + 1) + " NUOVA PARTITA");
-                        choice = scannerUtilities.readInt("Inserisci il numero della partita da caricare: ");
-                        if(choice < 1 || choice > savedGames.length+1)
-                            System.out.println("Scelta non valida");
-                        else{
-                            if(choice != savedGames.length+1){
-                                monopoly = loadGame("saved_games" + File.separator + savedGames[choice - 1]);
-                                break;
-                            }
-                            monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
-                        }
-                    }while(choice < 1 || choice > savedGames.length+1);
-                    break;
-                default:
-                    System.out.println("Scelta non valida");
-                    break;
-            }
-        }while(choice < 1 || choice > 2);
+        Player currentPlayer = monopoly.getCurrentPlayer();
+        Platform.runLater(() -> tc.showTurn("Turno di " + currentPlayer.getName()));
+        Platform.runLater(() -> tc.updateBalances());
 
-        if(monopoly == null)
-            monopoly = new Monopoly(new ArrayList<Player> (Arrays.asList(players)));
-
-        /* GIOCO */
-        System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
         monopoly.showTable();
-        while (!monopoly.isGameOver()) {
-            Platform.runLater(() -> tc.updateBalances());
-            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
-            if(!lostPlayers.isEmpty())
-                for(Player player : lostPlayers)
-                    System.out.println(player.getColoredName() + " ha perso!");
-
-
-            Player currentPlayer = monopoly.getCurrentPlayer();
-
-            System.out.println("\nTurno di " + currentPlayer.getColoredName());
-
-            Platform.runLater(() -> tc.mostraTurno("Turno di " + currentPlayer.getName()));
-
-            choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n3 Salva la partita\n:");
-
-            switch (choice) {
-                case 1:
-                    monopoly.showBalance(currentPlayer);
-                    break;
-                case 2:
-                    int prevPosition = currentPlayer.getPosition();
-                    monopoly.movePlayer(currentPlayer);
-                    monopoly.showTable();
-                    Box box = monopoly.getBox(currentPlayer);
-
-                    if(box instanceof Probability)
-                    {
-                        ((Probability) box).getProbabilityCards();
-
-                    } else if (box instanceof  Chance) {
-
-                        ((Chance) box).getChanceCard();
-                        
-                    }
-
-                    if (box instanceof Property property) {
-                        if (property.getOwner() == null) { //Acquisto della proprietà
-                            if (scannerUtilities.yesOrNo("Vuoi comprare " + property.getColoredName() + "? (si/no): ")) {
-                                if (!monopoly.buyProperty(currentPlayer, property))
-                                    monopoly.payPropertyFee(currentPlayer, property);
-                            } else
-                                monopoly.payPropertyFee(currentPlayer, property);
-
-                        } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                            monopoly.payPropertyFee(currentPlayer, property);
-
-                        } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
-                            BuildableProperty buildableProperty = (BuildableProperty) property;
-                            if (buildableProperty.getHousesCount() < 4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
-                                monopoly.buildHouse(currentPlayer, buildableProperty);
-                            else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
-                                monopoly.buildHotel(currentPlayer, buildableProperty);
-                        }
-                    } else
-                        monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
-                    monopoly.nextTurn();
-                    break;
-                case 3:
-                    saveGame(monopoly);
-                    break;
-                default:
-                    System.out.println("Scelta non valida");
-                    break;
-
-            }
-        }
     }
-
 
     public static void saveGame(Monopoly monopoly) {
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
         DateTimeFormatter formatter = builder.appendPattern("yyyy-MM-dd_HH-mm-ss").toFormatter();
-        String fileName = "saved_games" + File.separator + "game_"+ LocalDateTime.now().format(formatter) + ".obj";
+        String fileName = "saved_games" + File.separator + "game_" + LocalDateTime.now().format(formatter) + ".obj";
         try (FileOutputStream file = new FileOutputStream(fileName);
              ObjectOutputStream out = new ObjectOutputStream(file)) {
             out.writeObject(monopoly);
+            TableController.showAlert("PARTITA SALVATA");
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Non è stato possibile salvare lo stato del gioco");
         }
     }
@@ -175,7 +83,7 @@ public class Game extends Application {
         } catch (FileNotFoundException e) {
             System.out.println("File non trovato");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Non è stato possibile caricare lo stato del gioco");
+            TableController.showAlert("Non è stato possibile caricare lo stato del gioco");
         }
         return monopoly;
     }
@@ -190,4 +98,63 @@ public class Game extends Application {
             filesList.add(file.getName());
         return filesList.toArray(new String[0]);
     }
+
+    public static void turn(Monopoly monopoly, TableController tc) {
+        Player currentPlayer = monopoly.getCurrentPlayer();
+
+        if (!monopoly.isGameOver()) {
+
+            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
+
+            if (!lostPlayers.isEmpty())
+                for (Player player : lostPlayers)
+                    TableController.showAlert(player.getName() + " ha perso!");
+
+
+            String s = currentPlayer.getColoredName();
+            System.out.println(s);
+            Platform.runLater(() -> tc.updateBalances());
+
+            int prevPosition = currentPlayer.getPosition();
+            monopoly.movePlayer(currentPlayer);
+            monopoly.showTable();
+            Box box = monopoly.getBox(currentPlayer);
+
+            if (box instanceof Probability) {
+                ((Probability) box).getProbabilityCards();
+
+            } else if (box instanceof Chance) {
+
+                ((Chance) box).getChanceCard();
+            }
+
+            if (box instanceof Property property) {
+                if (property.getOwner() == null) { //Acquisto della proprietà
+
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {
+
+                        if (!monopoly.buyProperty(currentPlayer, property))
+                            monopoly.payPropertyFee(currentPlayer, property);
+                    } else
+                        monopoly.payPropertyFee(currentPlayer, property);
+
+                } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
+                    monopoly.payPropertyFee(currentPlayer, property);
+
+                } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
+                    BuildableProperty buildableProperty = (BuildableProperty) property;
+                    if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))
+                        monopoly.buildHouse(currentPlayer, buildableProperty);
+                    else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && TableController.alertChoice("VUOI COSTRUIRE UN HOTEL?", currentPlayer))
+                        monopoly.buildHotel(currentPlayer, buildableProperty);
+                }
+            } else
+                monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
+        }
+        monopoly.nextTurn();
+        currentPlayer = monopoly.getCurrentPlayer();
+        final Player finalCurrentPlayer = currentPlayer;
+        Platform.runLater(() -> tc.showTurn("Turno di " + finalCurrentPlayer.getName())); //il lambda richiede variabili final in questo caso (altrimenti il compilatore segna errore se si usa 'currentiPlayer')
+    }
+
 }

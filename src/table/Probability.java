@@ -1,5 +1,7 @@
 package table;
 
+import game.TableController;
+
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class Probability extends Box {
     }
 
     public void useProbabilityCard(ProbabilityCard probabilityCard) {
-        System.out.printf(probabilityCard.getPrint());
+        TableController.showAlert(probabilityCard.getPrint(), "PROBABILITÀ");
+        //System.out.printf(probabilityCard.getPrint());
     }
 }
