@@ -29,4 +29,5 @@ public class Probability extends Box {
         Collections.shuffle(probabilityCards);
         return probabilityCard;
     }
+
 }

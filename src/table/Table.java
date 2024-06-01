@@ -190,4 +190,5 @@ public class Table implements Serializable {
     public Box[] getBoxes() {
         return boxes;
     }
+
 }

@@ -23,7 +23,6 @@
          <Font size="18.0" />
       </font>
    </Button>
-   <Label fx:id="doublePlayer" layoutX="144.0" layoutY="398.0" prefHeight="18.0" prefWidth="622.0" textFill="RED" />
    <Button fx:id="conferma" layoutX="787.0" layoutY="488.0" maxHeight="62.0" maxWidth="122.0" minHeight="12.0" minWidth="5.0" mnemonicParsing="false" onAction="#generatePlayersCall" prefHeight="26.0" prefWidth="122.0" />
    <TextField fx:id="nameG1" layoutX="271.0" layoutY="150.0" />
    <ImageView fx:id="avantiIMG" fitHeight="200.0" fitWidth="200.0" layoutX="748.0" layoutY="386.0" mouseTransparent="true">

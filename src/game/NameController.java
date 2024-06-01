@@ -85,7 +85,6 @@ public class NameController {
     }
 
     public void generatePlayersCall(ActionEvent event) throws IOException {
-        correctIn.setText("Tutti i giocatori sono validi!");
         players = generatePlayers();
         ArrayList<Player> playersList = new ArrayList<>(List.of(players));
         monopoly = new Monopoly(playersList);
@@ -164,10 +163,10 @@ public class NameController {
     }
 
     public void generateDefaultPlayers() {
-        nameG1.setText("Giocatore 1");
-        nameG2.setText("Giocatore 2");
-        nameG3.setText("Giocatore 3");
-        nameG4.setText("Giocatore 4");
+        nameG1.setText("Alice");
+        nameG2.setText("Bob");
+        nameG3.setText("Charlie");
+        nameG4.setText("Dave");
         symG1.setText("A");
         symG2.setText("B");
         symG3.setText("C");
