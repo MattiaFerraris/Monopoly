@@ -98,8 +98,7 @@ public class Monopoly implements Serializable {
         }
 
         TableController.showDices(dado1, dado2, player);
-
-        System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
+        //System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
         move(player, dado1 + dado2);
     }
 
@@ -161,10 +160,10 @@ public class Monopoly implements Serializable {
         int dado1 = dice1.roll();
         int dado2 = dice2.roll();
 
-        System.out.println("Turni rimanenti in prigione: " + player.getnPrisonTurn() + "\n");
+        TableController.showAlert("A " + player.getName() + " mancano " + player.getnPrisonTurn() + " turni per uscire di prigione");
 
         if(player.getnPrisonTurn() == 0){
-            System.out.println("Pagati 50 CHF per uscire di prigione");
+            TableController.showAlert("USCITA DI PRIGIONE", "Dado 1: " + dado1 + "\n" + "Dado 2: \n" + " esci di prigione pagando 50 CHF!", player);
             bank.updateBalance(-50, player);
             player.setInPrison(false);
             move(player, dado1, dado2);
@@ -173,8 +172,7 @@ public class Monopoly implements Serializable {
             move(player, dado1, dado2);
         }
         else{
-            System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
-            System.out.println("NO DADO DOPPIO");
+            TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: \nNon esci di prigione!" + dado2, player);
             player.setnPrisonTurn(player.getnPrisonTurn()-1);
         }
     }
@@ -336,7 +334,8 @@ public class Monopoly implements Serializable {
             if(table.getBox(i) instanceof BuildableProperty property){
                 if(property.getName().equals(propertyName)){
                     property.addHouse(getPlayer(playerName));
-                    System.out.println("Casa aggiunta a " + propertyName);
+                    TableController.showAlert("Casa aggiunta a " + propertyName);
+                    //System.out.println("Casa aggiunta a " + propertyName);
                     return;
                 }
             }

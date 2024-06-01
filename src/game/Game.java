@@ -77,7 +77,8 @@ public class Game extends Application {
              ObjectInputStream in = new ObjectInputStream(file)) {
             monopoly = Monopoly.loadState(in);
         } catch (FileNotFoundException e) {
-            System.out.println("File non trovato");
+            TableController.showAlert("File non trovato");
+            //System.out.println("File non trovato");
         } catch (IOException | ClassNotFoundException e) {
             TableController.showAlert("Non è stato possibile caricare lo stato del gioco");
         }
@@ -107,9 +108,6 @@ public class Game extends Application {
                 for (Player player : lostPlayers)
                     TableController.showAlert(player.getName() + " HA PERSO!");
 
-
-            String s = currentPlayer.getColoredName();
-            System.out.println(s);
             Platform.runLater(() -> tc.updateBalances());
 
             int prevPosition = currentPlayer.getPosition();

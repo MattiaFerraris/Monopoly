@@ -3,6 +3,7 @@ package game;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +14,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import player.Player;
 
-import javafx.scene.image.Image;
 import table.Box;
 import table.Table;
 
@@ -71,7 +71,6 @@ public class TableController {
             name4.setText(players[3].getName() + " (" + players[3].getSymbol() + ")");
 
 
-
             new Thread(() -> Game.playGame(monopoly, players, this)).start();
 
         } catch (IOException e) {
@@ -112,11 +111,11 @@ public class TableController {
         alert.showAndWait();
     }
 
-    public static void showDices(int d1, int d2, Player player){
+    public static void showDices(int d1, int d2, Player player) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("TIRO DEI DADI");
         alert.setHeaderText(player.getName());
-        alert.setContentText("Dado 1:  " + d1 + "\nDado 2:  " + d2 + "\nSomma:  " + (d1+d2));
+        alert.setContentText("Dado 1:  " + d1 + "\nDado 2:  " + d2 + "\nSomma:  " + (d1 + d2));
         alert.showAndWait();
     }
 
@@ -151,26 +150,13 @@ public class TableController {
             gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
             gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            gridPane.setHgap(20);
-            gridPane.setVgap(20);
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
 
-            // Imposta le dimensioni prefissate per le celle
             int cellSize = 100;
 
-            for (int i = 0; i < 3; i++) {
-                ColumnConstraints column = new ColumnConstraints(cellSize);
-                column.setHgrow(Priority.ALWAYS);
-                gridPane.getColumnConstraints().add(column);
-            }
-
-            for (int j = 0; j < 3; j++) {
-                RowConstraints row = new RowConstraints(cellSize);
-                row.setVgrow(Priority.ALWAYS);
-                gridPane.getRowConstraints().add(row);
-            }
-
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
 
                     Box currentBox = table.getBox(i);
                     Label l = new Label(currentBox.getBoxDetailsToString());
@@ -179,6 +165,7 @@ public class TableController {
                     l.setTextAlignment(TextAlignment.LEFT);
                     l.setBackground(Background.fill(Paint.valueOf("white")));
                     l.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                    l.setAlignment(Pos.TOP_LEFT);
                     GridPane.setFillWidth(l, true);
                     GridPane.setFillHeight(l, true);
 
@@ -188,5 +175,6 @@ public class TableController {
             }
         });
     }
+
 
 }
