@@ -33,6 +33,7 @@ public class Game extends Application {
             controller.uploadGamesToButton(controller.uploadGameMenuButton);
 
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,9 +47,11 @@ public class Game extends Application {
         if (monopoly == null)
             monopoly = new Monopoly(new ArrayList<>(Arrays.asList(players)));
 
+
         Player currentPlayer = monopoly.getCurrentPlayer();
         Platform.runLater(() -> tc.showTurn("Turno di " + currentPlayer.getName()));
         Platform.runLater(() -> tc.updateBalances());
+        tc.showTable();
 
         monopoly.showTable();
 
@@ -64,7 +67,7 @@ public class Game extends Application {
             TableController.showAlert("PARTITA SALVATA");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Non è stato possibile salvare lo stato del gioco");
+            TableController.showAlert("Non è stato possibile salvare lo stato del gioco");
         }
     }
 
@@ -97,11 +100,12 @@ public class Game extends Application {
 
         if (!monopoly.isGameOver()) {
 
+
             ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
             if (!lostPlayers.isEmpty())
                 for (Player player : lostPlayers)
-                    TableController.showAlert(player.getName() + " ha perso!");
+                    TableController.showAlert(player.getName() + " HA PERSO!");
 
             String s = currentPlayer.getColoredName();
             System.out.println(s);
@@ -109,14 +113,15 @@ public class Game extends Application {
             int prevPosition = currentPlayer.getPosition();
             monopoly.movePlayer(currentPlayer);
             monopoly.showTable();
+            tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
             if (box instanceof Probability) {
-                ((Probability) box).getProbabilityCards();
+                monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
 
             } else if (box instanceof Chance) {
 
-                ((Chance) box).getChanceCard();
+                monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
             }
 
             if (box instanceof Property property) {

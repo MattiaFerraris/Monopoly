@@ -78,6 +78,7 @@ abstract public class Box implements Serializable {
     public String getName() {
         return name;
     }
+
     public String getColoredName() {
         return color + name + Colors.RESET;
     }
@@ -87,7 +88,7 @@ abstract public class Box implements Serializable {
         StringBuilder playersDetails = new StringBuilder();
         for (Player player : playersInBox) {
             if (player != null)
-                playersDetails.append(player.getColoredSymbol()).append(" ");
+                playersDetails.append(player.getSymbol()).append(" ");
         }
         String details = playersDetails.toString();
         return !details.isEmpty() ? details.substring(0, details.length() - 1) : "";
@@ -107,8 +108,13 @@ abstract public class Box implements Serializable {
         return details;
     }
 
+    public String getBoxDetailsToString() {
+        return name + "\n\n" + getSymbolsOfPlayersInBox();
+    }
+
     public int getCntPlayersInTheBox() {
         return playersInBox.size();
     }
+
 
 }

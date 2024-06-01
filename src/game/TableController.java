@@ -3,19 +3,23 @@ package game;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import player.Player;
 
-import java.awt.*;
+import javafx.scene.image.Image;
+import table.Box;
+import table.Table;
+
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.Semaphore;
+
 
 public class TableController {
     private Stage stage;
@@ -47,8 +51,8 @@ public class TableController {
     private Label balanceBank;
     @FXML
     TableController controller;
-
-    private static Boolean choice = false;
+    @FXML
+    private GridPane gridPane;
 
 
     public void tableScene(Monopoly monopoly, Player[] players) {
@@ -60,13 +64,15 @@ public class TableController {
             this.monopoly = monopoly;
             this.players = players;
 
+            controller = loader.getController();
             name1.setText(players[0].getName() + " (" + players[0].getSymbol() + ")");
             name2.setText(players[1].getName() + " (" + players[1].getSymbol() + ")");
             name3.setText(players[2].getName() + " (" + players[2].getSymbol() + ")");
             name4.setText(players[3].getName() + " (" + players[3].getSymbol() + ")");
 
-            new Thread(() -> Game.playGame(monopoly, players, this)).start();
 
+
+            new Thread(() -> Game.playGame(monopoly, players, this)).start();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -88,20 +94,29 @@ public class TableController {
         currentPlayerLabel.setText(nome);
     }
 
-    public static void showAlert(String text, String type) { //show alert con doppio testo
+    public static void showAlert(String title, String text, Player p) { //show alert con doppio testo
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
-        alert.setTitle(type);
-        alert.setHeaderText(null);
+        alert.setTitle(title);
+        alert.setHeaderText(p.getName());
         alert.setGraphic(null);
         alert.showAndWait();
     }
+
     public static void showAlert(String text) { //show alert con singolo testo
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
         alert.setTitle(null);
         alert.setHeaderText(null);
         alert.setGraphic(null);
+        alert.showAndWait();
+    }
+
+    public static void showDices(int d1, int d2, Player player){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("TIRO DEI DADI");
+        alert.setHeaderText(player.getName());
+        alert.setContentText("Dado 1:  " + d1 + "\nDado 2:  " + d2 + "\nSomma:  " + (d1+d2));
         alert.showAndWait();
     }
 
@@ -117,7 +132,6 @@ public class TableController {
         alert.getButtonTypes().setAll(siButton, noButton);
         alert.setHeaderText(currentPlayer.getName());
         return alert.showAndWait().get() == siButton;
-
     }
 
     public void launchDice() {
@@ -127,4 +141,52 @@ public class TableController {
     public void saveGame() {
         Game.saveGame(monopoly);
     }
+
+    public void showTable() {
+        Platform.runLater(() -> {
+            Table table = monopoly.getTable();
+
+            gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+
+            gridPane.setHgap(20);
+            gridPane.setVgap(20);
+
+            // Imposta le dimensioni prefissate per le celle
+            int cellSize = 100;
+
+            for (int i = 0; i < 3; i++) {
+                ColumnConstraints column = new ColumnConstraints(cellSize);
+                column.setHgrow(Priority.ALWAYS);
+                gridPane.getColumnConstraints().add(column);
+            }
+
+            for (int j = 0; j < 3; j++) {
+                RowConstraints row = new RowConstraints(cellSize);
+                row.setVgrow(Priority.ALWAYS);
+                gridPane.getRowConstraints().add(row);
+            }
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+
+                    Box currentBox = table.getBox(i);
+                    Label l = new Label(currentBox.getBoxDetailsToString());
+                    l.setPrefHeight(cellSize);
+                    l.setPrefWidth(cellSize);
+                    l.setTextAlignment(TextAlignment.LEFT);
+                    l.setBackground(Background.fill(Paint.valueOf("white")));
+                    l.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                    GridPane.setFillWidth(l, true);
+                    GridPane.setFillHeight(l, true);
+
+                    gridPane.add(l, i, j);
+
+                }
+            }
+        });
+    }
+
 }

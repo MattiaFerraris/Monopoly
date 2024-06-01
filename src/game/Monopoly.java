@@ -39,10 +39,12 @@ public class Monopoly implements Serializable {
 
     private ArrayList<Player> shufflePlayerOrder(ArrayList<Player> players) {
         Map<Player, Integer> playerDiceMap = new HashMap<>();
+        TableController.showAlert("SFIDA INIZIALE DEI DADI");
         for(Player player : players){
             int dice1 = this.dice1.roll();
             int dice2 = this.dice2.roll();
-            System.out.println(player.getName() + " ha ottenuto " + (dice1 + dice2) + " al lancio dei dadi.");
+
+            TableController.showAlert(null, dice1 + " e " + dice2 + " = " + (dice1+dice2), player);
             playerDiceMap.put(player, dice1 + dice2);
         }
         ArrayList<Map.Entry<Player, Integer>> shuffledPlayers = new ArrayList(playerDiceMap.entrySet());
@@ -50,6 +52,10 @@ public class Monopoly implements Serializable {
         ArrayList<Player> orderedPlayers = new ArrayList<>();
         for (int i = 0; i < shuffledPlayers.size(); i++)
             orderedPlayers.add(((Map.Entry<Player, Integer>) shuffledPlayers.get(i)).getKey());
+        StringBuilder orderedPlayersString = new StringBuilder();
+        for(Player player : orderedPlayers)
+            orderedPlayersString.append(player.getName()).append("\n");
+        TableController.showAlert("Ordine di gioco:\n" + orderedPlayersString);
         return orderedPlayers;
     }
 
@@ -91,6 +97,8 @@ public class Monopoly implements Serializable {
             return;
         }
 
+        TableController.showDices(dado1, dado2, player);
+
         System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
         move(player, dado1 + dado2);
     }
@@ -107,7 +115,8 @@ public class Monopoly implements Serializable {
             return true;
         }
         else
-            System.out.println("Non hai abbastanza soldi");
+            TableController.showAlert("Non hai abbastanza soldi");
+            //System.out.println("Non hai abbastanza soldi");
         return false;
     }
 
@@ -115,14 +124,16 @@ public class Monopoly implements Serializable {
         Player owner = property.getOwner();
         if(owner != null){
             bank.transferMoney(property.getMoney(player.getBalance()), player, owner);
-            System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
+            TableController.showAlert(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
+            //System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
             return;
         }
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
     public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
-        System.out.printf(probabilityCard.getPrint());
+        TableController.showAlert("IMPREVISTI!", probabilityCard.getPrint(), currentPlayer);
+        //System.out.printf(probabilityCard.getPrint());
         if(probabilityCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-probabilityCard.getAmmount(), player);
         else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
@@ -134,7 +145,8 @@ public class Monopoly implements Serializable {
     }
 
     public void useChanceCard(Player player,  ChanceCard chanceCard){
-        System.out.printf(chanceCard.getPrint());
+        TableController.showAlert("IMPREVISTI!", chanceCard.getPrint(), currentPlayer);
+        //System.out.printf(chanceCard.getPrint());
         if(chanceCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-chanceCard.getAmmount(), player);
         else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
@@ -220,6 +232,7 @@ public class Monopoly implements Serializable {
         for(Iterator<Player> iterator = players.iterator(); iterator.hasNext();){
             Player player = iterator.next();
             if(player.getBalance() <= 0) {
+                //TableController.showAlert(player.getName() + " HA PERSO!");
                 lostPlayers.add(player);
                 iterator.remove();
                 for(int i = 0; i < table.totalBoxesCount; i++){
@@ -296,6 +309,10 @@ public class Monopoly implements Serializable {
             }
         }
         System.out.println("Proprietà non trovata");
+    }
+
+    public Table getTable() {
+        return table;
     }
 
     public void movePlayer(String playerName, int position){
