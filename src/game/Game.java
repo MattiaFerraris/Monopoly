@@ -99,8 +99,6 @@ public class Game extends Application {
         Player currentPlayer = monopoly.getCurrentPlayer();
 
         if (!monopoly.isGameOver()) {
-
-
             ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
 
             if (!lostPlayers.isEmpty())
@@ -120,23 +118,28 @@ public class Game extends Application {
                 monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
 
             } else if (box instanceof Chance) {
-
                 monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
             }
 
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
-
                     if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {
-
-                        if (!monopoly.buyProperty(currentPlayer, property))
+                        if (!monopoly.buyProperty(currentPlayer, property)){
                             monopoly.payPropertyFee(currentPlayer, property);
+                            TableController.showAlert("Non hai abbastanza soldi");
+                        } else
+                            TableController.showAlert(currentPlayer.getName() + " ha acquistato " + property.getName() + "!");
                     } else
                         monopoly.payPropertyFee(currentPlayer, property);
 
                 } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                    monopoly.payPropertyFee(currentPlayer, property);
-
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + "?", currentPlayer))
+                        if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
+                            monopoly.buyProperty(currentPlayer, property);
+                        else
+                            monopoly.payPropertyFee(currentPlayer, property);
+                    else
+                        monopoly.payPropertyFee(currentPlayer, property);
                 } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
                     BuildableProperty buildableProperty = (BuildableProperty) property;
                     if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))

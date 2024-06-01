@@ -69,8 +69,11 @@ public class Demo {
                                 monopoly.payPropertyFee(currentPlayer, property);
 
                         } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                            monopoly.payPropertyFee(currentPlayer, property);
-
+                            if (scannerUtilities.yesOrNo("Vuoi provare a comprare " + property.getColoredName() + " da " + property.getOwner().getName().toUpperCase() + "? (si/no): "))
+                                if(scannerUtilities.yesOrNo(property.getOwner().getName().toUpperCase() + " accetta la tua offerta? (si/no): "))
+                                    monopoly.buyProperty(currentPlayer, property);
+                                else
+                                    monopoly.payPropertyFee(currentPlayer, property);
                         } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
                             BuildableProperty buildableProperty = (BuildableProperty) property;
                             if (buildableProperty.getHousesCount() < 4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
