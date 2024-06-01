@@ -156,4 +156,64 @@ public class Game extends Application {
         Platform.runLater(() -> tc.updateBalances());
     }
 
+    /* DEBUG GAME */
+    public static void turn(Monopoly monopoly, TableController tc, int positionsToMove) {
+        Player currentPlayer = monopoly.getCurrentPlayer();
+
+        if (!monopoly.isGameOver()) {
+            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
+
+            if (!lostPlayers.isEmpty())
+                for (Player player : lostPlayers)
+                    TableController.showAlert(player.getName() + " HA PERSO!");
+
+            Platform.runLater(() -> tc.updateBalances());
+
+            int prevPosition = currentPlayer.getPosition();
+            monopoly.movePlayer(currentPlayer.getName(), positionsToMove);
+            monopoly.showTable();
+            tc.showTable();
+            Box box = monopoly.getBox(currentPlayer);
+
+            if (box instanceof Probability) {
+                monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
+
+            } else if (box instanceof Chance) {
+                monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
+            }
+
+            if (box instanceof Property property) {
+                if (property.getOwner() == null) { //Acquisto della proprietà
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {
+                        if (!monopoly.buyProperty(currentPlayer, property)){
+                            monopoly.payPropertyFee(currentPlayer, property);
+                            TableController.showAlert("Non hai abbastanza soldi");
+                        } else
+                            TableController.showAlert(currentPlayer.getName() + " ha acquistato " + property.getName() + "!");
+                    } else
+                        monopoly.payPropertyFee(currentPlayer, property);
+
+                } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + "?", currentPlayer))
+                        if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
+                            monopoly.buyProperty(currentPlayer, property);
+                        else
+                            monopoly.payPropertyFee(currentPlayer, property);
+                    else
+                        monopoly.payPropertyFee(currentPlayer, property);
+                } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
+                    BuildableProperty buildableProperty = (BuildableProperty) property;
+                    if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))
+                        monopoly.buildHouse(currentPlayer, buildableProperty);
+                    else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && TableController.alertChoice("VUOI COSTRUIRE UN HOTEL?", currentPlayer))
+                        monopoly.buildHotel(currentPlayer, buildableProperty);
+                }
+            } else
+                monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
+        }
+        monopoly.nextTurn();
+        Player nextPlayer = monopoly.getCurrentPlayer();
+        Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+        Platform.runLater(() -> tc.updateBalances());
+    }
 }
