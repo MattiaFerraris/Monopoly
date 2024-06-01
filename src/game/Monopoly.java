@@ -110,12 +110,8 @@ public class Monopoly implements Serializable {
         if(player.getBalance() >= property.getPrice()){
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
-            TableController.showAlert(player.getName() + " ha acquistato " + property.getName() + "!");
             return true;
         }
-        else
-            TableController.showAlert("Non hai abbastanza soldi");
-            //System.out.println("Non hai abbastanza soldi");
         return false;
     }
 
@@ -270,6 +266,16 @@ public class Monopoly implements Serializable {
 
     public Player[] getPlayers() {
         return players.toArray(new Player[players.size()]);
+    }
+
+    public boolean buyPropertyFromPlayer(Player buyer, Player seller, Property property){
+        if(buyer.getBalance() >= property.getPrice()){
+            bank.transferMoney(property.getPrice(), buyer, seller);
+            property.setOwner(buyer);
+            property.reset();
+            return true;
+        }
+        return false;
     }
 
     /* DEBUG METHODS */
