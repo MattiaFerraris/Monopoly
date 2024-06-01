@@ -103,10 +103,8 @@ public class Game extends Application {
                 for (Player player : lostPlayers)
                     TableController.showAlert(player.getName() + " ha perso!");
 
-
             String s = currentPlayer.getColoredName();
             System.out.println(s);
-            Platform.runLater(() -> tc.updateBalances());
 
             int prevPosition = currentPlayer.getPosition();
             monopoly.movePlayer(currentPlayer);
@@ -145,9 +143,9 @@ public class Game extends Application {
                 monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
         }
         monopoly.nextTurn();
-        currentPlayer = monopoly.getCurrentPlayer();
-        final Player finalCurrentPlayer = currentPlayer;
-        Platform.runLater(() -> tc.showTurn("Turno di " + finalCurrentPlayer.getName())); //il lambda richiede variabili final in questo caso (altrimenti il compilatore segna errore se si usa 'currentiPlayer')
+        Player nextPlayer = monopoly.getCurrentPlayer();
+        Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+        Platform.runLater(() -> tc.updateBalances());
     }
 
 }

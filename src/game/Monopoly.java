@@ -261,6 +261,15 @@ public class Monopoly implements Serializable {
         return players.toArray(new Player[players.size()]);
     }
 
+    public boolean buyPropertyFromPlayer(Player buyer, Player seller, Property property){
+        if(buyer.getBalance() >= property.getPrice()){
+            bank.transferMoney(property.getPrice(), buyer, seller);
+            property.setOwner(buyer);
+            return true;
+        }
+        return false;
+    }
+
     /* DEBUG METHODS */
 
     public Player getPlayer(String playerName){
