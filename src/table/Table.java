@@ -32,6 +32,9 @@ public class Table implements Serializable {
     public Box getBox(int index) {
         return boxes[index];
     }
+    public Box getBox(int i1, int i2) {
+        return table[i1][i2];
+    }
 
     public void readBoxes(ArrayList<Box> boxes) {
         try (FileInputStream file = new FileInputStream("PropertyData.csv");

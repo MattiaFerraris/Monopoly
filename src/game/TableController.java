@@ -10,12 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import player.Player;
 
-import table.Box;
-import table.Table;
+import table.*;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -143,6 +145,8 @@ public class TableController {
 
     public void showTable() {
         Platform.runLater(() -> {
+            gridPane.getChildren().clear();
+
             Table table = monopoly.getTable();
 
             gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
@@ -150,31 +154,86 @@ public class TableController {
             gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
             gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            gridPane.setHgap(10);
-            gridPane.setVgap(10);
+            gridPane.setHgap(2);
+            gridPane.setVgap(2);
 
-            int cellSize = 100;
+            int cellHeight = 73;
+            int cellWidth = 85;
 
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
+            gridPane.getColumnConstraints().clear();
+            gridPane.getRowConstraints().clear();
 
-                    Box currentBox = table.getBox(i);
-                    Label l = new Label(currentBox.getBoxDetailsToString());
-                    l.setPrefHeight(cellSize);
-                    l.setPrefWidth(cellSize);
-                    l.setTextAlignment(TextAlignment.LEFT);
-                    l.setBackground(Background.fill(Paint.valueOf("white")));
-                    l.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                    l.setAlignment(Pos.TOP_LEFT);
-                    GridPane.setFillWidth(l, true);
-                    GridPane.setFillHeight(l, true);
+            for (int i = 0; i < table.getX(); i++) {
+                ColumnConstraints colConstraints = new ColumnConstraints(cellWidth);
+                gridPane.getColumnConstraints().add(colConstraints);
+            }
 
-                    gridPane.add(l, i, j);
+            for (int j = 0; j < table.getY(); j++) {
+                RowConstraints rowConstraints = new RowConstraints(cellHeight);
+                gridPane.getRowConstraints().add(rowConstraints);
+            }
 
+            for (int i = 0; i < table.getX(); i++) {
+                for (int j = 0; j < table.getY(); j++) {
+                    Box currentBox = table.getBox(i, j);
+                    if (currentBox != null) {
+                        Label l = new Label(currentBox.getBoxDetailsToString());
+                        l.setFont(new Font("Arial", 10));
+                        l.setPrefHeight(cellHeight);
+                        l.setPrefWidth(cellWidth);
+                        l.setTextAlignment(TextAlignment.LEFT);
+                        l.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                        l.setAlignment(Pos.TOP_LEFT);
+                        l.setStyle("-fx-border-color: black; -fx-border-width: 2;");
+                        GridPane.setFillWidth(l, true);
+                        GridPane.setFillHeight(l, true);
+
+                        Tooltip tooltip = new Tooltip(currentBox.getBoxDetailsWindow());
+                        tooltip.setShowDelay(new Duration(10));
+                        tooltip.setFont(new Font("Arial", 10));
+
+                        StackPane stackPane = new StackPane();
+
+                        //se è una proprietà acquistabile, viene creato un rettangolo con il colore della casella
+                        if (currentBox instanceof Property) {
+                            Rectangle r = new Rectangle();
+                            r.setHeight(10);
+                            r.setWidth(cellWidth - 2);
+                            String color = currentBox.getColor().toString();
+                            r.setStyle("-fx-fill: " + color + "; -fx-stroke: black; -fx-stroke-width: 2;");
+                            StackPane.setAlignment(r, Pos.TOP_CENTER);
+                            stackPane.getChildren().addAll(r, l);
+                        }
+                        //se è un imprevisto, viene creato un rettangolo arancione
+                        else if (currentBox instanceof Chance) {
+                            Rectangle r = new Rectangle();
+                            r.setHeight(cellHeight);
+                            r.setWidth(cellWidth - 2);
+                            r.setStyle("-fx-fill: orange; -fx-opacity: 0.3;");
+                            StackPane.setAlignment(r, Pos.CENTER);
+                            stackPane.getChildren().addAll(r, l);
+                        }
+                        //se è una probabilità, viene creato un rettangolo azzurro
+                        else if (currentBox instanceof Probability) {
+                            Rectangle r = new Rectangle();
+                            r.setHeight(cellHeight);
+                            r.setWidth(cellWidth - 2);
+                            r.setStyle("-fx-fill: #00e1ff; -fx-opacity: 0.3;");
+                            StackPane.setAlignment(r, Pos.CENTER);
+                            stackPane.getChildren().addAll(r, l);
+                        } else {
+                            stackPane.getChildren().add(l);
+                        }
+
+                        Tooltip.install(l, tooltip);
+                        gridPane.add(stackPane, j, i);
+                    }
                 }
             }
         });
     }
+
+
 
 
 }

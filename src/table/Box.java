@@ -108,8 +108,16 @@ abstract public class Box implements Serializable {
         return details;
     }
 
+    public String getBoxDetailsWindow(){
+        StringBuilder boxDetails = new StringBuilder();
+        for(String details : getBoxDetails()){
+            boxDetails.append(details).append("\n");
+        }
+        return boxDetails.toString();
+    }
+
     public String getBoxDetailsToString() {
-        return name + "\n\n" + getSymbolsOfPlayersInBox();
+        return "\n" + name + "\n" + getSymbolsOfPlayersInBox();
     }
 
     public int getCntPlayersInTheBox() {

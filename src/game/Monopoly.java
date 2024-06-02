@@ -98,7 +98,6 @@ public class Monopoly implements Serializable {
         }
 
         TableController.showDices(dado1, dado2, player);
-        //System.out.print("Numero uscito dal dado 1: " + dado1 + "\n" + "Numero uscito dal dado 2: " + dado2 + "\n" + "Somma dadi: " +  (dado1+dado2) + "\n");
         move(player, dado1 + dado2);
     }
 
@@ -120,7 +119,6 @@ public class Monopoly implements Serializable {
         if(owner != null){
             bank.transferMoney(property.getMoney(player.getBalance()), player, owner);
             TableController.showAlert(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
-            //System.out.println(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
             return;
         }
         bank.updateBalance(property.getMoney(player.getBalance()), player);
@@ -128,7 +126,6 @@ public class Monopoly implements Serializable {
 
     public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
         TableController.showAlert("IMPREVISTI!", probabilityCard.getPrint(), currentPlayer);
-        //System.out.printf(probabilityCard.getPrint());
         if(probabilityCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-probabilityCard.getAmmount(), player);
         else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
@@ -141,7 +138,6 @@ public class Monopoly implements Serializable {
 
     public void useChanceCard(Player player,  ChanceCard chanceCard){
         TableController.showAlert("IMPREVISTI!", chanceCard.getPrint(), currentPlayer);
-        //System.out.printf(chanceCard.getPrint());
         if(chanceCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-chanceCard.getAmmount(), player);
         else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
@@ -168,7 +164,7 @@ public class Monopoly implements Serializable {
             move(player, dado1, dado2);
         }
         else{
-            TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: \nNon esci di prigione!" + dado2, player);
+            TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: " + dado2 + "\nNon esci di prigione!", player);
             player.setnPrisonTurn(player.getnPrisonTurn()-1);
         }
     }

@@ -78,7 +78,6 @@ public class Game extends Application {
             monopoly = Monopoly.loadState(in);
         } catch (FileNotFoundException e) {
             TableController.showAlert("File non trovato");
-            //System.out.println("File non trovato");
         } catch (IOException | ClassNotFoundException e) {
             TableController.showAlert("Non è stato possibile caricare lo stato del gioco");
         }
