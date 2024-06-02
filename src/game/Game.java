@@ -147,7 +147,6 @@ public class Game extends Application {
             } else if (box instanceof Chance) {
                 monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
             }
-
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
                     if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {

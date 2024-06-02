@@ -1,5 +1,9 @@
 package table;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import player.Player;
 
 import java.io.Serial;
@@ -75,6 +79,9 @@ public class BuildableProperty extends Property{
         details[5] = "Case: " + housesCount + " | Hotel: " + hotelsCount;
         return details;
     }
+
+
+
     public String getBoxDetailsToString() {
         return "\n" + super.getName() + "\n$" + Math.abs(getMoney()) + "\n" + getSymbolsOfPlayersInBox();
     }
