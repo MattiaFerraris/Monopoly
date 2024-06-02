@@ -226,7 +226,7 @@ public class TableController {
                             Rectangle r = new Rectangle();
                             r.setHeight(cellHeight);
                             r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: #ff7500; -fx-opacity: 0.6;");
+                            r.setStyle("-fx-fill: #ff7300; -fx-opacity: 0.8;");
                             StackPane.setAlignment(r, Pos.CENTER);
                             stackPane.getChildren().addAll(r, l);
                         }
@@ -235,7 +235,7 @@ public class TableController {
                             Rectangle r = new Rectangle();
                             r.setHeight(cellHeight);
                             r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: #00ddff; -fx-opacity: 0.6;");
+                            r.setStyle("-fx-fill: #2a9ced; -fx-opacity: 0.8;");
                             StackPane.setAlignment(r, Pos.CENTER);
                             stackPane.getChildren().addAll(r, l);
                         } else {
