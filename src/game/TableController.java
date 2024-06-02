@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -19,6 +21,7 @@ import player.Player;
 
 import table.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -55,6 +58,10 @@ public class TableController {
     TableController controller;
     @FXML
     private GridPane gridPane;
+    @FXML
+    private ImageView dice1Image;
+    @FXML
+    private ImageView dice2Image;
 
     /* DEBUG TOOLS */
     @FXML
@@ -239,8 +246,17 @@ public class TableController {
         });
     }
 
-    /* DEBUG METHODS */
+    public void showDice(int d1, int d2) {
+        Image[] diceImages = new Image[6];
+        for (int i = 0; i < 6; i++) {
+            diceImages[i] = new Image(getClass().getResource("/game/Images/Dadi/" + (i + 1) + ".png").toExternalForm(), 60, 60, false, false);
+        }
+        dice1Image.setImage(diceImages[d1 - 1]);
+        dice2Image.setImage(diceImages[d2 - 1]);
+    }
 
+
+    /* DEBUG METHODS */
     public void debug() {
         String[] commands = debugField.getText().split(" ");
         String propertyName;

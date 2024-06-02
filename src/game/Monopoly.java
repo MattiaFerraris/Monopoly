@@ -63,11 +63,11 @@ public class Monopoly implements Serializable {
         System.out.println(table);
     }
 
-    public void movePlayer(Player player) {
+    public int[] movePlayer(Player player) {
         int dado1 = dice1.roll();
         int dado2 = dice2.roll();
-
         move(player, dado1, dado2);
+        return new int[]{dado1, dado2};
     }
 
     public void move(Player player, int position){
@@ -90,7 +90,6 @@ public class Monopoly implements Serializable {
 
         player.setPosition(newPosition >= table.totalBoxesCount ? newPosition - table.totalBoxesCount : newPosition);
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
-        //updateBalance(temPosition, player.getPosition(), table.getBox(player.getPosition()), player);
     }
 
     public void move(Player player, int dado1, int dado2){
@@ -100,7 +99,7 @@ public class Monopoly implements Serializable {
             return;
         }
 
-        TableController.showDices(dado1, dado2, player);
+        //TableController.showDices(dado1, dado2, player);
         move(player, dado1 + dado2);
     }
 

@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+/*
+FUNZIONALITA AGGIUNTE:
+- Salvataggio e caricamento di una partita
+- Compravendita di proprietà (solo se il giocatore si trova sulla proprietà di un altro giocatore
+- JavaFX per la gestione dell'interfaccia grafica
+ */
+
 public class Game extends Application {
 
     public void start(Stage stage) {
@@ -108,7 +115,8 @@ public class Game extends Application {
             Platform.runLater(() -> tc.updateBalances());
 
             int prevPosition = currentPlayer.getPosition();
-            monopoly.movePlayer(currentPlayer);
+            int[] diceNumbers = monopoly.movePlayer(currentPlayer);
+            Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
             monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
@@ -149,6 +157,7 @@ public class Game extends Application {
             } else
                 monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
         }
+        tc.showTable();
         monopoly.nextTurn();
         Player nextPlayer = monopoly.getCurrentPlayer();
         Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
@@ -210,6 +219,8 @@ public class Game extends Application {
             } else
                 monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
         }
+
+        tc.showTable();
         monopoly.nextTurn();
         Player nextPlayer = monopoly.getCurrentPlayer();
         Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
