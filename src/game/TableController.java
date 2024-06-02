@@ -56,6 +56,12 @@ public class TableController {
     @FXML
     private GridPane gridPane;
 
+    /* DEBUG TOOLS */
+    @FXML
+    private TextField debugField;
+    @FXML
+    private Button debugButton;
+
 
     public void tableScene(Monopoly monopoly, Player[] players) {
 
@@ -236,4 +242,20 @@ public class TableController {
 
 
 
+    /* DEBUG METHODS */
+
+    public void debug() {
+        String[] commands = debugField.getText().split(" ");
+        switch (commands[0]) {
+            case "move":
+                Game.turn(monopoly, this, Integer.parseInt(commands[1]));
+                break;
+            case "addProperty":
+                monopoly.givePlayerProperty(monopoly.getCurrentPlayer().getName(), commands[1]);
+                break;
+            case "addHouse":
+                monopoly.addHouse(monopoly.getCurrentPlayer().getName(), commands[1]);
+                break;
+        }
+    }
 }
