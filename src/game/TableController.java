@@ -243,15 +243,20 @@ public class TableController {
 
     public void debug() {
         String[] commands = debugField.getText().split(" ");
+        String propertyName;
         switch (commands[0]) {
             case "move":
                 Game.turn(monopoly, this, Integer.parseInt(commands[1]));
                 break;
-            case "addProperty":
-                monopoly.givePlayerProperty(monopoly.getCurrentPlayer().getName(), commands[1]);
+            case "addProperty": // esempio: addProperty "Corso Magenta"
+                propertyName = debugField.getText();
+                propertyName = propertyName.substring(propertyName.indexOf("\"")+1, propertyName.lastIndexOf("\""));
+                monopoly.givePlayerProperty(monopoly.getCurrentPlayer().getName(), propertyName);
                 break;
             case "addHouse":
-                monopoly.addHouse(monopoly.getCurrentPlayer().getName(), commands[1]);
+                propertyName = debugField.getText();
+                propertyName = propertyName.substring(propertyName.indexOf("\"")+1, propertyName.lastIndexOf("\""));
+                monopoly.addHouse(monopoly.getCurrentPlayer().getName(), propertyName);
                 break;
         }
     }

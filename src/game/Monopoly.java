@@ -299,7 +299,7 @@ public class Monopoly implements Serializable {
                 }
             }
         }
-        System.out.println("Proprietà non trovata");
+        System.out.println(propertyName + " non trovata");
     }
 
     public Table getTable() {
