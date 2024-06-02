@@ -125,6 +125,8 @@ public class TableController {
         alert.setTitle(title);
         alert.setHeaderText(p.getName());
         alert.setGraphic(null);
+        alert.setX(900);
+        alert.setY(150);
         alert.showAndWait();
     }
 
@@ -134,16 +136,11 @@ public class TableController {
         alert.setTitle(null);
         alert.setHeaderText(null);
         alert.setGraphic(null);
+        alert.setX(900);
+        alert.setY(150);
         alert.showAndWait();
     }
 
-    public static void showDices(int d1, int d2, Player player) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("TIRO DEI DADI");
-        alert.setHeaderText(player.getName());
-        alert.setContentText("Dado 1:  " + d1 + "\nDado 2:  " + d2 + "\nSomma:  " + (d1 + d2));
-        alert.showAndWait();
-    }
 
     public static boolean alertChoice(String s, Player currentPlayer) {
 
@@ -156,6 +153,8 @@ public class TableController {
 
         alert.getButtonTypes().setAll(siButton, noButton);
         alert.setHeaderText(currentPlayer.getName());
+        alert.setX(900);
+        alert.setY(150);
         return alert.showAndWait().get() == siButton;
     }
 
@@ -260,7 +259,7 @@ public class TableController {
     public void showDice(int d1, int d2) {
         Image[] diceImages = new Image[6];
         for (int i = 0; i < 6; i++) {
-            diceImages[i] = new Image(getClass().getResource("/game/Images/Dadi/" + (i + 1) + ".png").toExternalForm(), 60, 60, false, false);
+            diceImages[i] = new Image(getClass().getResource("/game/Images/Dadi/" + (i + 1) + ".png").toExternalForm(), 100, 100, false, false);
         }
         dice1Image.setImage(diceImages[d1 - 1]);
         dice2Image.setImage(diceImages[d2 - 1]);
