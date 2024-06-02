@@ -76,6 +76,9 @@ public class Monopoly implements Serializable {
 
         int newPosition = temPosition + (position);
 
+        if (newPosition >= table.totalBoxesCount)
+            bank.updateBalance(100, player);
+
         //VAI IN PRIGIONE
         if(newPosition == (table.getX()-1)*3){
             player.setPosition(table.getX()-1);

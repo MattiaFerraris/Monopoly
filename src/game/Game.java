@@ -134,7 +134,7 @@ public class Game extends Application {
                 } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
                     if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + "?", currentPlayer))
                         if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
-                            monopoly.buyProperty(currentPlayer, property);
+                            monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
                         else
                             monopoly.payPropertyFee(currentPlayer, property);
                     else
@@ -169,7 +169,7 @@ public class Game extends Application {
             Platform.runLater(() -> tc.updateBalances());
 
             int prevPosition = currentPlayer.getPosition();
-            monopoly.movePlayer(currentPlayer.getName(), positionsToMove);
+            monopoly.move(currentPlayer, positionsToMove);
             monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
