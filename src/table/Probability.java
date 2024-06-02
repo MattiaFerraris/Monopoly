@@ -7,18 +7,19 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class Probability extends Box {
+public class Probability extends Event implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -6002629718963144379L;
+    private static final long serialVersionUID = 2981756282650637717L;
     List<ProbabilityCard> probabilityCards;
 
-    public Probability(Colors color, int money, String name) {
-        super(color, money, name);
-        probabilityCards = ProbabilityCard.LoadProbability();
+    public Probability(Colors color, int money, String name, CardDeck cards) {
+        super(color, money, name, cards);
     }
 
     @Override
@@ -33,17 +34,6 @@ public class Probability extends Box {
         return stackPane;
     }
 
-    @Override
-    public int getMoney(int money) {
-        return 0;
-    }
 
-    public ProbabilityCard getProbabilityCards() {
-        Collections.shuffle(probabilityCards);
-        ProbabilityCard probabilityCard = probabilityCards.get(0);
-        probabilityCards.add(probabilityCards.get(0));
-        probabilityCards.remove(0);
-        return probabilityCard;
-    }
 
 }

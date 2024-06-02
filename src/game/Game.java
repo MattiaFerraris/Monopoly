@@ -141,11 +141,8 @@ public class Game extends Application {
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
-            if (box instanceof Probability) {
-                monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
-
-            } else if (box instanceof Chance) {
-                monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
+            if (box instanceof Event) {
+                monopoly.useCard(currentPlayer, ((Probability) box).getCard());
             }
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
@@ -202,13 +199,9 @@ public class Game extends Application {
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
-            if (box instanceof Probability) {
-                monopoly.useProbabilityCard(currentPlayer, ((Probability) box).getProbabilityCards());
-
-            } else if (box instanceof Chance) {
-                monopoly.useChanceCard(currentPlayer, ((Chance) box).getChanceCard());
+            if (box instanceof Event) {
+                monopoly.useCard(currentPlayer, ((Event)box).getCard());
             }
-
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
                     if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {

@@ -1,44 +1,20 @@
 package table;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class ProbabilityCard implements Serializable {
-
+public class ProbabilityCard extends Card implements Serializable {
     @Serial
-    private static final long serialVersionUID = -902761124049592365L;
-    String print;
-    ProbabilityChanceType type;
-    int ammount;
-    String place;
+    private static final long serialVersionUID = -2657772835724882919L;
 
-    public ProbabilityCard(String print,ProbabilityChanceType type, int ammount, String place) {
-        this.print = print;
-        this.type = type;
-        this.ammount = ammount;
-        this.place = place;
+    public ProbabilityCard(String print, ProbabilityChanceType type, int ammount, String place) {
+        super(print, type, ammount, place);
     }
 
-    public String getPrint() {
-        return print;
-    }
-
-    public ProbabilityChanceType getType() {
-        return type;
-    }
-
-    public int getAmmount() {
-        return ammount;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-
-    static public List<ProbabilityCard> LoadProbability(){
-        List<ProbabilityCard> cards = new ArrayList<ProbabilityCard>();
+    static public ArrayList<ProbabilityCard> loadProbability(){
+        ArrayList<ProbabilityCard> cards = new ArrayList<ProbabilityCard>();
 
         try (FileInputStream file = new FileInputStream("Probabilita.txt"); Scanner scanner = new Scanner(file)) {
             String line;
@@ -63,7 +39,7 @@ public class ProbabilityCard implements Serializable {
             System.out.printf("Error during reading file: %s\n", e.getMessage());
         }
 
-       return cards;
+        Collections.shuffle(cards);
+        return cards;
     }
-
 }

@@ -124,26 +124,14 @@ public class Monopoly implements Serializable {
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
-    public void useProbabilityCard(Player player, ProbabilityCard probabilityCard) {
-        TableController.showAlert("PROBABILITÀ!", probabilityCard.getPrint(), currentPlayer);
-        if (probabilityCard.getType() == ProbabilityChanceType.PAY)
-            bank.updateBalance(-probabilityCard.getAmmount(), player);
-        else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
-            bank.updateBalance(probabilityCard.getAmmount(), player);
+    public void useCard(Player player, Card card) {
+        TableController.showAlert("EVENTO!", card.getPrint(), currentPlayer);
+        if (card.getType() == ProbabilityChanceType.PAY)
+            bank.updateBalance(-card.getAmount(), player);
+        else if (card.getType() == ProbabilityChanceType.RECEIVE)
+            bank.updateBalance(card.getAmount(), player);
         else {
-            int boxPosition = table.getBoxPosition(probabilityCard.getPlace());
-            movePlayer(player.getName(), boxPosition);
-        }
-    }
-
-    public void useChanceCard(Player player, ChanceCard chanceCard) {
-        TableController.showAlert("IMPREVISTI!", chanceCard.getPrint(), currentPlayer);
-        if (chanceCard.getType() == ProbabilityChanceType.PAY)
-            bank.updateBalance(-chanceCard.getAmmount(), player);
-        else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
-            bank.updateBalance(chanceCard.getAmmount(), player);
-        else {
-            int boxPosition = table.getBoxPosition(chanceCard.getPlace());
+            int boxPosition = table.getBoxPosition(card.getPlace());
             movePlayer(player.getName(), boxPosition);
         }
     }

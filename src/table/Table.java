@@ -68,10 +68,13 @@ public class Table implements Serializable {
         readBoxes(boxes);
         boxes.add(new LuxuryTax());
         boxes.add(new WealthTax());
+
+        CardDeck chanceCards = new CardDeck("Imprevisti.txt");
+        CardDeck probabilityCards = new CardDeck("Probabilita.txt");
         for (int i = 0; i < 3; i++)
-            boxes.add(new Chance(Colors.RED, 0, "Imprevisti"));
+            boxes.add(new Chance(Colors.RED, 0, "Imprevisti", chanceCards));
         for (int i = 0; i < 3; i++)
-            boxes.add(new Probability(Colors.BLUE, 0, "Probabilità"));
+            boxes.add(new Probability(Colors.BLUE, 0, "Probabilità", probabilityCards));
 
         Collections.shuffle(boxes);
         return boxes.toArray(new Box[0]);

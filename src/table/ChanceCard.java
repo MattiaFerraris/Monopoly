@@ -2,44 +2,21 @@ package table;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class ChanceCard implements Serializable {
+public class ChanceCard extends Card implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7377643817872625028L;
-    String print;
-    ProbabilityChanceType type;
-    int ammount;
-    String place;
 
-    public ChanceCard(String print,ProbabilityChanceType type, int ammount, String place) {
-        this.print = print;
-        this.type = type;
-        this.ammount = ammount;
-        this.place = place;
+    public ChanceCard(String print,ProbabilityChanceType type, int amount, String place) {
+        super(print, type, amount, place);
     }
 
-    public String getPrint() {
-        return print;
-    }
-
-    public ProbabilityChanceType getType() {
-        return type;
-    }
-
-    public int getAmmount() {
-        return ammount;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-
-    static public List<ChanceCard> LoadChance(){
-        List<ChanceCard> cards = new ArrayList<ChanceCard>();
+    static public ArrayList<ChanceCard> loadChance(){
+        ArrayList<ChanceCard> cards = new ArrayList<ChanceCard>();
 
         try (FileInputStream file = new FileInputStream("Imprevisti.txt"); Scanner scanner = new Scanner(file)) {
             String line;
@@ -63,6 +40,7 @@ public class ChanceCard implements Serializable {
             System.out.printf("Error during reading file: %s\n", e.getMessage());
         }
 
+        Collections.shuffle(cards);
         return cards;
     }
 }

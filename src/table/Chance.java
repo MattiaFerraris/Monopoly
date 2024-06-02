@@ -7,19 +7,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Chance extends Box {
+public class Chance extends Event {
 
     @Serial
     private static final long serialVersionUID = -896940612407325798L;
-    List<ChanceCard> chanceCards;
 
 
-    public Chance(Colors color, int money, String name) {
-        super(color, money, name);
-        chanceCards = ChanceCard.LoadChance();
+    public Chance(Colors color, int money, String name, CardDeck cards) {
+        super(color, money, name, cards);
     }
 
     @Override
@@ -33,19 +32,4 @@ public class Chance extends Box {
         stackPane.getChildren().addAll(r, l);
         return stackPane;
     }
-
-    @Override
-    public int getMoney(int money) {
-        return 0;
-    }
-
-    public ChanceCard getChanceCard() {
-        Collections.shuffle(chanceCards);
-        ChanceCard chanceCard = chanceCards.get(0);
-        chanceCards.add(chanceCards.get(0));
-        chanceCards.remove(0);
-
-        return chanceCard;
-    }
-
 }
