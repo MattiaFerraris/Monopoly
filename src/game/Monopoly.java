@@ -128,7 +128,7 @@ public class Monopoly implements Serializable {
     }
 
     public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
-        TableController.showAlert("IMPREVISTI!", probabilityCard.getPrint(), currentPlayer);
+        TableController.showAlert("PROBABILITÀ!", probabilityCard.getPrint(), currentPlayer);
         if(probabilityCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-probabilityCard.getAmmount(), player);
         else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)

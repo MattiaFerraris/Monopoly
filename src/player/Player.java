@@ -25,6 +25,9 @@ public class Player implements Serializable {
         setSymbol(symbol);
         setPosition(position);
         color = defColors[cntColors++];
+        if(color == Colors.GREEN)
+            cntColors = 0;
+
         this.balance = INITIAL_BALANCE;
         isInPrison = false;
         nPrisonTurn = 0;
@@ -104,6 +107,5 @@ public class Player implements Serializable {
     public void setColor(Colors color) {
         this.color = color;
     }
-
 
 }

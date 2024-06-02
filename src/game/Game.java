@@ -32,8 +32,6 @@ public class Game extends Application {
             StartController controller = loader.getController();
             controller.uploadGamesToButton(controller.uploadGameMenuButton);
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
