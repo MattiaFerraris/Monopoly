@@ -1,5 +1,8 @@
 package table;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+
 import java.io.Serial;
 
 public class LuxuryTax extends Box{
@@ -13,6 +16,13 @@ public class LuxuryTax extends Box{
 
     public LuxuryTax() {
         this(TAX);
+    }
+
+    @Override
+    public StackPane generateStackPane(int cellWidth, int cellHeight, Label l) {
+        StackPane stackPane = super.generateStackPane(cellWidth, cellHeight, l);
+        stackPane.getChildren().add(l);
+        return stackPane;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package table;
 
 import game.Game;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import player.Player;
 
 import java.io.Serial;
@@ -124,5 +126,7 @@ abstract public class Box implements Serializable {
         return playersInBox.size();
     }
 
-
+    public StackPane generateStackPane(int cellWidth, int cellHeight, Label l) {
+        return new StackPane();
+    }
 }

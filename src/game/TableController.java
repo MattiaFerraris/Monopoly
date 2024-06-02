@@ -216,38 +216,7 @@ public class TableController {
                         tooltip.setShowDelay(new Duration(10));
                         tooltip.setFont(new Font("Arial", 10));
 
-                        StackPane stackPane = new StackPane();
-
-                        //se è una proprietà acquistabile, viene creato un rettangolo con il colore della casella
-                        if (currentBox instanceof Property) {
-                            Rectangle r = new Rectangle();
-                            r.setHeight(10);
-                            r.setWidth(cellWidth - 2);
-                            String color = currentBox.getColor().toString();
-                            r.setStyle("-fx-fill: " + color + "; -fx-stroke: black; -fx-stroke-width: 2;");
-                            StackPane.setAlignment(r, Pos.TOP_CENTER);
-                            stackPane.getChildren().addAll(r, l);
-                        }
-                        //se è un imprevisto, viene creato un rettangolo arancione
-                        else if (currentBox instanceof Chance) {
-                            Rectangle r = new Rectangle();
-                            r.setHeight(cellHeight);
-                            r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: #ff7300; -fx-opacity: 0.8;");
-                            StackPane.setAlignment(r, Pos.CENTER);
-                            stackPane.getChildren().addAll(r, l);
-                        }
-                        //se è una probabilità, viene creato un rettangolo azzurro
-                        else if (currentBox instanceof Probability) {
-                            Rectangle r = new Rectangle();
-                            r.setHeight(cellHeight);
-                            r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: #2a9ced; -fx-opacity: 0.8;");
-                            StackPane.setAlignment(r, Pos.CENTER);
-                            stackPane.getChildren().addAll(r, l);
-                        } else {
-                            stackPane.getChildren().add(l);
-                        }
+                        StackPane stackPane = currentBox.generateStackPane(cellWidth, cellHeight, l);
 
                         Tooltip.install(l, tooltip);
                         gridPane.add(stackPane, j, i);
@@ -256,11 +225,10 @@ public class TableController {
             }
         });
     }
-
     public void showDice(int d1, int d2) {
         Image[] diceImages = new Image[6];
         for (int i = 0; i < 6; i++) {
-            diceImages[i] = new Image(getClass().getResource("/game/Images/Dadi/" + (i + 1) + ".png").toExternalForm(), 60, 60, false, false);
+            diceImages[i] = new Image(getClass().getResource("/game/Images/Dadi/" + (i + 1) + ".png").toExternalForm(), 100, 100, false, false);
         }
         dice1Image.setImage(diceImages[d1 - 1]);
         dice2Image.setImage(diceImages[d2 - 1]);

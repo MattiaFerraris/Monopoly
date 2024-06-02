@@ -1,6 +1,10 @@
 package table;
 
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import player.Player;
 
 import java.io.Serial;
@@ -30,6 +34,19 @@ public class Property extends Box{
 
     public int getPrice() {
         return price;
+    }
+
+    @Override
+    public StackPane generateStackPane(int cellWidth, int cellHight, Label l) {
+        StackPane stackPane = super.generateStackPane(cellWidth, cellHight, l);
+        Rectangle r = new Rectangle();
+        r.setHeight(10);
+        r.setWidth(cellWidth - 2);
+        String color = super.getColor().toString();
+        r.setStyle("-fx-fill: " + color + "; -fx-stroke: black; -fx-stroke-width: 2;");
+        StackPane.setAlignment(r, Pos.TOP_CENTER);
+        stackPane.getChildren().addAll(r, l);
+        return stackPane;
     }
 
     @Override

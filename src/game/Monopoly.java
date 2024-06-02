@@ -98,8 +98,6 @@ public class Monopoly implements Serializable {
             inPrison(player);
             return;
         }
-
-        //TableController.showDices(dado1, dado2, player);
         move(player, dado1 + dado2);
     }
 

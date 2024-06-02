@@ -1,5 +1,8 @@
 package table;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+
 import java.io.Serial;
 
 public class Prison extends Box {
@@ -9,6 +12,13 @@ public class Prison extends Box {
 
     public Prison() {
         super(Colors.BLACK, 0, "Prigione");
+    }
+
+    @Override
+    public StackPane generateStackPane(int cellWidth, int cellHeight, Label l) {
+        StackPane stackPane = super.generateStackPane(cellWidth, cellHeight, l);
+        stackPane.getChildren().add(l);
+        return stackPane;
     }
 
     @Override
