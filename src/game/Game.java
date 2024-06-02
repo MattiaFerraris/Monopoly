@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 
 /*
 FUNZIONALITA AGGIUNTE:
@@ -27,6 +28,10 @@ FUNZIONALITA AGGIUNTE:
  */
 
 public class Game extends Application {
+
+    //PER DEMO
+    static int[] positionsToMove;
+    static int positionPointer = 0;
 
     public void start(Stage stage) {
         try {
@@ -45,6 +50,10 @@ public class Game extends Application {
     }
 
     public static void main(String[] args) {
+        //PER DEMO
+        if (args.length > 0)
+            if (args[0].equals("demo"))
+                positionsToMove = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         launch(args);
     }
 
@@ -112,8 +121,21 @@ public class Game extends Application {
 
             Platform.runLater(() -> tc.updateBalances());
 
+            //PER DEMO
             int prevPosition = currentPlayer.getPosition();
-            int[] diceNumbers = monopoly.movePlayer(currentPlayer);
+            int[] diceNumbers;
+            Random random = new Random();
+            if(positionsToMove != null){
+                int position = positionsToMove[positionPointer++];
+                monopoly.move(currentPlayer, position);
+                int firstDice;
+                do{
+                    firstDice = random.nextInt(1, position>6?6:position);
+                }while (position-firstDice>6);
+                diceNumbers = new int[]{firstDice, position-firstDice};
+            }
+            else
+                diceNumbers = monopoly.movePlayer(currentPlayer);
             Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
             monopoly.showTable();
             tc.showTable();
