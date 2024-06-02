@@ -32,7 +32,7 @@ public class Monopoly implements Serializable {
         this.table = new Table(WIDTH, HEIGHT);
         this.bank = new Bank(BANK_MONEY);
         this.players = shufflePlayerOrder(players);
-        for(Player player : this.players)
+        for (Player player : this.players)
             addPlayerToStart(player);
         this.currentPlayer = this.players.get(0);
     }
@@ -40,11 +40,11 @@ public class Monopoly implements Serializable {
     private ArrayList<Player> shufflePlayerOrder(ArrayList<Player> players) {
         Map<Player, Integer> playerDiceMap = new HashMap<>();
         TableController.showAlert("SFIDA INIZIALE DEI DADI");
-        for(Player player : players){
+        for (Player player : players) {
             int dice1 = this.dice1.roll();
             int dice2 = this.dice2.roll();
 
-            TableController.showAlert(null, dice1 + " e " + dice2 + " = " + (dice1+dice2), player);
+            TableController.showAlert(null, dice1 + " e " + dice2 + " = " + (dice1 + dice2), player);
             playerDiceMap.put(player, dice1 + dice2);
         }
         ArrayList<Map.Entry<Player, Integer>> shuffledPlayers = new ArrayList(playerDiceMap.entrySet());
@@ -53,7 +53,7 @@ public class Monopoly implements Serializable {
         for (int i = 0; i < shuffledPlayers.size(); i++)
             orderedPlayers.add(((Map.Entry<Player, Integer>) shuffledPlayers.get(i)).getKey());
         StringBuilder orderedPlayersString = new StringBuilder();
-        for(Player player : orderedPlayers)
+        for (Player player : orderedPlayers)
             orderedPlayersString.append(player.getName()).append("\n");
         TableController.showAlert("Ordine di gioco:\n" + orderedPlayersString);
         return orderedPlayers;
@@ -70,7 +70,7 @@ public class Monopoly implements Serializable {
         return new int[]{dado1, dado2};
     }
 
-    public void move(Player player, int position){
+    public void move(Player player, int position) {
         int temPosition = player.getPosition();
         table.getBox(temPosition).removePlayerFromTheBox(player); //rimuove giocatore dal box
 
@@ -80,8 +80,8 @@ public class Monopoly implements Serializable {
             bank.updateBalance(100, player);
 
         //VAI IN PRIGIONE
-        if(newPosition == (table.getX()-1)*3){
-            player.setPosition(table.getX()-1);
+        if (newPosition == (table.getX() - 1) * 3) {
+            player.setPosition(table.getX() - 1);
             table.getBox(player.getPosition()).addPlayerToTheBox(player);
             player.setnPrisonTurn(MAX_PRISION_TURNS);
             player.setInPrison(true);
@@ -92,21 +92,21 @@ public class Monopoly implements Serializable {
         table.getBox(player.getPosition()).addPlayerToTheBox(player); //aggiunge giocatore al box
     }
 
-    public void move(Player player, int dado1, int dado2){
+    public void move(Player player, int dado1, int dado2) {
         //SE IN PRIGIONE
-        if(player.isInPrison()){
+        if (player.isInPrison()) {
             inPrison(player);
             return;
         }
         move(player, dado1 + dado2);
     }
 
-    public Box getBox(Player player){
+    public Box getBox(Player player) {
         return table.getBox(player.getPosition());
     }
 
-    public boolean buyProperty(Player player, Property property){
-        if(player.getBalance() >= property.getPrice()){
+    public boolean buyProperty(Player player, Property property) {
+        if (player.getBalance() >= property.getPrice()) {
             bank.updateBalance(-property.getPrice(), player);
             property.setOwner(player);
             return true;
@@ -114,9 +114,9 @@ public class Monopoly implements Serializable {
         return false;
     }
 
-    public void payPropertyFee(Player player, Property property){
+    public void payPropertyFee(Player player, Property property) {
         Player owner = property.getOwner();
-        if(owner != null){
+        if (owner != null) {
             bank.transferMoney(property.getMoney(player.getBalance()), player, owner);
             TableController.showAlert(player.getName() + " ha pagato " + Math.abs(property.getMoney(player.getBalance())) + " a " + owner.getName() + " per " + property.getName());
             return;
@@ -124,9 +124,9 @@ public class Monopoly implements Serializable {
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
-    public void useProbabilityCard(Player player,  ProbabilityCard probabilityCard){
+    public void useProbabilityCard(Player player, ProbabilityCard probabilityCard) {
         TableController.showAlert("PROBABILITÀ!", probabilityCard.getPrint(), currentPlayer);
-        if(probabilityCard.getType() == ProbabilityChanceType.PAY)
+        if (probabilityCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-probabilityCard.getAmmount(), player);
         else if (probabilityCard.getType() == ProbabilityChanceType.RECEIVE)
             bank.updateBalance(probabilityCard.getAmmount(), player);
@@ -136,9 +136,9 @@ public class Monopoly implements Serializable {
         }
     }
 
-    public void useChanceCard(Player player,  ChanceCard chanceCard){
+    public void useChanceCard(Player player, ChanceCard chanceCard) {
         TableController.showAlert("IMPREVISTI!", chanceCard.getPrint(), currentPlayer);
-        if(chanceCard.getType() == ProbabilityChanceType.PAY)
+        if (chanceCard.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-chanceCard.getAmmount(), player);
         else if (chanceCard.getType() == ProbabilityChanceType.RECEIVE)
             bank.updateBalance(chanceCard.getAmmount(), player);
@@ -148,27 +148,25 @@ public class Monopoly implements Serializable {
         }
     }
 
-    private void inPrison(Player player){
+    private void inPrison(Player player) {
         int dado1 = dice1.roll();
         int dado2 = dice2.roll();
 
         TableController.showAlert("A " + player.getName() + " mancano " + player.getnPrisonTurn() + " turni per uscire di prigione");
 
-        if(player.getnPrisonTurn() == 0){
+        if (player.getnPrisonTurn() == 0) {
             TableController.showAlert("USCITA DI PRIGIONE", "Dado 1: " + dado1 + "\n" + "Dado 2: \n" + " esci di prigione pagando 50 CHF!", player);
             bank.updateBalance(-50, player);
             player.setInPrison(false);
             move(player, dado1, dado2);
-        } else if(dado1 == dado2){
+        } else if (dado1 == dado2) {
             player.setInPrison(false);
             move(player, dado1, dado2);
-        }
-        else{
+        } else {
             TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: " + dado2 + "\nNon esci di prigione!", player);
-            player.setnPrisonTurn(player.getnPrisonTurn()-1);
+            player.setnPrisonTurn(player.getnPrisonTurn() - 1);
         }
     }
-
 
 
     public void updateBalance(int oldPosition, int newPosition, Player player) {
@@ -183,15 +181,15 @@ public class Monopoly implements Serializable {
 
     }
 
-    public boolean hasPlayerAllSameColorProperties(Player player, Property property){
+    public boolean hasPlayerAllSameColorProperties(Player player, Property property) {
         int count = 0;
         Colors color = property.getColor();
-        if(color == Colors.BLACK)
+        if (color == Colors.BLACK)
             return false;
 
         for (int i = 0; i < table.totalBoxesCount; i++) {
-            if(table.getBox(i) instanceof Property && table.getBox(i).getColor() == color){
-                if(((Property)table.getBox(i)).getOwner() == player)
+            if (table.getBox(i) instanceof Property && table.getBox(i).getColor() == color) {
+                if (((Property) table.getBox(i)).getOwner() == player)
                     count++;
             }
         }
@@ -199,12 +197,12 @@ public class Monopoly implements Serializable {
         return count == table.getPropertyCount(color);
     }
 
-    public void buildHouse(Player player, BuildableProperty property){
+    public void buildHouse(Player player, BuildableProperty property) {
         property.addHouse(player);
         bank.updateBalance(-property.getPriceHouse(), player);
     }
 
-    public void buildHotel(Player player, BuildableProperty property){
+    public void buildHotel(Player player, BuildableProperty property) {
         property.addHotel(player);
         bank.updateBalance(-property.getPriceHotel(), player);
     }
@@ -219,15 +217,15 @@ public class Monopoly implements Serializable {
 
     public ArrayList<Player> getLostPlayers() {
         ArrayList<Player> lostPlayers = new ArrayList<>();
-        for(Iterator<Player> iterator = players.iterator(); iterator.hasNext();){
+        for (Iterator<Player> iterator = players.iterator(); iterator.hasNext(); ) {
             Player player = iterator.next();
-            if(player.getBalance() <= 0) {
+            if (player.getBalance() <= 0) {
                 //TableController.showAlert(player.getName() + " HA PERSO!");
                 lostPlayers.add(player);
                 iterator.remove();
-                for(int i = 0; i < table.totalBoxesCount; i++){
-                    if(table.getBox(i) instanceof Property property){
-                        if(property.getOwner() == player)
+                for (int i = 0; i < table.totalBoxesCount; i++) {
+                    if (table.getBox(i) instanceof Property property) {
+                        if (property.getOwner() == player)
                             property.reset();
                     }
                 }
@@ -256,7 +254,7 @@ public class Monopoly implements Serializable {
         return monopoly;
     }
 
-    public int getBankBalance(){
+    public int getBankBalance() {
         return bank.getBankMoney();
     }
 
@@ -264,8 +262,8 @@ public class Monopoly implements Serializable {
         return players.toArray(new Player[players.size()]);
     }
 
-    public boolean buyPropertyFromPlayer(Player buyer, Player seller, Property property){
-        if(buyer.getBalance() >= property.getPrice()){
+    public boolean buyPropertyFromPlayer(Player buyer, Player seller, Property property) {
+        if (buyer.getBalance() >= property.getPrice()) {
             bank.transferMoney(property.getPrice(), buyer, seller);
             property.setOwner(buyer);
             property.reset();
@@ -276,23 +274,23 @@ public class Monopoly implements Serializable {
 
     /* DEBUG METHODS */
 
-    public Player getPlayer(String playerName){
-        for(Player p : players){
-            if(p.getName().equals(playerName))
+    public Player getPlayer(String playerName) {
+        for (Player p : players) {
+            if (p.getName().equals(playerName))
                 return p;
         }
         return null;
     }
 
-    public void givePlayerProperty(String playerName, String propertyName){
+    public void givePlayerProperty(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
-        if(player == null){
+        if (player == null) {
             System.out.println("Giocatore non trovato");
             return;
         }
-        for(int i = 0; i < table.totalBoxesCount; i++){
-            if(table.getBox(i) instanceof Property property){
-                if(property.getName().equals(propertyName)){
+        for (int i = 0; i < table.totalBoxesCount; i++) {
+            if (table.getBox(i) instanceof Property property) {
+                if (property.getName().equals(propertyName)) {
                     property.setOwner(player);
                     System.out.println(propertyName + " assegnata a " + playerName);
                     return;
@@ -306,9 +304,9 @@ public class Monopoly implements Serializable {
         return table;
     }
 
-    public void movePlayer(String playerName, int position){
+    public void movePlayer(String playerName, int position) {
         Player player = getPlayer(playerName);
-        if(player == null){
+        if (player == null) {
             System.out.println("Giocatore non trovato");
             return;
         }
@@ -316,25 +314,25 @@ public class Monopoly implements Serializable {
         player.setPosition(position);
         table.getBox(player.getPosition()).addPlayerToTheBox(player);
 
-        if(position == (table.getX()-1)){
+        if (position == (table.getX() - 1)) {
             player.setnPrisonTurn(MAX_PRISION_TURNS);
             player.setInPrison(true);
         }
     }
 
-    public void setPlayerBalance(String playerName, int balance){
+    public void setPlayerBalance(String playerName, int balance) {
         Player player = getPlayer(playerName);
-        if(player == null){
+        if (player == null) {
             System.out.println("Giocatore non trovato");
             return;
         }
         player.setBalance(balance);
     }
 
-    public void addHouse(String playerName, String propertyName){
-        for(int i = 0; i < table.totalBoxesCount; i++){
-            if(table.getBox(i) instanceof BuildableProperty property){
-                if(property.getName().equals(propertyName)){
+    public void addHouse(String playerName, String propertyName) {
+        for (int i = 0; i < table.totalBoxesCount; i++) {
+            if (table.getBox(i) instanceof BuildableProperty property) {
+                if (property.getName().equals(propertyName)) {
                     property.addHouse(getPlayer(playerName));
                     TableController.showAlert("Casa aggiunta a " + propertyName);
                     //System.out.println("Casa aggiunta a " + propertyName);
