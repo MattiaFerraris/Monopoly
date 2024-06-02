@@ -239,9 +239,6 @@ public class TableController {
         });
     }
 
-
-
-
     /* DEBUG METHODS */
 
     public void debug() {
