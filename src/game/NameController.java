@@ -141,10 +141,10 @@ public class NameController {
         nameSet.add(nameG3.getText());
         nameSet.add(nameG4.getText());
 
-        symbolSet.add(symG1.getText());
-        symbolSet.add(symG2.getText());
-        symbolSet.add(symG3.getText());
-        symbolSet.add(symG4.getText());
+        symbolSet.add(symG1.getText().substring(0,1));
+        symbolSet.add(symG2.getText().substring(0,1));
+        symbolSet.add(symG3.getText().substring(0,1));
+        symbolSet.add(symG4.getText().substring(0,1));
 
         return nameSet.size() == Monopoly.NUMBER_OF_PLAYERS && symbolSet.size() == Monopoly.NUMBER_OF_PLAYERS;
     }

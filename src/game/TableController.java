@@ -1,5 +1,6 @@
 package game;
 
+import javafx.event.ActionEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,9 +76,11 @@ public class TableController {
         try {
 
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/game/TableScene.fxml")));
+            stage = new Stage();
             root = loader.load();
             this.monopoly = monopoly;
             this.players = players;
+
 
             controller = loader.getController();
             name1.setText(players[0].getName() + " (" + players[0].getSymbol() + ")");
@@ -93,14 +96,22 @@ public class TableController {
         }
     }
 
+    //DA RIVEDERE!!
+    public void goToStartScene(ActionEvent event) throws IOException {
+
+        Thread.currentThread().interrupt();
+        StartController start = new StartController();
+        start.startScene(event);
+    }
+
 
     public void updateBalances() {
         Platform.runLater(() -> {
-            balance1.setText(players[0].getBalance() + "");
-            balance2.setText(players[1].getBalance() + "");
-            balance3.setText(players[2].getBalance() + "");
-            balance4.setText(players[3].getBalance() + "");
-            balanceBank.setText(monopoly.getBankBalance() + "");
+            balance1.setText(players[0].getBalance() + " CHF");
+            balance2.setText(players[1].getBalance() + " CHF");
+            balance3.setText(players[2].getBalance() + " CHF");
+            balance4.setText(players[3].getBalance() + " CHF");
+            balanceBank.setText(monopoly.getBankBalance() + " CHF");
         });
     }
 
@@ -222,7 +233,7 @@ public class TableController {
                             Rectangle r = new Rectangle();
                             r.setHeight(cellHeight);
                             r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: orange; -fx-opacity: 0.3;");
+                            r.setStyle("-fx-fill: #ff7300; -fx-opacity: 0.8;");
                             StackPane.setAlignment(r, Pos.CENTER);
                             stackPane.getChildren().addAll(r, l);
                         }
@@ -231,7 +242,7 @@ public class TableController {
                             Rectangle r = new Rectangle();
                             r.setHeight(cellHeight);
                             r.setWidth(cellWidth - 2);
-                            r.setStyle("-fx-fill: #00e1ff; -fx-opacity: 0.3;");
+                            r.setStyle("-fx-fill: #2a9ced; -fx-opacity: 0.8;");
                             StackPane.setAlignment(r, Pos.CENTER);
                             stackPane.getChildren().addAll(r, l);
                         } else {

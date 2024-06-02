@@ -53,38 +53,13 @@
          <font>
             <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
-      <Label fx:id="balanceBank" layoutX="192.0" layoutY="350.0" text="1000000">
+      <Label fx:id="balanceBank" layoutX="221.0" layoutY="351.0" text="1000000">
          <font>
             <Font name="Kaiti SC Regular" size="22.0" />
          </font></Label>
       <Label fx:id="currentPlayerLabel" contentDisplay="CENTER" layoutX="796.0" layoutY="602.0" text="CurrentPlayer">
          <font>
             <Font size="19.0" />
-         </font>
-      </Label>
-      <Label layoutX="284.0" layoutY="124.0" text="CHF">
-         <font>
-            <Font name="Kaiti SC Regular" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="284.0" layoutY="174.0" text="CHF">
-         <font>
-            <Font name="Kaiti SC Regular" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="284.0" layoutY="223.0" text="CHF">
-         <font>
-            <Font name="Kaiti SC Regular" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="284.0" layoutY="274.0" text="CHF">
-         <font>
-            <Font name="Kaiti SC Regular" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="283.0" layoutY="350.0" text="CHF">
-         <font>
-            <Font name="Kaiti SC Regular" size="22.0" />
          </font>
       </Label>
       <GridPane fx:id="gridPane" layoutX="376.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0">
@@ -95,6 +70,7 @@
       <Button layoutX="65.0" layoutY="770.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="32.0" prefWidth="181.0" text="Salva partita" visible="false" />
 
                   <Button layoutX="757.0" layoutY="636.0" mnemonicParsing="false" onAction="#launchDice" opacity="0.0" prefHeight="45.0" prefWidth="190.0" text="Tira i dadi" />
+      <Button layoutX="75.0" layoutY="763.0" mnemonicParsing="false" onAction="#saveGame" opacity="0.0" prefHeight="37.0" prefWidth="192.0" text="Salva partita" />
       <TextField id="debugField" fx:id="debugField" layoutX="85.0" layoutY="27.0" />
       <Button id="debugButton" fx:id="debugButton" layoutX="255.0" layoutY="28.0" mnemonicParsing="false" onAction="#debug" text="Debug" />
       <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="682.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" fx:id="dice1Image"/>
