@@ -39,10 +39,10 @@ public class Probability extends Box {
     }
 
     public ProbabilityCard getProbabilityCards() {
+        Collections.shuffle(probabilityCards);
         ProbabilityCard probabilityCard = probabilityCards.get(0);
         probabilityCards.add(probabilityCards.get(0));
         probabilityCards.remove(0);
-        Collections.shuffle(probabilityCards);
         return probabilityCard;
     }
 

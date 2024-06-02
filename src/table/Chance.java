@@ -40,10 +40,11 @@ public class Chance extends Box {
     }
 
     public ChanceCard getChanceCard() {
+        Collections.shuffle(chanceCards);
         ChanceCard chanceCard = chanceCards.get(0);
         chanceCards.add(chanceCards.get(0));
         chanceCards.remove(0);
-        Collections.shuffle(chanceCards);
+
         return chanceCard;
     }
 

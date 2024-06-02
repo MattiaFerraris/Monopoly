@@ -25,8 +25,6 @@ public class NameController {
     private Parent root;
 
     @FXML
-    private Label correctIn;
-    @FXML
     private Button conferma;
     @FXML
     private TextField nameG1;
@@ -94,7 +92,7 @@ public class NameController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() { //metodo per diminuire l'opacità del tasto 'avanti' fino a quando i requisiti non sono rispettati (nome e simbolo != null e univoci)
         BooleanBinding disableBinding = Bindings.createBooleanBinding(
                 () -> !enableButton(),
                 nameG1.textProperty(),
