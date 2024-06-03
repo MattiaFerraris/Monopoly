@@ -1,6 +1,5 @@
 package table;
 
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -58,7 +57,7 @@ public class Property extends Box{
     }
 
     public String getBoxDetailsToString() {
-        return "\n" + super.getName() + "\n" + Math.abs(getMoney()) + ".-\n" + getSymbolsOfPlayersInBox();
+        return "\n" + super.getName() + "\nFr." + Math.abs(getMoney()) + ".-\n" + getSymbolsOfPlayersInBox();
     }
 
     @Override

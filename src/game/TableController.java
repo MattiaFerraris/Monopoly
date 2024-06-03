@@ -96,7 +96,6 @@ public class TableController {
         }
     }
 
-    //DA RIVEDERE!!
     public void goToStartScene(ActionEvent event) throws IOException {
 
         Thread.currentThread().interrupt();
