@@ -113,7 +113,7 @@ public class Table implements Serializable {
     private ArrayList<Card> loadCards(String fileName, boolean isChance) {
         ArrayList<Card> cards = new ArrayList<>();
         try (FileInputStream file = new FileInputStream(fileName);
-             Scanner scanner = new Scanner(file)) {
+            Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String[] tokens = scanner.nextLine().split(";");
                 if (tokens.length != 3)
@@ -130,7 +130,7 @@ public class Table implements Serializable {
                         cards.add(new ProbabilityCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), 0, tokens[2]));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Errore nella lettura del file per le carte");
         }
         Collections.shuffle(cards);
         return cards;

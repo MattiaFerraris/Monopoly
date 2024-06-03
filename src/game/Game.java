@@ -199,7 +199,6 @@ public class Game extends Application {
 
             int prevPosition = currentPlayer.getPosition();
             monopoly.move(currentPlayer, positionsToMove);
-            monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
