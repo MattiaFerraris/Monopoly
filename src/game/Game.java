@@ -20,18 +20,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-/*
-FUNZIONALITA AGGIUNTE:
-- Salvataggio e caricamento di una partita
-- Compravendita di proprietà (solo se il giocatore si trova sulla proprietà di un altro giocatore
-- JavaFX per la gestione dell'interfaccia grafica
- */
 
 public class Game extends Application {
-
-    //PER DEMO
-    static int[] positionsToMove;
-    static int positionPointer = 0;
 
     public void start(Stage stage) {
         try {
@@ -50,11 +40,6 @@ public class Game extends Application {
     }
 
     public static void main(String[] args) {
-        //PER DEMO
-        if (args.length > 0)
-            if (args[0].equals("demo"))
-                positionsToMove = new int[]{8, 4, 10, 3, 4, 6, 7, 5, 11, 4, 2, 6, 7, 4, 10, 5, 6};
-        //FINE PARTE DEMO
         launch(args);
     }
 
@@ -126,20 +111,8 @@ public class Game extends Application {
             int prevPosition = currentPlayer.getPosition();
             int[] diceNumbers;
             Random random = new Random();
-            if(positionsToMove != null && positionPointer<positionsToMove.length){
-                int position = positionsToMove[positionPointer++];
-                int firstDice;
-                do{
-                    firstDice = random.nextInt(1, position>6?6:position);
-                }while (position-firstDice>6);
-                diceNumbers = new int[]{firstDice, position-firstDice};
-                monopoly.move(currentPlayer, diceNumbers[0], diceNumbers[1]);
-            }
-            else
                 diceNumbers = monopoly.movePlayer(currentPlayer);
-            //FINE PARTE DEMO
             Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
-            //monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
@@ -161,66 +134,6 @@ public class Game extends Application {
 
                 } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
                     if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " al prezzo di " + property.getPrice() + "?", currentPlayer))
-                        if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
-                            monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
-                        else
-                            monopoly.payPropertyFee(currentPlayer, property);
-                    else
-                        monopoly.payPropertyFee(currentPlayer, property);
-                } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
-                    BuildableProperty buildableProperty = (BuildableProperty) property;
-                    if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))
-                        monopoly.buildHouse(currentPlayer, buildableProperty);
-                    else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && TableController.alertChoice("VUOI COSTRUIRE UN HOTEL?", currentPlayer))
-                        monopoly.buildHotel(currentPlayer, buildableProperty);
-                }
-            } else
-                monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
-            tc.showTable();
-            monopoly.nextTurn();
-            Player nextPlayer = monopoly.getCurrentPlayer();
-            Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
-            Platform.runLater(() -> tc.updateBalances());
-        } else
-            TableController.showAlert(monopoly.getWinner().getName() + " HA VINTO!");
-    }
-
-    /* DEBUG GAME */
-    public static void turn(Monopoly monopoly, TableController tc, int positionsToMove) {
-        Player currentPlayer = monopoly.getCurrentPlayer();
-
-        if (!monopoly.isGameOver()) {
-            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
-
-            if (!lostPlayers.isEmpty())
-                for (Player player : lostPlayers)
-                    TableController.showAlert(player.getName() + " HA PERSO!");
-
-            Platform.runLater(() -> tc.updateBalances());
-
-            int prevPosition = currentPlayer.getPosition();
-            monopoly.move(currentPlayer, positionsToMove);
-            tc.showTable();
-            Box box = monopoly.getBox(currentPlayer);
-
-            if (box instanceof Event) {
-                Box tempBox = monopoly.useCard(currentPlayer, ((Event)box).getCard());
-                if (tempBox != null)
-                    box = tempBox;
-            }
-            if (box instanceof Property property) {
-                if (property.getOwner() == null) { //Acquisto della proprietà
-                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer)) {
-                        if (!monopoly.buyProperty(currentPlayer, property)){
-                            monopoly.payPropertyFee(currentPlayer, property);
-                            TableController.showAlert("Non hai abbastanza soldi");
-                        } else
-                            TableController.showAlert(currentPlayer.getName() + " ha acquistato " + property.getName() + "!");
-                    } else
-                        monopoly.payPropertyFee(currentPlayer, property);
-
-                } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer))
                         if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
                             monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
                         else

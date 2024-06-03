@@ -268,32 +268,12 @@ public class Monopoly implements Serializable {
         return players.get(0);
     }
 
-    /* DEBUG METHODS */
-
     public Player getPlayer(String playerName) {
         for (Player p : players) {
             if (p.getName().equals(playerName))
                 return p;
         }
         return null;
-    }
-
-    public void givePlayerProperty(String playerName, String propertyName) {
-        Player player = getPlayer(playerName);
-        if (player == null) {
-            System.out.println("Giocatore non trovato");
-            return;
-        }
-        for (int i = 0; i < table.totalBoxesCount; i++) {
-            if (table.getBox(i) instanceof Property property) {
-                if (property.getName().equals(propertyName)) {
-                    property.setOwner(player);
-                    System.out.println(propertyName + " assegnata a " + playerName);
-                    return;
-                }
-            }
-        }
-        System.out.println(propertyName + " non trovata");
     }
 
     public Table getTable() {
@@ -314,28 +294,5 @@ public class Monopoly implements Serializable {
             player.setnPrisonTurn(MAX_PRISION_TURNS);
             player.setInPrison(true);
         }
-    }
-
-    public void setPlayerBalance(String playerName, int balance) {
-        Player player = getPlayer(playerName);
-        if (player == null) {
-            System.out.println("Giocatore non trovato");
-            return;
-        }
-        player.setBalance(balance);
-    }
-
-    public void addHouse(String playerName, String propertyName) {
-        for (int i = 0; i < table.totalBoxesCount; i++) {
-            if (table.getBox(i) instanceof BuildableProperty property) {
-                if (property.getName().equals(propertyName)) {
-                    property.addHouse(getPlayer(playerName));
-                    TableController.showAlert("Casa aggiunta a " + propertyName);
-                    //System.out.println("Casa aggiunta a " + propertyName);
-                    return;
-                }
-            }
-        }
-        System.out.println("Proprietà non trovata");
     }
 }

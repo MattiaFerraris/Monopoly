@@ -155,58 +155,6 @@ public class Table implements Serializable {
         return table;
     }
 
-    /*@Override
-    public String toString() {
-        StringBuilder stringTable = new StringBuilder();
-        for (int i = 0; i < x; i++) {
-
-            if (i == 0 || i == 1 || i == x - 1) {
-                stringTable.append("-".repeat(Box.WIDTH * x));
-
-            } else {
-                stringTable.append("-".repeat(Box.WIDTH));
-                stringTable.append(" ".repeat(Box.WIDTH * (x - 2)));
-                stringTable.append("-".repeat(Box.WIDTH));
-            }
-            stringTable.append("\n");
-
-            for (int d = 0; d < Box.HEIGHT; d++) {
-                for (int col = 0; col < table[d].length; col++) {
-
-                    if (table[i][col] == null) {
-                        stringTable.append(" ".repeat(Box.WIDTH));
-
-                    }
-                    if (table[i][col] != null) {
-                        stringTable.append("|");
-                        if (d == 0)
-                            stringTable.append(table[i][col].getColor());
-
-                        String[] boxDetails = table[i][col].getBoxDetails();
-
-                        if (d == Box.HEIGHT - 1) {
-                            stringTable.append(printSymbolLine(table[i][col], boxDetails[d]));
-                        } else
-                            stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
-                        stringTable.append("\u001B[0m");
-                        stringTable.append("|");
-                    }
-                }
-                stringTable.append("\n");
-            }
-        }
-        stringTable.append("-".repeat(Box.WIDTH * x));
-        return stringTable.toString();
-    }
-
-    private String printSymbolLine(Box box, String symbolString) {
-        if (box.getCntPlayersInTheBox() > 0) {
-            return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 1);
-        }
-        return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 2);
-
-    }*/
-
     public int getPropertyCount(Colors color) {
         return propertyCount[color.ordinal()];
     }
