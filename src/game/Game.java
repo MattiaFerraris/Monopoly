@@ -68,7 +68,7 @@ public class Game extends Application {
         Platform.runLater(() -> tc.updateBalances());
         tc.showTable();
 
-        monopoly.showTable();
+        //monopoly.showTable();
 
     }
 
@@ -139,7 +139,7 @@ public class Game extends Application {
                 diceNumbers = monopoly.movePlayer(currentPlayer);
             //FINE PARTE DEMO
             Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
-            monopoly.showTable();
+            //monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
