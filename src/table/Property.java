@@ -57,8 +57,13 @@ public class Property extends Box{
         return details;
     }
 
+    public String getBoxDetailsToString() {
+        return "\n" + super.getName() + "\n$" + Math.abs(getMoney()) + "\n" + getSymbolsOfPlayersInBox();
+    }
+
     @Override
     public int getMoney(int money) {
         return super.getMoney();
     }
+
 }

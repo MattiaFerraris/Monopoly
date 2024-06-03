@@ -80,9 +80,4 @@ public class BuildableProperty extends Property{
         return details;
     }
 
-
-
-    public String getBoxDetailsToString() {
-        return "\n" + super.getName() + "\n$" + Math.abs(getMoney()) + "\n" + getSymbolsOfPlayersInBox();
-    }
 }
