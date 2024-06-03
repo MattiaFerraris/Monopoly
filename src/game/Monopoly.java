@@ -39,19 +39,19 @@ public class Monopoly implements Serializable {
 
     private ArrayList<Player> shufflePlayerOrder(ArrayList<Player> players) {
         Map<Player, Integer> playerDiceMap = new HashMap<>();
-        TableController.showAlert("SFIDA INIZIALE DEI DADI");
+        TableController.showAlert("ORDINE DEI TURNI");
         for (Player player : players) {
             int dice1 = this.dice1.roll();
             int dice2 = this.dice2.roll();
 
-            TableController.showAlert(null, dice1 + " e " + dice2 + " = " + (dice1 + dice2), player);
+            TableController.showAlert(null, "Dado 1: " + dice1 + "\nDado 2: " + dice2 + "\nSomma: " + (dice1 + dice2), player);
             playerDiceMap.put(player, dice1 + dice2);
         }
-        ArrayList<Map.Entry<Player, Integer>> shuffledPlayers = new ArrayList(playerDiceMap.entrySet());
+        ArrayList<Map.Entry<Player, Integer>> shuffledPlayers = new ArrayList<>(playerDiceMap.entrySet());
         shuffledPlayers.sort(new PlayerDiceComparator());
         ArrayList<Player> orderedPlayers = new ArrayList<>();
-        for (int i = 0; i < shuffledPlayers.size(); i++)
-            orderedPlayers.add(((Map.Entry<Player, Integer>) shuffledPlayers.get(i)).getKey());
+        for (Map.Entry<Player, Integer> shuffledPlayer : shuffledPlayers)
+            orderedPlayers.add(((Map.Entry<Player, Integer>) shuffledPlayer).getKey());
         StringBuilder orderedPlayersString = new StringBuilder();
         for (Player player : orderedPlayers)
             orderedPlayersString.append(player.getName()).append("\n");
