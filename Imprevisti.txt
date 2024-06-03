@@ -1,0 +1,13 @@
+Vai in prigione. Sposta direttamente la tua pedina lì senza passare dal "VIA!" e senza raccogliere 100CHF.;vai a;prigione
+Paga al dottore 50CHF.;paga;50
+Paga una polizza di assicurazione di 50CHF.;paga;50
+Hai vinto il secondo premio in un concorso di bellezza. Incassa 30CHF.;ricevi;30
+Ricevi 25CHF di consulenza.;ricevi;25
+Ritorna al "VIA!" (Ricevi 100CHF).;vai a;via
+La banca ti paga un dividendo di 75CHF.;ricevi;75
+Paga 100CHF di tasse ospedaliere.;paga;100
+Paga 150CHF di tasse scolastiche.;paga;150
+Ricevi 100CHF dal vendita delle tue azioni.;ricevi;100
+Ricevi 20CHF per il tuo compleanno.;ricevi;20
+Ricevi 15CHF di interesse sul capitale accumulato.;ricevi;15
+Paga 80CHF per prestiti e interessi.;paga;80

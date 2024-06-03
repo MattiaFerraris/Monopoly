@@ -1,24 +1,28 @@
 package table;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.*;
 
-public class Table {
+public class Table implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1662367044573714210L;
     private int x;
     private int y;
     final public int totalBoxesCount;
-    private Box[] boxes;
-    private Box[][] table;
-    private int[] propertyCount = new int[8];
-
+    private final Box[] boxes;
+    private final Box[][] table;
+    private final int[] propertyCount = new int[8];
 
     public Table(int x, int y) {
         this.x = x;
         this.y = y;
         this.totalBoxesCount = (2 * x + (y - 2) * 2); //40 (x=11, y=11)
-        boxes = assignBoxes(totalBoxesCount, createRandomBoxes());
-        for(Box box : boxes){
-            if(box.getColor() != Colors.BLACK){
+        boxes = assignBoxes(totalBoxesCount);
+        for (Box box : boxes) {
+            if (box instanceof BuildableProperty) {
                 propertyCount[box.getColor().ordinal()]++;
             }
         }
@@ -28,77 +32,58 @@ public class Table {
     public Box getBox(int index) {
         return boxes[index];
     }
+    public Box getBox(int i1, int i2) {
+        return table[i1][i2];
+    }
 
+    public void readBoxes(ArrayList<Box> boxes) {
+        try (FileInputStream file = new FileInputStream("PropertyData.csv");
+             Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] tokens = scanner.nextLine().split(",");
+                if (tokens.length != 2)
+                    continue;
+                if (Colors.valueOf(tokens[0]) == Colors.BLACK)
+                    boxes.add(new Property(Colors.valueOf(tokens[0].trim()), tokens[1].trim()));
+                else
+                    boxes.add(new BuildableProperty(Colors.valueOf(tokens[0].trim()), tokens[1].trim()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getBoxPosition(String boxName){
+        for (int i = 0; i < boxes.length; i++) {
+            if(boxes[i].getName().toLowerCase().equals(boxName))
+                return i;
+        }
+        return 0;
+    }
 
     private Box[] createRandomBoxes() {
-        //MARRONE
-        Box[] boxes = new Box[0];
-        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Corto"));
-        boxes = add(boxes, new BuildableProperty(Colors.BROWN, "Vicolo Stretto"));
-        //AZZURRO
-        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Bastioni Gran Sasso"));
-        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Monterosa"));
-        boxes = add(boxes, new BuildableProperty(Colors.LIGHT_BLUE, "Viale Vesuvio"));
-        //ROSA
-        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Via Accademia"));
-        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Corso Ateneo"));
-        boxes = add(boxes, new BuildableProperty(Colors.PINK, "Piazza Università"));
-        //GRIGIO
-        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Verdi"));
-        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Corso Raffaello"));
-        boxes = add(boxes, new BuildableProperty(Colors.GREY, "Via Piazza Dante"));
-        //ROSSO
-        boxes = add(boxes, new BuildableProperty(Colors.RED, "Via Marco Polo"));
-        boxes = add(boxes, new BuildableProperty(Colors.RED, "Corso Magellano"));
-        boxes = add(boxes, new BuildableProperty(Colors.RED, "Largo Colombo"));
-        //GIALLO
-        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Costantino"));
-        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Viale Traiano"));
-        boxes = add(boxes, new BuildableProperty(Colors.YELLOW, "Piazza Giulio Cesare"));
-        //VERDE
-        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Via Roma"));
-        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Corso Impero"));
-        boxes = add(boxes, new BuildableProperty(Colors.GREEN, "Largo Augusto"));
-        //BLU
-        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Viale dei Giardini"));
-        boxes = add(boxes, new BuildableProperty(Colors.BLUE, "Parco della Vittoria"));
-        //NERO
-        boxes = add(boxes, new Property(Colors.BLACK, "Società Acqua Potabile"));
-        boxes = add(boxes, new Property(Colors.BLACK, "Società Elettrica"));
-
-        boxes = add(boxes, new LuxuryTax());
-        boxes = add(boxes, new WealthTax());
+        ArrayList<Box> boxes = new ArrayList<>();
+        readBoxes(boxes);
+        boxes.add(new LuxuryTax());
+        boxes.add(new WealthTax());
 
 
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
-        boxes = add(boxes, new EmptyBox());
+        CardDeck chanceCards = new CardDeck(loadCards("Imprevisti.txt", true));
+        CardDeck probabilityCards = new CardDeck(loadCards("Probabilita.txt", false));
 
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Chance(Colors.RED, 0, "Imprevisti", chanceCards));
+        for (int i = 0; i < 3; i++)
+            boxes.add(new Probability(Colors.BLUE, 0, "Probabilità", probabilityCards));
 
-        return boxes;
+        Collections.shuffle(boxes);
+        return boxes.toArray(new Box[0]);
     }
 
-    private Box[] add(Box[] boxes, Box box) {
-        Box[] tmp = new Box[boxes.length + 1];
-        for (int i = 0; i < boxes.length; i++) {
-            if (boxes[i] != null) {
-                tmp[i] = boxes[i];
-            }
-        }
-        for (int i = 0; i < tmp.length; i++) {
-            if (tmp[i] == null)
-                tmp[i] = box;
-        }
-        return tmp;
-    }
-
-    private Box[] assignBoxes(int totalBoxes, Box[] boxes) {
+    private Box[] assignBoxes(int totalBoxes) {
         Box[] boxesInTable = new Box[totalBoxes];
         assignDefaultBoxes(boxesInTable);
-        assignRandomBoxes(boxesInTable, boxes);
+        assignRandomBoxes(boxesInTable);
         return boxesInTable;
     }
 
@@ -114,30 +99,39 @@ public class Table {
     }
 
 
-    private void assignRandomBoxes(Box[] boxesInTable, Box[] randomBoxes) {
-        Random ran = new Random();
+    private void assignRandomBoxes(Box[] boxesInTable) {
+        Box[] randomBoxes = createRandomBoxes();
+        int assignedBoxes = 0;
         for (int i = 0; i < boxesInTable.length; i++) {
-            if (boxesInTable[i] == null) {
-                boxesInTable[i] = pickNewBox(randomBoxes, boxesInTable);
+            if (boxesInTable[i] == null)
+                boxesInTable[i] = randomBoxes[assignedBoxes++];
+        }
+    }
+
+    private ArrayList<Card> loadCards(String fileName, boolean isChance) {
+        ArrayList<Card> cards = new ArrayList<>();
+        try (FileInputStream file = new FileInputStream(fileName);
+            Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] tokens = scanner.nextLine().split(";");
+                if (tokens.length != 3)
+                    continue;
+                if (isChance)
+                    if(!tokens[1].equals("vai a"))
+                        cards.add(new ChanceCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), Integer.parseInt(tokens[2]),""));
+                    else
+                        cards.add(new ChanceCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), 0, tokens[2]));
+                else
+                    if(!tokens[1].equals("vai a"))
+                        cards.add(new ProbabilityCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), Integer.parseInt(tokens[2]),""));
+                    else
+                        cards.add(new ProbabilityCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), 0, tokens[2]));
             }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del file per le carte");
         }
-    }
-
-    private Box pickNewBox(Box[] boxes, Box[] boxesInTable) {
-        Random ran = new Random();
-        Box newBox;
-        do {
-            newBox = boxes[ran.nextInt(boxes.length)];
-        } while (isBoxInTable(newBox, boxesInTable));
-        return newBox;
-    }
-
-    private boolean isBoxInTable(Box box, Box[] boxesInTable) {
-        for (Box b : boxesInTable) {
-            if (box.equals(b))
-                return true;
-        }
-        return false;
+        Collections.shuffle(cards);
+        return cards;
     }
 
     private Box[][] generateTable(Box[] boxes) {
@@ -161,7 +155,7 @@ public class Table {
         return table;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder stringTable = new StringBuilder();
         for (int i = 0; i < x; i++) {
@@ -181,6 +175,7 @@ public class Table {
 
                     if (table[i][col] == null) {
                         stringTable.append(" ".repeat(Box.WIDTH));
+
                     }
                     if (table[i][col] != null) {
                         stringTable.append("|");
@@ -189,8 +184,10 @@ public class Table {
 
                         String[] boxDetails = table[i][col].getBoxDetails();
 
-
-                        stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
+                        if (d == Box.HEIGHT - 1) {
+                            stringTable.append(printSymbolLine(table[i][col], boxDetails[d]));
+                        } else
+                            stringTable.append(boxDetails[d]).append(" ".repeat(Box.WIDTH - boxDetails[d].length() - 2));
                         stringTable.append("\u001B[0m");
                         stringTable.append("|");
                     }
@@ -202,7 +199,15 @@ public class Table {
         return stringTable.toString();
     }
 
-    public int getPropertyCount(Colors color){
+    private String printSymbolLine(Box box, String symbolString) {
+        if (box.getCntPlayersInTheBox() > 0) {
+            return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 1);
+        }
+        return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 2);
+
+    }*/
+
+    public int getPropertyCount(Colors color) {
         return propertyCount[color.ordinal()];
     }
 
@@ -217,4 +222,5 @@ public class Table {
     public Box[] getBoxes() {
         return boxes;
     }
+
 }

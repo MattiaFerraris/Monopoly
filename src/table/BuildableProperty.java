@@ -1,10 +1,18 @@
 package table;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import player.Player;
+
+import java.io.Serial;
 
 public class BuildableProperty extends Property{
     static final int MAX_HOUSES = 4;
     static final int MAX_HOTELS = 1;
+    @Serial
+    private static final long serialVersionUID = -6393718302342100774L;
     private int housesCount;
     private int hotelsCount;
     private int priceHouse;
@@ -44,7 +52,7 @@ public class BuildableProperty extends Property{
 
     @Override
     public int getMoney(int money) {
-        return super.getMoney(money)+housesCount*15+hotelsCount*100;
+        return super.getMoney(money)-housesCount*15-hotelsCount*100;
     }
 
     public int getHousesCount() {
@@ -64,12 +72,18 @@ public class BuildableProperty extends Property{
     }
 
     @Override
+    public String getBoxDetailsToString() {
+        return "\n" + super.getName() + "\nFr." + Math.abs(getMoney()-housesCount*15-hotelsCount*100) + ".-\n" + getSymbolsOfPlayersInBox();
+    }
+
+    @Override
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
+        details[1] = "Paga " + Math.abs(super.getMoney()-housesCount*15-hotelsCount*100);
         details[3] = "Prezzo casa: " + Math.abs(priceHouse);
         details[4] = "Prezzo hotel: " + Math.abs(priceHotel);
-        //details[5] = "⌂ ".repeat(housesCount) + "  ".repeat(hotelsCount);
-        details[5] = "Case: " + housesCount + "| Hotel: " + hotelsCount;
+        details[5] = "Case: " + housesCount + " | Hotel: " + hotelsCount;
         return details;
     }
+
 }

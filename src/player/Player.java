@@ -2,10 +2,14 @@ package player;
 
 import table.Colors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Serializable {
     private static final int INITIAL_BALANCE = 2000;
+    @Serial
+    private static final long serialVersionUID = 7002164350116810714L;
     private String name;
     private String symbol;
     private int position;
@@ -13,11 +17,17 @@ public class Player {
     private boolean isInPrison;
     private int nPrisonTurn;
     private Colors color;
+    private Colors[] defColors = {Colors.RED, Colors.BLUE, Colors.YELLOW, Colors.GREEN};
+    private static int cntColors;
 
     public Player(String name, String symbol, int position) {
         setName(name);
         setSymbol(symbol);
         setPosition(position);
+        color = defColors[cntColors++];
+        if(color == Colors.GREEN)
+            cntColors = 0;
+
         this.balance = INITIAL_BALANCE;
         isInPrison = false;
         nPrisonTurn = 0;
@@ -25,25 +35,29 @@ public class Player {
 
     //SETTER
     public void setName(String name) {
-        if(name.length() > 15)
+        if (name.length() > 15)
             this.name = name.substring(0, 15);
         else
             this.name = name;
     }
 
     public void setSymbol(String symbol) {
-        if(symbol.length() == 1)
+        if (symbol.length() == 1)
             this.symbol = symbol;
     }
+
     public void setPosition(int position) {
         this.position = position;
     }
+
     public void setBalance(int balance) {
         this.balance = balance;
     }
+
     public void setInPrison(boolean inPrison) {
         isInPrison = inPrison;
     }
+
     public void setnPrisonTurn(int nPrisonTurn) {
         this.nPrisonTurn = nPrisonTurn;
     }
@@ -53,26 +67,31 @@ public class Player {
         return name;
     }
 
-    public String getColoredName(){
+    public String getColoredName() {
         return color + name + "\033[00m";
     }
+
     public String getSymbol() {
         return symbol;
     }
+
     public String getColoredSymbol() {
-        return color + symbol + "\033[00m"; //a questo punto la stringa con il simbolo è lunga 11
+        return "\033[03m" + color + symbol + "\033[00m"; //stringa con il simbolo è lunga 11 (5+1+5)
     }
 
 
     public int getPosition() {
         return position;
     }
+
     public int getBalance() {
         return balance;
     }
+
     public boolean isInPrison() {
         return isInPrison;
     }
+
     public int getnPrisonTurn() {
         return nPrisonTurn;
     }

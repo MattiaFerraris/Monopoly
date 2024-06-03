@@ -1,121 +1,247 @@
 package game;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import player.Player;
+import table.*;
 import table.Box;
-import table.BuildableProperty;
-import table.Property;
 import utility.ScannerUtilities;
 
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
 
-public class Game {
-    public static final int NUMBER_OF_PLAYERS = 4;
+/*
+FUNZIONALITA AGGIUNTE:
+- Salvataggio e caricamento di una partita
+- Compravendita di proprietà (solo se il giocatore si trova sulla proprietà di un altro giocatore
+- JavaFX per la gestione dell'interfaccia grafica
+ */
+
+public class Game extends Application {
+
+    //PER DEMO
+    static int[] positionsToMove;
+    static int positionPointer = 0;
+
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/Resources/game/StartScreen.fxml")));
+            Parent root = loader.load();
+            Scene startScreen = new Scene(root);
+            stage.setScene(startScreen);
+            stage.show();
+
+            StartController controller = loader.getController();
+            controller.uploadGamesToButton(controller.uploadGameMenuButton);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
-        ScannerUtilities scannerUtilities = new ScannerUtilities();
-        Monopoly monopoly = new Monopoly();
-        Player[] players;
-        int choice;
-        int turn = 0;
+        //PER DEMO
+        if (args.length > 0)
+            if (args[0].equals("demo"))
+                positionsToMove = new int[]{8, 4, 10, 3, 4, 6, 7, 5, 11, 4, 2, 6, 7, 4, 10, 5, 6};
+        //FINE PARTE DEMO
+        launch(args);
+    }
 
-        System.out.println("\n\n---BENVENUTI IN MONOPOLY!---\n");
+    public static void playGame(Monopoly monopoly, Player[] players, TableController tc) {
+        if (monopoly == null)
+            monopoly = new Monopoly(new ArrayList<>(Arrays.asList(players)));
 
-        System.out.println("Inserire il nome e il simbolo\n");
-        players = generatePlayers(scannerUtilities, monopoly);
-        monopoly.showTable();
-        while (!monopoly.isGameOver(players)) {
-            int playerLost = 0;
-            for (int i = 0; i < players.length; i++) {
-                if(players[i]==null){
-                    for (int j = i; j < players.length-1; j++) {
-                        players[j] = players[j+1];
-                    }
-                    players =  Arrays.copyOf(players, players.length-1);
-                    playerLost++;
-                }
+
+        Player currentPlayer = monopoly.getCurrentPlayer();
+        Platform.runLater(() -> tc.showTurn("Turno di " + currentPlayer.getName()));
+        Platform.runLater(() -> tc.updateBalances());
+        tc.showTable();
+
+        //monopoly.showTable();
+
+    }
+
+    public static void saveGame(Monopoly monopoly) {
+        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+        DateTimeFormatter formatter = builder.appendPattern("yyyy-MM-dd_HH-mm-ss").toFormatter();
+        String fileName = "saved_games" + File.separator + "game_" + LocalDateTime.now().format(formatter) + ".obj";
+        try (FileOutputStream file = new FileOutputStream(fileName);
+             ObjectOutputStream out = new ObjectOutputStream(file)) {
+            out.writeObject(monopoly);
+            TableController.showAlert("PARTITA SALVATA");
+        } catch (IOException e) {
+            e.printStackTrace();
+            TableController.showAlert("Non è stato possibile salvare lo stato del gioco");
+        }
+    }
+
+    public static Monopoly loadGame(String fileName) {
+        Monopoly monopoly = null;
+        try (FileInputStream file = new FileInputStream(fileName);
+             ObjectInputStream in = new ObjectInputStream(file)) {
+            monopoly = Monopoly.loadState(in);
+        } catch (FileNotFoundException e) {
+            TableController.showAlert("File non trovato");
+        } catch (IOException | ClassNotFoundException e) {
+            TableController.showAlert("Non è stato possibile caricare lo stato del gioco");
+        }
+        return monopoly;
+    }
+
+    public static String[] getSavedGames() {
+        File folder = new File("saved_games");
+        File[] files = folder.listFiles();
+        if (files == null)
+            return new String[0];
+        ArrayList<String> filesList = new ArrayList<>();
+        for (File file : files)
+            filesList.add(file.getName());
+        return filesList.toArray(new String[0]);
+    }
+
+    public static void turn(Monopoly monopoly, TableController tc) {
+        Player currentPlayer = monopoly.getCurrentPlayer();
+
+        if (!monopoly.isGameOver()) {
+            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
+
+            if (!lostPlayers.isEmpty())
+                for (Player player : lostPlayers)
+                    TableController.showAlert(player.getName() + " HA PERSO!");
+
+            Platform.runLater(() -> tc.updateBalances());
+
+            //PER DEMO
+            int prevPosition = currentPlayer.getPosition();
+            int[] diceNumbers;
+            Random random = new Random();
+            if(positionsToMove != null && positionPointer<positionsToMove.length){
+                int position = positionsToMove[positionPointer++];
+                int firstDice;
+                do{
+                    firstDice = random.nextInt(1, position>6?6:position);
+                }while (position-firstDice>6);
+                diceNumbers = new int[]{firstDice, position-firstDice};
+                monopoly.move(currentPlayer, diceNumbers[0], diceNumbers[1]);
             }
+            else
+                diceNumbers = monopoly.movePlayer(currentPlayer);
+            //FINE PARTE DEMO
+            Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
+            //monopoly.showTable();
+            tc.showTable();
+            Box box = monopoly.getBox(currentPlayer);
 
-            if(playerLost>0 && turn !=0)
-                turn--;
-            System.out.println("\nTurno di " + players[turn].getName());
-            choice = scannerUtilities.readInt("1 Mostra i soldi \n2 Lancia il dado \n:");
-
-            switch (choice) {
-                case 1:
-                    monopoly.showBalance(players[turn]);
-                    break;
-
-                case 2:
-                    int prevPosition = players[turn].getPosition();
-                    monopoly.movePlayer(players[turn]);
-                    monopoly.showTable();
-                    Box box = monopoly.getBox(players[turn]);
-                    if(box instanceof Property property){
-                        if(property.getOwner()==null){
-                            if(scannerUtilities.yesOrNo("Vuoi comprare " + property.getName() + "? (si/no): ")){
-                                if(!monopoly.buyProperty(players[turn], property))
-                                    monopoly.payPropertyFee(players[turn], property);
-                            } else
-                                monopoly.payPropertyFee(players[turn], property);
-                        } else if(!property.getOwner().equals(players[turn])){
-                            monopoly.payPropertyFee(players[turn], property);
-                        } else if(monopoly.hasPlayerAllSameColorProperties(players[turn], property)){
-                            BuildableProperty buildableProperty = (BuildableProperty) property;
-                            if(buildableProperty.getHousesCount()<4 && scannerUtilities.yesOrNo("Vuoi costruire una casa? (si/no): "))
-                                monopoly.buildHouse(players[turn], buildableProperty);
-                            else if(buildableProperty.getHousesCount()==4 && buildableProperty.getHotelsCount()==0 && scannerUtilities.yesOrNo("Vuoi costruire un hotel? (si/no): "))
-                                monopoly.buildHotel(players[turn], buildableProperty);
-                        }
+            if (box instanceof Event) {
+                Box tempBox = monopoly.useCard(currentPlayer, ((Event) box).getCard());
+                if (tempBox != null)
+                    box = tempBox;
+            }
+            if (box instanceof Property property) {
+                if (property.getOwner() == null) { //Acquisto della proprietà
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer)) {
+                        if (!monopoly.buyProperty(currentPlayer, property)){
+                            monopoly.payPropertyFee(currentPlayer, property);
+                            TableController.showAlert("Non hai abbastanza soldi");
+                        } else
+                            TableController.showAlert(currentPlayer.getName() + " ha acquistato " + property.getName() + "!");
                     } else
-                        monopoly.updateBalance(prevPosition, players[turn].getPosition(), players[turn]);
-                    turn = nextTurn(turn, players.length);
-                    break;
+                        monopoly.payPropertyFee(currentPlayer, property);
 
-                default:
-                    System.out.println("Scelta non valida");
-                    break;
-
-            }
-        }
-    }
-
-    public static int nextTurn(int turn, int playersNumber) {
-        turn++;
-        if (turn == playersNumber)
-            turn = 0;
-        return turn;
-    }
-
-    public static Player newPlayer(ScannerUtilities scannerUtilities) {
-        String name = "";
-        String symbol = "";
-        while (name.isEmpty())
-            name = scannerUtilities.readString("Inserisci il nome: ").trim();
-        while (symbol.isEmpty())
-            symbol = scannerUtilities.readString("Inserisci il simbolo: ").trim();
-        return new Player(name, symbol.substring(0, 1), 0);
-    }
-
-    public static Player[] generatePlayers(ScannerUtilities scannerUtilities, Monopoly monopoly) {
-        Player[] players = new Player[Game.NUMBER_OF_PLAYERS];
-        players[0] = newPlayer(scannerUtilities);
-        monopoly.addPlayerToBox(players[0]);
-        for (int i = 1; i < Game.NUMBER_OF_PLAYERS; ) {
-            boolean isEquals = false;
-            Player player = newPlayer(scannerUtilities);
-            for (int j = 0; j < i; j++) {
-                if (player.equals(players[j])) {
-                    System.out.println("Il giocatore esiste già. Inserisci un nome o un simbolo diverso.");
-                    isEquals = true;
-                    break;
+                } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " al prezzo di " + property.getPrice() + "?", currentPlayer))
+                        if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
+                            monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
+                        else
+                            monopoly.payPropertyFee(currentPlayer, property);
+                    else
+                        monopoly.payPropertyFee(currentPlayer, property);
+                } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
+                    BuildableProperty buildableProperty = (BuildableProperty) property;
+                    if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))
+                        monopoly.buildHouse(currentPlayer, buildableProperty);
+                    else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && TableController.alertChoice("VUOI COSTRUIRE UN HOTEL?", currentPlayer))
+                        monopoly.buildHotel(currentPlayer, buildableProperty);
                 }
+            } else
+                monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
+            tc.showTable();
+            monopoly.nextTurn();
+            Player nextPlayer = monopoly.getCurrentPlayer();
+            Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+            Platform.runLater(() -> tc.updateBalances());
+        } else
+            TableController.showAlert(monopoly.getWinner().getName() + " HA VINTO!");
+    }
+
+    /* DEBUG GAME */
+    public static void turn(Monopoly monopoly, TableController tc, int positionsToMove) {
+        Player currentPlayer = monopoly.getCurrentPlayer();
+
+        if (!monopoly.isGameOver()) {
+            ArrayList<Player> lostPlayers = monopoly.getLostPlayers();
+
+            if (!lostPlayers.isEmpty())
+                for (Player player : lostPlayers)
+                    TableController.showAlert(player.getName() + " HA PERSO!");
+
+            Platform.runLater(() -> tc.updateBalances());
+
+            int prevPosition = currentPlayer.getPosition();
+            monopoly.move(currentPlayer, positionsToMove);
+            tc.showTable();
+            Box box = monopoly.getBox(currentPlayer);
+
+            if (box instanceof Event) {
+                Box tempBox = monopoly.useCard(currentPlayer, ((Event)box).getCard());
+                if (tempBox != null)
+                    box = tempBox;
             }
-            if (!isEquals) {
-                players[i] = player;
-                monopoly.addPlayerToBox(players[i]);
-                i++;
-            }
-        }
-        return players;
+            if (box instanceof Property property) {
+                if (property.getOwner() == null) { //Acquisto della proprietà
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer)) {
+                        if (!monopoly.buyProperty(currentPlayer, property)){
+                            monopoly.payPropertyFee(currentPlayer, property);
+                            TableController.showAlert("Non hai abbastanza soldi");
+                        } else
+                            TableController.showAlert(currentPlayer.getName() + " ha acquistato " + property.getName() + "!");
+                    } else
+                        monopoly.payPropertyFee(currentPlayer, property);
+
+                } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer))
+                        if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
+                            monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
+                        else
+                            monopoly.payPropertyFee(currentPlayer, property);
+                    else
+                        monopoly.payPropertyFee(currentPlayer, property);
+                } else if (monopoly.hasPlayerAllSameColorProperties(currentPlayer, property)) { //Costruzione di case e hotel
+                    BuildableProperty buildableProperty = (BuildableProperty) property;
+                    if (buildableProperty.getHousesCount() < 4 && TableController.alertChoice("VUOI COSTRUIRE UNA CASA IN " + property.getName().toUpperCase() + "?", currentPlayer))
+                        monopoly.buildHouse(currentPlayer, buildableProperty);
+                    else if (buildableProperty.getHousesCount() == 4 && buildableProperty.getHotelsCount() == 0 && TableController.alertChoice("VUOI COSTRUIRE UN HOTEL?", currentPlayer))
+                        monopoly.buildHotel(currentPlayer, buildableProperty);
+                }
+            } else
+                monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
+            tc.showTable();
+            monopoly.nextTurn();
+            Player nextPlayer = monopoly.getCurrentPlayer();
+            Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+            Platform.runLater(() -> tc.updateBalances());
+        } else
+            TableController.showAlert(monopoly.getWinner().getName() + " HA VINTO!");
     }
 }

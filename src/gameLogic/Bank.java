@@ -2,7 +2,12 @@ package gameLogic;
 
 import player.Player;
 
-public class Bank {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Bank implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -78467081455101893L;
     private int bankMoney;
 
     public Bank(int bankMoney) {
@@ -48,5 +53,8 @@ public class Bank {
         player1.setBalance(player1.getBalance() - amount);
         player2.setBalance(player2.getBalance() + amount);
         return true;
+    }
+    public int getBankMoney(){
+        return bankMoney;
     }
 }

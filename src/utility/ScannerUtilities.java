@@ -18,7 +18,7 @@ public class ScannerUtilities {
         return scanner.nextInt();
     }
 
-   public boolean yesOrNo(String message) {
+    public boolean yesOrNo(String message) {
         System.out.print(message);
         String answer = scanner.next();
         while (!isYes(answer) && !isNo(answer)) {
@@ -27,7 +27,6 @@ public class ScannerUtilities {
         }
         return isYes(answer);
     }
-
 
 
     private boolean isYes(String answer) {
@@ -39,7 +38,11 @@ public class ScannerUtilities {
     }
 
     public String readString(String message) {
+        scanner.nextLine();
         System.out.print(message);
         return scanner.nextLine();
+    }
+    public void close(){
+        scanner.close();
     }
 }
