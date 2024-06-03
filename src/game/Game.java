@@ -53,7 +53,7 @@ public class Game extends Application {
         //PER DEMO
         if (args.length > 0)
             if (args[0].equals("demo"))
-                positionsToMove = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+                positionsToMove = new int[]{8, 4, 10, 3, 4, 6, 7, 5, 11, 4, 2, 6, 7, 4, 10, 5, 6};
         //FINE PARTE DEMO
         launch(args);
     }
@@ -128,12 +128,12 @@ public class Game extends Application {
             Random random = new Random();
             if(positionsToMove != null && positionPointer<positionsToMove.length){
                 int position = positionsToMove[positionPointer++];
-                monopoly.move(currentPlayer, position);
                 int firstDice;
                 do{
                     firstDice = random.nextInt(1, position>6?6:position);
                 }while (position-firstDice>6);
                 diceNumbers = new int[]{firstDice, position-firstDice};
+                monopoly.move(currentPlayer, diceNumbers[0], diceNumbers[1]);
             }
             else
                 diceNumbers = monopoly.movePlayer(currentPlayer);

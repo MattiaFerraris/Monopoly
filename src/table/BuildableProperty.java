@@ -72,8 +72,14 @@ public class BuildableProperty extends Property{
     }
 
     @Override
+    public String getBoxDetailsToString() {
+        return "\n" + super.getName() + "\nFr." + Math.abs(getMoney()-housesCount*15-hotelsCount*100) + ".-\n" + getSymbolsOfPlayersInBox();
+    }
+
+    @Override
     public String[] getBoxDetails() {
         String[] details = super.getBoxDetails();
+        details[1] = "Paga " + Math.abs(super.getMoney()-housesCount*15-hotelsCount*100);
         details[3] = "Prezzo casa: " + Math.abs(priceHouse);
         details[4] = "Prezzo hotel: " + Math.abs(priceHotel);
         details[5] = "Case: " + housesCount + " | Hotel: " + hotelsCount;
