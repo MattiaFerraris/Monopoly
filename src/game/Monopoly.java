@@ -81,6 +81,7 @@ public class Monopoly implements Serializable {
 
         //VAI IN PRIGIONE
         if (newPosition == (table.getX() - 1) * 3) {
+            TableController.showAlert("Vai in prigione!", "Sei finito in prigione!", player);
             player.setPosition(table.getX() - 1);
             table.getBox(player.getPosition()).addPlayerToTheBox(player);
             player.setnPrisonTurn(MAX_PRISION_TURNS);
@@ -95,7 +96,7 @@ public class Monopoly implements Serializable {
     public void move(Player player, int dado1, int dado2) {
         //SE IN PRIGIONE
         if (player.isInPrison()) {
-            inPrison(player);
+            inPrison(player, dado1, dado2);
             return;
         }
         move(player, dado1 + dado2);
@@ -138,19 +139,18 @@ public class Monopoly implements Serializable {
         return null;
     }
 
-    private void inPrison(Player player) {
-        int dado1 = dice1.roll();
-        int dado2 = dice2.roll();
+    private void inPrison(Player player, int dado1, int dado2) {
 
         TableController.showAlert("A " + player.getName() + " mancano " + player.getnPrisonTurn() + " turni per uscire di prigione");
 
         if (player.getnPrisonTurn() == 0) {
-            TableController.showAlert("USCITA DI PRIGIONE", "Dado 1: " + dado1 + "\n" + "Dado 2: \n" + " esci di prigione pagando 50 CHF!", player);
+            TableController.showAlert("USCITA DI PRIGIONE", "Esci di prigione pagando 50 CHF!", player);
             bank.updateBalance(-50, player);
             player.setInPrison(false);
             move(player, dado1, dado2);
         } else if (dado1 == dado2) {
             player.setInPrison(false);
+            TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: " + dado2 + "\nEsci di prigione!", player);
             move(player, dado1, dado2);
         } else {
             TableController.showAlert("Tiro dei dadi in prigione", "Dado 1: " + dado1 + "\n" + "Dado 2: " + dado2 + "\nNon esci di prigione!", player);

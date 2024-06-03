@@ -58,7 +58,7 @@ public class Property extends Box{
     }
 
     public String getBoxDetailsToString() {
-        return "\n" + super.getName() + "\n$" + Math.abs(getMoney()) + "\n" + getSymbolsOfPlayersInBox();
+        return "\n" + super.getName() + "\n" + Math.abs(getMoney()) + ".-\n" + getSymbolsOfPlayersInBox();
     }
 
     @Override
