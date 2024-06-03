@@ -143,7 +143,7 @@ public class Game extends Application {
             Box box = monopoly.getBox(currentPlayer);
 
             if (box instanceof Event) {
-                Box tempBox = monopoly.useCard(currentPlayer, ((Probability) box).getCard());
+                Box tempBox = monopoly.useCard(currentPlayer, ((Event) box).getCard());
                 if (tempBox != null)
                     box = tempBox;
             }

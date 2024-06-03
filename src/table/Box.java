@@ -105,7 +105,6 @@ abstract public class Box implements Serializable {
         String[] details = new String[HEIGHT];
         Arrays.fill(details, "");
         details[0] = name;
-        //details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
         details[HEIGHT - 1] = getSymbolsOfPlayersInBox();
         return details;
     }
