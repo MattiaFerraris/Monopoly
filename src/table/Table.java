@@ -61,8 +61,6 @@ public class Table implements Serializable {
         return 0;
     }
 
-
-
     private Box[] createRandomBoxes() {
         ArrayList<Box> boxes = new ArrayList<>();
         readBoxes(boxes);
@@ -157,7 +155,7 @@ public class Table implements Serializable {
         return table;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder stringTable = new StringBuilder();
         for (int i = 0; i < x; i++) {
@@ -207,7 +205,7 @@ public class Table implements Serializable {
         }
         return symbolString + " ".repeat(Box.WIDTH - (box.getCntPlayersInTheBox() * 2) - 2);
 
-    }
+    }*/
 
     public int getPropertyCount(Colors color) {
         return propertyCount[color.ordinal()];

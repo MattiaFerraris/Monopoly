@@ -81,13 +81,11 @@ public class TableController {
             this.monopoly = monopoly;
             this.players = players;
 
-
             controller = loader.getController();
             name1.setText(players[0].getName() + " (" + players[0].getSymbol() + ")");
             name2.setText(players[1].getName() + " (" + players[1].getSymbol() + ")");
             name3.setText(players[2].getName() + " (" + players[2].getSymbol() + ")");
             name4.setText(players[3].getName() + " (" + players[3].getSymbol() + ")");
-
 
             new Thread(() -> Game.playGame(monopoly, players, this)).start();
 
