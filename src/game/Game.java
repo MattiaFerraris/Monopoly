@@ -54,6 +54,7 @@ public class Game extends Application {
         if (args.length > 0)
             if (args[0].equals("demo"))
                 positionsToMove = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        //FINE PARTE DEMO
         launch(args);
     }
 
@@ -125,7 +126,7 @@ public class Game extends Application {
             int prevPosition = currentPlayer.getPosition();
             int[] diceNumbers;
             Random random = new Random();
-            if(positionsToMove != null){
+            if(positionsToMove != null && positionPointer<positionsToMove.length){
                 int position = positionsToMove[positionPointer++];
                 monopoly.move(currentPlayer, position);
                 int firstDice;

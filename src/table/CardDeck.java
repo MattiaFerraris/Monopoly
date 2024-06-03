@@ -1,8 +1,12 @@
 package table;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardDeck {
+public class CardDeck implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -7950005243166128395L;
     ArrayList<Card> cards;
 
     public CardDeck(ArrayList<Card> cards) {

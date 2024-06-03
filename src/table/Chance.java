@@ -7,11 +7,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Chance extends Event {
+public class Chance extends Event implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -896940612407325798L;
