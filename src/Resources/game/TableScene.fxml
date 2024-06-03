@@ -71,8 +71,6 @@
 
                   <Button layoutX="757.0" layoutY="636.0" mnemonicParsing="false" onAction="#launchDice" opacity="0.0" prefHeight="45.0" prefWidth="190.0" text="Tira i dadi" />
       <Button layoutX="75.0" layoutY="763.0" mnemonicParsing="false" onAction="#saveGame" opacity="0.0" prefHeight="37.0" prefWidth="192.0" text="Salva partita" />
-      <TextField id="debugField" fx:id="debugField" layoutX="85.0" layoutY="27.0" />
-      <Button id="debugButton" fx:id="debugButton" layoutX="255.0" layoutY="28.0" mnemonicParsing="false" onAction="#debug" text="Debug" />
       <ImageView fx:id="dice1Image" fitHeight="100.0" fitWidth="100.0" layoutX="682.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="dice2Image" fitHeight="100.0" fitWidth="100.0" layoutX="904.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" />
    </children>

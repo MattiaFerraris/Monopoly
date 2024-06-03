@@ -224,29 +224,4 @@ public class TableController {
         dice1Image.setImage(diceImages[d1 - 1]);
         dice2Image.setImage(diceImages[d2 - 1]);
     }
-
-
-    /* DEBUG METHODS */
-    public void debug() {
-        String[] commands = debugField.getText().split(" ");
-        String propertyName;
-        switch (commands[0]) {
-            case "move":
-                Game.turn(monopoly, this, Integer.parseInt(commands[1]));
-                break;
-            case "addProperty": // esempio: addProperty "Corso Magenta"
-                propertyName = debugField.getText();
-                propertyName = propertyName.substring(propertyName.indexOf("\"")+1, propertyName.lastIndexOf("\""));
-                monopoly.givePlayerProperty(monopoly.getCurrentPlayer().getName(), propertyName);
-                break;
-            case "addHouse":
-                propertyName = debugField.getText();
-                propertyName = propertyName.substring(propertyName.indexOf("\"")+1, propertyName.lastIndexOf("\""));
-                monopoly.addHouse(monopoly.getCurrentPlayer().getName(), propertyName);
-                break;
-            case "setBalance":
-                monopoly.setPlayerBalance(monopoly.getCurrentPlayer().getName(), Integer.parseInt(commands[1]));
-                break;
-        }
-    }
 }
