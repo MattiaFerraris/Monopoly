@@ -69,8 +69,10 @@ public class Table implements Serializable {
         boxes.add(new LuxuryTax());
         boxes.add(new WealthTax());
 
-        CardDeck chanceCards = new CardDeck("Imprevisti.txt");
-        CardDeck probabilityCards = new CardDeck("Probabilita.txt");
+
+        CardDeck chanceCards = new CardDeck(loadCards("Imprevisti.txt", true));
+        CardDeck probabilityCards = new CardDeck(loadCards("Probabilita.txt", false));
+
         for (int i = 0; i < 3; i++)
             boxes.add(new Chance(Colors.RED, 0, "Imprevisti", chanceCards));
         for (int i = 0; i < 3; i++)
@@ -106,6 +108,32 @@ public class Table implements Serializable {
             if (boxesInTable[i] == null)
                 boxesInTable[i] = randomBoxes[assignedBoxes++];
         }
+    }
+
+    private ArrayList<Card> loadCards(String fileName, boolean isChance) {
+        ArrayList<Card> cards = new ArrayList<>();
+        try (FileInputStream file = new FileInputStream(fileName);
+             Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] tokens = scanner.nextLine().split(";");
+                if (tokens.length != 3)
+                    continue;
+                if (isChance)
+                    if(!tokens[1].equals("vai a"))
+                        cards.add(new ChanceCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), Integer.parseInt(tokens[2]),""));
+                    else
+                        cards.add(new ChanceCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), 0, tokens[2]));
+                else
+                    if(!tokens[1].equals("vai a"))
+                        cards.add(new ProbabilityCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), Integer.parseInt(tokens[2]),""));
+                    else
+                        cards.add(new ProbabilityCard(tokens[0], ProbabilityChanceType.getProbabilityChanceType(tokens[1]), 0, tokens[2]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Collections.shuffle(cards);
+        return cards;
     }
 
     private Box[][] generateTable(Box[] boxes) {
