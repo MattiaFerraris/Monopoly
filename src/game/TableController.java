@@ -141,16 +141,12 @@ public class TableController {
         alert.showAndWait();
     }
 
-
     public static boolean alertChoice(String s, Player currentPlayer) {
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setGraphic(null);
         alert.setContentText(s);
-
         ButtonType siButton = new ButtonType("SI", ButtonBar.ButtonData.OK_DONE);
         ButtonType noButton = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
-
         alert.getButtonTypes().setAll(siButton, noButton);
         alert.setHeaderText(currentPlayer.getName());
         alert.setX(900);
@@ -214,11 +210,10 @@ public class TableController {
                         Tooltip tooltip = new Tooltip(currentBox.getBoxDetailsWindow());
                         tooltip.setShowDelay(new Duration(10));
                         tooltip.setFont(new Font("Arial", 10));
-
                         StackPane stackPane = currentBox.generateStackPane(cellWidth, cellHeight, l);
-
                         Tooltip.install(l, tooltip);
                         gridPane.add(stackPane, j, i);
+
                     }
                 }
             }
