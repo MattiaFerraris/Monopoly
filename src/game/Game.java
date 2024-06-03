@@ -136,17 +136,20 @@ public class Game extends Application {
             }
             else
                 diceNumbers = monopoly.movePlayer(currentPlayer);
+            //FINE PARTE DEMO
             Platform.runLater(() -> tc.showDice(diceNumbers[0], diceNumbers[1]));
             monopoly.showTable();
             tc.showTable();
             Box box = monopoly.getBox(currentPlayer);
 
             if (box instanceof Event) {
-                monopoly.useCard(currentPlayer, ((Probability) box).getCard());
+                Box tempBox = monopoly.useCard(currentPlayer, ((Probability) box).getCard());
+                if (tempBox != null)
+                    box = tempBox;
             }
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
-                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer)) {
                         if (!monopoly.buyProperty(currentPlayer, property)){
                             monopoly.payPropertyFee(currentPlayer, property);
                             TableController.showAlert("Non hai abbastanza soldi");
@@ -156,7 +159,7 @@ public class Game extends Application {
                         monopoly.payPropertyFee(currentPlayer, property);
 
                 } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + "?", currentPlayer))
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " al prezzo di " + property.getPrice() + "?", currentPlayer))
                         if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
                             monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
                         else
@@ -172,12 +175,13 @@ public class Game extends Application {
                 }
             } else
                 monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
-        }
-        tc.showTable();
-        monopoly.nextTurn();
-        Player nextPlayer = monopoly.getCurrentPlayer();
-        Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
-        Platform.runLater(() -> tc.updateBalances());
+            tc.showTable();
+            monopoly.nextTurn();
+            Player nextPlayer = monopoly.getCurrentPlayer();
+            Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+            Platform.runLater(() -> tc.updateBalances());
+        } else
+            TableController.showAlert(monopoly.getWinner().getName() + " HA VINTO!");
     }
 
     /* DEBUG GAME */
@@ -200,11 +204,13 @@ public class Game extends Application {
             Box box = monopoly.getBox(currentPlayer);
 
             if (box instanceof Event) {
-                monopoly.useCard(currentPlayer, ((Event)box).getCard());
+                Box tempBox = monopoly.useCard(currentPlayer, ((Event)box).getCard());
+                if (tempBox != null)
+                    box = tempBox;
             }
             if (box instanceof Property property) {
                 if (property.getOwner() == null) { //Acquisto della proprietà
-                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + "?", currentPlayer)) {
+                    if (TableController.alertChoice("VUOI COMPRARE " + property.getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer)) {
                         if (!monopoly.buyProperty(currentPlayer, property)){
                             monopoly.payPropertyFee(currentPlayer, property);
                             TableController.showAlert("Non hai abbastanza soldi");
@@ -214,9 +220,9 @@ public class Game extends Application {
                         monopoly.payPropertyFee(currentPlayer, property);
 
                 } else if (!property.getOwner().equals(currentPlayer)) { //Pagamento tassa al proprietario
-                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + "?", currentPlayer))
+                    if(TableController.alertChoice("VUOI PROVARE A COMPRARE " + property.getName().toUpperCase() + " DA " + property.getOwner().getName().toUpperCase() + " AL PREZZO DI " + property.getPrice() + "?", currentPlayer))
                         if(TableController.alertChoice(property.getOwner().getName().toUpperCase() + " ACCETTA LA TUA OFFERTA?", property.getOwner()))
-                            monopoly.buyProperty(currentPlayer, property);
+                            monopoly.buyPropertyFromPlayer(currentPlayer, property.getOwner(), property);
                         else
                             monopoly.payPropertyFee(currentPlayer, property);
                     else
@@ -230,12 +236,12 @@ public class Game extends Application {
                 }
             } else
                 monopoly.updateBalance(prevPosition, currentPlayer.getPosition(), currentPlayer);
-        }
-
-        tc.showTable();
-        monopoly.nextTurn();
-        Player nextPlayer = monopoly.getCurrentPlayer();
-        Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
-        Platform.runLater(() -> tc.updateBalances());
+            tc.showTable();
+            monopoly.nextTurn();
+            Player nextPlayer = monopoly.getCurrentPlayer();
+            Platform.runLater(() -> tc.showTurn("Turno di " + nextPlayer.getName()));
+            Platform.runLater(() -> tc.updateBalances());
+        } else
+            TableController.showAlert(monopoly.getWinner().getName() + " HA VINTO!");
     }
 }

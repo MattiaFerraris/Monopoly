@@ -124,7 +124,7 @@ public class Monopoly implements Serializable {
         bank.updateBalance(property.getMoney(player.getBalance()), player);
     }
 
-    public void useCard(Player player, Card card) {
+    public Box useCard(Player player, Card card) {
         TableController.showAlert("EVENTO!", card.getPrint(), currentPlayer);
         if (card.getType() == ProbabilityChanceType.PAY)
             bank.updateBalance(-card.getAmount(), player);
@@ -133,7 +133,9 @@ public class Monopoly implements Serializable {
         else {
             int boxPosition = table.getBoxPosition(card.getPlace());
             movePlayer(player.getName(), boxPosition);
+            return table.getBox(boxPosition);
         }
+        return null;
     }
 
     private void inPrison(Player player) {
@@ -207,7 +209,7 @@ public class Monopoly implements Serializable {
         ArrayList<Player> lostPlayers = new ArrayList<>();
         for (Iterator<Player> iterator = players.iterator(); iterator.hasNext(); ) {
             Player player = iterator.next();
-            if (player.getBalance() <= 0) {
+            if (player.getBalance() < 0) {
                 //TableController.showAlert(player.getName() + " HA PERSO!");
                 lostPlayers.add(player);
                 iterator.remove();
@@ -253,11 +255,17 @@ public class Monopoly implements Serializable {
     public boolean buyPropertyFromPlayer(Player buyer, Player seller, Property property) {
         if (buyer.getBalance() >= property.getPrice()) {
             bank.transferMoney(property.getPrice(), buyer, seller);
-            property.setOwner(buyer);
             property.reset();
+            property.setOwner(buyer);
             return true;
         }
         return false;
+    }
+
+    public Player getWinner() {
+        if (players.size() != 1)
+            return null;
+        return players.get(0);
     }
 
     /* DEBUG METHODS */

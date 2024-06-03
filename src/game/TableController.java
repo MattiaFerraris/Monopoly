@@ -107,10 +107,10 @@ public class TableController {
 
     public void updateBalances() {
         Platform.runLater(() -> {
-            balance1.setText(players[0].getBalance() + " CHF");
-            balance2.setText(players[1].getBalance() + " CHF");
-            balance3.setText(players[2].getBalance() + " CHF");
-            balance4.setText(players[3].getBalance() + " CHF");
+            balance1.setText(players[0].getBalance()>=0?players[0].getBalance()+" CHF":"ELIMINATO");
+            balance2.setText(players[1].getBalance()>=0?players[1].getBalance()+" CHF":"ELIMINATO");
+            balance3.setText(players[2].getBalance()>=0?players[2].getBalance()+" CHF":"ELIMINATO");
+            balance4.setText(players[3].getBalance()>=0?players[3].getBalance()+" CHF":"ELIMINATO");
             balanceBank.setText(monopoly.getBankBalance() + " CHF");
         });
     }
@@ -251,6 +251,9 @@ public class TableController {
                 propertyName = debugField.getText();
                 propertyName = propertyName.substring(propertyName.indexOf("\"")+1, propertyName.lastIndexOf("\""));
                 monopoly.addHouse(monopoly.getCurrentPlayer().getName(), propertyName);
+                break;
+            case "setBalance":
+                monopoly.setPlayerBalance(monopoly.getCurrentPlayer().getName(), Integer.parseInt(commands[1]));
                 break;
         }
     }
